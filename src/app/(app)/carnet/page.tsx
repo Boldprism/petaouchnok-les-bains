@@ -65,7 +65,7 @@ export default function CarnetPage() {
   });
 
   return (
-    <div className="flex flex-col min-h-full p-4">
+    <div className="w-full flex-1 flex flex-col p-4">
       <h1
         className="text-accent-or mb-4"
         style={{ fontFamily: 'var(--font-pixel)', fontSize: '12px', textShadow: '2px 2px 0 rgba(0,0,0,0.4)' }}

@@ -37,6 +37,7 @@ export default function MapPage() {
 
       {/* Phaser */}
       <PhaserGame
+        key="phaser-map-instance"
         onBuildingClick={(building) => setActiveBuilding(building)}
         onSourceClick={() =>
           setActiveBuilding({ id: 'source', label: '✦ Source Thermale' })

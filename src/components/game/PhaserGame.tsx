@@ -67,8 +67,10 @@ export default function PhaserGame({ onBuildingClick, onSourceClick }: PhaserGam
     return () => {
       window.removeEventListener('petaouchnok:open-building', handleBuilding);
       window.removeEventListener('petaouchnok:open-source', handleSource);
-      gameRef.current?.destroy(true);
-      gameRef.current = null;
+      if (gameRef.current) {
+        gameRef.current.destroy(true, false);
+        gameRef.current = null;
+      }
     };
   }, []);
 

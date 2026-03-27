@@ -144,22 +144,23 @@ def build_terrain_grid():
 WANG_CORNER_TO_INDEX = {
     # (NW, NE, SW, SE) → local tile index dans le tileset 4×4
     # lower=0, upper=1
-    (0,0,0,0): 15,  # tout lower (herbe pleine)
-    (1,1,1,1): 0,   # tout upper (forêt/chemin/plaza pleine)
-    (0,0,0,1): 1,
-    (0,0,1,0): 2,
-    (0,1,0,0): 3,
-    (1,0,0,0): 4,
-    (1,1,0,0): 5,
-    (0,0,1,1): 6,
-    (1,0,1,0): 7,
-    (0,1,0,1): 8,
-    (1,1,1,0): 9,
-    (1,1,0,1): 10,
-    (1,0,1,1): 11,
-    (0,1,1,1): 12,
-    (0,1,1,0): 13,
-    (1,0,0,1): 14,
+    # Mapping dérivé de l'ordre des tuiles dans tilesets_meta.json (PixelLab)
+    (0,0,0,0): 6,   # wang_0  — tout lower (herbe pleine)
+    (0,0,0,1): 7,   # wang_1
+    (0,0,1,0): 10,  # wang_2
+    (0,0,1,1): 9,   # wang_3
+    (0,1,0,0): 2,   # wang_4
+    (0,1,0,1): 11,  # wang_5
+    (0,1,1,0): 4,   # wang_6
+    (0,1,1,1): 15,  # wang_7
+    (1,0,0,0): 5,   # wang_8
+    (1,0,0,1): 14,  # wang_9
+    (1,0,1,0): 1,   # wang_10
+    (1,0,1,1): 8,   # wang_11
+    (1,1,0,0): 3,   # wang_12
+    (1,1,0,1): 0,   # wang_13
+    (1,1,1,0): 13,  # wang_14
+    (1,1,1,1): 12,  # wang_15 — tout upper (forêt/chemin/plaza pleine)
 }
 
 def terrain_to_tile_index(grid, x, y, ts_name):
@@ -299,9 +300,7 @@ def build_tiled_json(tile_layers, offsets):
             "tilecount": 16,
             "imagewidth": 128,
             "imageheight": 128,
-            "image": f"tileset_master.png",
-            "tileoffset": {"x": 0, "y": offsets.get(ts_name, 0)},
-            "source": f"{ts_name}",
+            "image": f"{ts_name}.png",
         })
         first_gid += 16
 
