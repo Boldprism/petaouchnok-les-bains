@@ -36,10 +36,10 @@ export default class MapScene extends Phaser.Scene {
   // ─────────────────────────────────────────
   preload() {
     // Tilemap JSON (généré par build_map.py)
-    this.load.tilemapTiledJSON('map', 'assets/map/petaouchnok_map.json');
+    this.load.tilemapTiledJSON('map', '/assets/map/petaouchnok_map.json');
 
     // Tileset maître assemblé (128×512px — 4 tilesets empilés)
-    this.load.image('tileset_master', 'assets/map/tileset_master.png');
+    this.load.image('tileset_master', '/assets/map/tileset_master.png');
 
     // Sprites bâtiments (top-down, générés par PixelLab)
     const buildings = [
@@ -47,51 +47,56 @@ export default class MapScene extends Phaser.Scene {
       'fleuriste','medecin','hublot','leonie','bulletin','maurice',
     ];
     buildings.forEach(name => {
-      this.load.image(`bat_${name}`, `assets/buildings/topdown/${name}_topdown.png`);
+      this.load.image(`bat_${name}`, `/assets/buildings/topdown/${name}_topdown.png`);
     });
 
-    // Source thermale (sprite animé)
-    this.load.image('source', 'assets/map/source.png');
+    // Note: source.png et halo_gold.png ne sont pas chargés
+    // car ils n'existent pas encore — on les dessine en code
 
-    // UI overlays
-    this.load.image('halo_gold', 'assets/fx/halo_gold.png');
+    // Error handler pour éviter le crash silencieux
+    this.load.on('loaderror', (file) => {
+      console.warn('[MapScene] Échec chargement:', file.key, file.url);
+    });
   }
 
   // ─────────────────────────────────────────
   // CREATE
   // ─────────────────────────────────────────
   create() {
+    console.log('[MapScene] create() — début');
+
     const { width, height } = this.scale;
 
     // ── Tilemap ──
     this.map = this.make.tilemap({ key: 'map' });
 
-    // Ajouter le tileset maître
-    // Chaque tileset PixelLab = 128×128px dans le PNG maître
-    const tileset = this.map.addTilesetImage(
-      'tileset_master',
-      'tileset_master',
-      TILE_SIZE, TILE_SIZE,
-      0, 0
-    );
+    // Le JSON Tiled contient 4 tilesets (grass_forest, grass_path, path_plaza, grass_river)
+    // mais ils pointent tous vers tileset_master.png avec des tileoffsets différents.
+    // On les ajoute chacun en mappant sur la même image chargée.
+    const tsForet   = this.map.addTilesetImage('grass_forest', 'tileset_master', TILE_SIZE, TILE_SIZE, 0, 0);
+    const tsChemins = this.map.addTilesetImage('grass_path',   'tileset_master', TILE_SIZE, TILE_SIZE, 0, 0);
+    const tsPlace   = this.map.addTilesetImage('path_plaza',   'tileset_master', TILE_SIZE, TILE_SIZE, 0, 0);
+    const tsRiviere = this.map.addTilesetImage('grass_river',  'tileset_master', TILE_SIZE, TILE_SIZE, 0, 0);
+
+    const allTilesets = [tsForet, tsChemins, tsPlace, tsRiviere].filter(Boolean);
+
+    console.log('[MapScene] Tilesets chargés:', allTilesets.length);
 
     // Layers terrain (ordre d'affichage : bas → haut)
-    this.layerForet    = this.map.createLayer('Forêt',           tileset, 0, 0);
-    this.layerChemins  = this.map.createLayer('Chemins',         tileset, 0, 0);
-    this.layerPlace    = this.map.createLayer('Place centrale',  tileset, 0, 0);
-    this.layerRiviere  = this.map.createLayer('Rivière',         tileset, 0, 0);
+    // Chaque layer doit recevoir tous les tilesets pour pouvoir résoudre tous les GIDs
+    this.layerForet    = this.map.createLayer('Forêt',           allTilesets, 0, 0);
+    this.layerChemins  = this.map.createLayer('Chemins',         allTilesets, 0, 0);
+    this.layerPlace    = this.map.createLayer('Place centrale',  allTilesets, 0, 0);
+    this.layerRiviere  = this.map.createLayer('Rivière',         allTilesets, 0, 0);
 
-    // Pixel art : désactiver l'antialiasing
-    [this.layerForet, this.layerChemins, this.layerPlace, this.layerRiviere].forEach(l => {
-      l.setScale(1);
-      if (l.tileset) l.tileset.forEach(ts => ts.image.setFilter(Phaser.Textures.NEAREST));
-    });
+    const layers = [this.layerForet, this.layerChemins, this.layerPlace, this.layerRiviere];
+    console.log('[MapScene] Layers créés:', layers.filter(Boolean).length, '/ 4');
 
     // ── Layer objets — bâtiments ──
     this.buildingGroup = this.add.group();
     this._placeBuildingsFromTiled();
 
-    // ── Source thermale ──
+    // ── Source thermale (dessinée en code, pas de sprite) ──
     this._placeSource();
 
     // ── Overlay lumière (jour/nuit) ──
@@ -128,6 +133,8 @@ export default class MapScene extends Phaser.Scene {
       callbackScope: this,
       loop: true,
     });
+
+    console.log('[MapScene] create() — terminé');
   }
 
   // ─────────────────────────────────────────
@@ -135,14 +142,22 @@ export default class MapScene extends Phaser.Scene {
   // ─────────────────────────────────────────
   _placeBuildingsFromTiled() {
     const objectLayer = this.map.getObjectLayer('Bâtiments');
-    if (!objectLayer) return;
+    if (!objectLayer) {
+      console.warn('[MapScene] Layer "Bâtiments" introuvable');
+      return;
+    }
+
+    console.log('[MapScene] Objets Tiled:', objectLayer.objects.length);
 
     objectLayer.objects.forEach(obj => {
       if (obj.type !== 'building') return;
 
       const spriteProp = obj.properties?.find(p => p.name === 'sprite');
-      const spriteKey  = spriteProp ? `bat_${spriteProp.value.replace('bat_','')}` : null;
-      if (!spriteKey || !this.textures.exists(spriteKey)) return;
+      const spriteKey  = spriteProp ? spriteProp.value : null;
+      if (!spriteKey || !this.textures.exists(spriteKey)) {
+        console.warn('[MapScene] Sprite manquant pour', obj.name, spriteKey);
+        return;
+      }
 
       const sprite = this.add.image(
         obj.x + obj.width / 2,
@@ -150,23 +165,22 @@ export default class MapScene extends Phaser.Scene {
         spriteKey
       ).setDepth(obj.y); // Depth = Y pour tri correct
 
-      // Hitbox cliquable (légèrement réduite)
-      sprite.setInteractive({
-        hitArea: new Phaser.Geom.Rectangle(
-          obj.width * 0.15,
-          obj.height * 0.1,
-          obj.width * 0.7,
-          obj.height * 0.85
-        ),
-        hitAreaCallback: Phaser.Geom.Rectangle.Contains,
-      });
+      // Adapter la taille du sprite à la zone Tiled
+      const tex = this.textures.get(spriteKey).getSourceImage();
+      const scaleX = obj.width / tex.width;
+      const scaleY = obj.height / tex.height;
+      const scale = Math.min(scaleX, scaleY);
+      sprite.setScale(scale);
+
+      // Hitbox cliquable
+      sprite.setInteractive();
 
       // Hover effect
       sprite.on('pointerover', () => {
-        this.tweens.add({ targets: sprite, scaleX: 1.05, scaleY: 1.05, duration: 80 });
+        this.tweens.add({ targets: sprite, scaleX: scale * 1.08, scaleY: scale * 1.08, duration: 80 });
       });
       sprite.on('pointerout', () => {
-        this.tweens.add({ targets: sprite, scaleX: 1, scaleY: 1, duration: 80 });
+        this.tweens.add({ targets: sprite, scaleX: scale, scaleY: scale, duration: 80 });
       });
 
       // Clic → ouvre l'écran du bâtiment
@@ -176,43 +190,53 @@ export default class MapScene extends Phaser.Scene {
 
       this.buildingGroup.add(sprite);
     });
+
+    console.log('[MapScene] Bâtiments placés:', this.buildingGroup.getLength());
   }
 
   // ─────────────────────────────────────────
-  // SOURCE THERMALE
+  // SOURCE THERMALE (dessinée en code)
   // ─────────────────────────────────────────
   _placeSource() {
     const objectLayer = this.map.getObjectLayer('Bâtiments');
     if (!objectLayer) return;
 
     const sourceObj = objectLayer.objects.find(o => o.name === 'source');
-    if (!sourceObj) return;
+    if (!sourceObj) {
+      console.warn('[MapScene] Objet "source" introuvable');
+      return;
+    }
 
     const cx = sourceObj.x + sourceObj.width / 2;
     const cy = sourceObj.y + sourceObj.height / 2;
 
-    // Halo doré pulsant
-    if (this.textures.exists('halo_gold')) {
-      const halo = this.add.image(cx, cy, 'halo_gold').setDepth(5).setAlpha(0.6);
-      this.tweens.add({
-        targets: halo,
-        alpha: { from: 0.3, to: 0.7 },
-        scale: { from: 0.95, to: 1.05 },
-        duration: 2000,
-        yoyo: true,
-        repeat: -1,
-        ease: 'Sine.easeInOut',
-      });
-    }
+    // Halo doré pulsant (dessiné via Graphics)
+    const haloGraphics = this.add.graphics();
+    haloGraphics.setDepth(5);
+    haloGraphics.fillStyle(0xf5c842, 0.3);
+    haloGraphics.fillCircle(cx, cy, 28);
+    haloGraphics.fillStyle(0xffd700, 0.15);
+    haloGraphics.fillCircle(cx, cy, 40);
 
-    // Sprite source
-    if (this.textures.exists('source')) {
-      const src = this.add.image(cx, cy, 'source').setDepth(6);
-      src.setInteractive();
-      src.on('pointerdown', () => {
-        this._openSource();
-      });
-    }
+    // Tween sur alpha pour le pulse
+    this.tweens.add({
+      targets: haloGraphics,
+      alpha: { from: 0.5, to: 1 },
+      duration: 2000,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.easeInOut',
+    });
+
+    // Zone cliquable pour la source
+    const hitZone = this.add.zone(cx, cy, sourceObj.width, sourceObj.height)
+      .setInteractive()
+      .setDepth(6);
+    hitZone.on('pointerdown', () => {
+      this._openSource();
+    });
+
+    console.log('[MapScene] Source placée à', cx, cy);
   }
 
   // ─────────────────────────────────────────
@@ -233,12 +257,13 @@ export default class MapScene extends Phaser.Scene {
   // NAVIGATION — Ouverture bâtiment
   // ─────────────────────────────────────────
   _openBuilding(obj) {
-    // Émet un événement React pour ouvrir le bottom sheet
-    const labelProp = obj.properties?.find(p => p.name === 'label');
+    const labelProp    = obj.properties?.find(p => p.name === 'label');
+    const residentProp = obj.properties?.find(p => p.name === 'resident');
     const event = new CustomEvent('petaouchnok:open-building', {
       detail: {
         id: obj.name,
         label: labelProp?.value || obj.name,
+        resident: residentProp?.value || null,
         x: obj.x, y: obj.y,
       }
     });
