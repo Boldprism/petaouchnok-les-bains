@@ -19,7 +19,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
       {/* Colonne droite — contenu + nav */}
       <div className={`flex-1 flex flex-col h-dvh ${isMapPage ? 'max-w-[430px] md:max-w-none' : ''} mx-auto md:mx-0`}>
-        <main className="flex-1 overflow-hidden">{children}</main>
+        <main className="flex-1 overflow-y-auto flex flex-col">{children}</main>
         <BottomNav />
       </div>
     </div>
