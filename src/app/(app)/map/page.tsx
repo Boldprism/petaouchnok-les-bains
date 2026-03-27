@@ -29,7 +29,7 @@ export default function MapPage() {
   const [activeBuilding, setActiveBuilding] = useState<Building | null>(null);
 
   return (
-    <div className="relative w-full h-[calc(100dvh-64px)] overflow-hidden">
+    <div className="relative flex-1 w-full overflow-hidden">
       {/* HUD — Éclats */}
       <div className="absolute top-3 left-3 z-10">
         <EclatCounter />

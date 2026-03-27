@@ -62,7 +62,7 @@ export default function BoutiquePage() {
   const shop = SHOPS.find((s) => s.id === activeShop);
 
   return (
-    <div className="w-full flex-1 flex flex-col p-4">
+    <div className="w-full flex-1 flex flex-col p-4 overflow-y-auto">
       <h1
         className="text-accent-or mb-6"
         style={{ fontFamily: 'var(--font-pixel)', fontSize: '12px', textShadow: '2px 2px 0 rgba(0,0,0,0.4)' }}
@@ -77,7 +77,7 @@ export default function BoutiquePage() {
             <button
               key={s.id}
               onClick={() => setActiveShop(s.id)}
-              className="text-left bg-bg-sombre border-2 border-ardoise/30 p-4 hover:border-accent-or/40 transition-colors"
+              className="w-full text-left bg-bg-sombre border-2 border-ardoise/30 p-4 hover:border-accent-or/40 transition-colors"
               style={{ boxShadow: '3px 3px 0 rgba(0,0,0,0.3)' }}
             >
               <div className="flex items-center gap-3">
