@@ -16,7 +16,10 @@ export default function BottomNav() {
   return (
     <nav
       className="h-16 bg-ardoise/90 backdrop-blur-sm border-t border-ardoise/40 flex items-center justify-around shrink-0"
-      style={{ boxShadow: '0 -2px 8px rgba(0,0,0,0.3)' }}
+      style={{
+        boxShadow: '0 -2px 8px rgba(0,0,0,0.3)',
+        paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+      }}
     >
       {tabs.map((tab) => {
         const isActive = pathname === tab.href;

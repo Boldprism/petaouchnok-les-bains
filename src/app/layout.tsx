@@ -14,7 +14,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className="h-full">
-      <body className="min-h-full flex flex-col">{children}</body>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+      </head>
+      <body className="min-h-[100dvh] flex flex-col">{children}</body>
     </html>
   );
 }

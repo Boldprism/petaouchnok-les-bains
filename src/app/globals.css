@@ -60,6 +60,11 @@
   --font-mono: 'VT323', monospace;
 }
 
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
 body {
   background: var(--bg-nuit);
   color: var(--texte-clair);
