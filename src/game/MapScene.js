@@ -38,8 +38,11 @@ export default class MapScene extends Phaser.Scene {
     // Tilemap JSON (généré par build_map.py)
     this.load.tilemapTiledJSON('map', '/assets/map/petaouchnok_map.json');
 
-    // Tileset maître assemblé (128×512px — 4 tilesets empilés)
-    this.load.image('tileset_master', '/assets/map/tileset_master.png');
+    // 4 tilesets individuels (chacun 128×128px)
+    this.load.image('ts_grass_forest', '/assets/map/grass_forest.png');
+    this.load.image('ts_grass_path',   '/assets/map/grass_path.png');
+    this.load.image('ts_path_plaza',   '/assets/map/path_plaza.png');
+    this.load.image('ts_grass_river',  '/assets/map/grass_river.png');
 
     // Sprites bâtiments (top-down, générés par PixelLab)
     const buildings = [
@@ -70,13 +73,11 @@ export default class MapScene extends Phaser.Scene {
     // ── Tilemap ──
     this.map = this.make.tilemap({ key: 'map' });
 
-    // Le JSON Tiled contient 4 tilesets (grass_forest, grass_path, path_plaza, grass_river)
-    // mais ils pointent tous vers tileset_master.png avec des tileoffsets différents.
-    // On les ajoute chacun en mappant sur la même image chargée.
-    const tsForet   = this.map.addTilesetImage('grass_forest', 'tileset_master', TILE_SIZE, TILE_SIZE, 0, 0);
-    const tsChemins = this.map.addTilesetImage('grass_path',   'tileset_master', TILE_SIZE, TILE_SIZE, 0, 0);
-    const tsPlace   = this.map.addTilesetImage('path_plaza',   'tileset_master', TILE_SIZE, TILE_SIZE, 0, 0);
-    const tsRiviere = this.map.addTilesetImage('grass_river',  'tileset_master', TILE_SIZE, TILE_SIZE, 0, 0);
+    // 4 tilesets individuels — chacun mappé sur son propre PNG
+    const tsForet   = this.map.addTilesetImage('grass_forest', 'ts_grass_forest', TILE_SIZE, TILE_SIZE, 0, 0);
+    const tsChemins = this.map.addTilesetImage('grass_path',   'ts_grass_path',   TILE_SIZE, TILE_SIZE, 0, 0);
+    const tsPlace   = this.map.addTilesetImage('path_plaza',   'ts_path_plaza',   TILE_SIZE, TILE_SIZE, 0, 0);
+    const tsRiviere = this.map.addTilesetImage('grass_river',  'ts_grass_river',  TILE_SIZE, TILE_SIZE, 0, 0);
 
     const allTilesets = [tsForet, tsChemins, tsPlace, tsRiviere].filter(Boolean);
 
