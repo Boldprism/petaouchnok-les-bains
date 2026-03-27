@@ -1,26 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Primaires — extraits de la map */
+  --vert-village:    #6FB234;
+  --vert-fonce:      #4A9122;
+  --beige-chemin:    #C8A96E;
+  --beige-clair:     #E8D5A8;
+  --dore-source:     #F5C842;
+  --ardoise:         #587098;
+  --brique:          #B25A30;
+  --pierre:          #989080;
+
+  /* UI */
+  --bg-nuit:         #1A1C2C;
+  --bg-sombre:       #2A2D3E;
+  --texte-clair:     #F0EAD6;
+  --texte-sombre:    #2A1A0A;
+  --accent-or:       #F5C842;
+  --accent-mystere:  #7B5EA7;
+
+  /* Éclats de Source */
+  --eclat-or:        #FFD700;
+  --eclat-lueur:     #FFF3A0;
+
+  /* Typographie */
+  --font-pixel:  'Press Start 2P', monospace;
+  --font-body:   'Lora', serif;
+  --font-mono:   'VT323', monospace;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-vert-village: #6FB234;
+  --color-vert-fonce: #4A9122;
+  --color-beige-chemin: #C8A96E;
+  --color-beige-clair: #E8D5A8;
+  --color-dore-source: #F5C842;
+  --color-ardoise: #587098;
+  --color-brique: #B25A30;
+  --color-pierre: #989080;
+  --color-bg-nuit: #1A1C2C;
+  --color-bg-sombre: #2A2D3E;
+  --color-texte-clair: #F0EAD6;
+  --color-texte-sombre: #2A1A0A;
+  --color-accent-or: #F5C842;
+  --color-accent-mystere: #7B5EA7;
+  --color-eclat-or: #FFD700;
+  --color-eclat-lueur: #FFF3A0;
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-body: 'Lora', serif;
+  --font-mono: 'VT323', monospace;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-nuit);
+  color: var(--texte-clair);
+  font-family: var(--font-body);
+}
+
+canvas, img[data-pixel] {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Pixel Button */
+.pixel-btn {
+  padding: 12px 20px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  box-shadow:
+    4px 0px 0px 0px rgba(0,0,0,0.4),
+    0px 4px 0px 0px rgba(0,0,0,0.4),
+    4px 4px 0px 0px rgba(0,0,0,0.4);
+  transition: transform 80ms, box-shadow 80ms;
+}
+.pixel-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow:
+    2px 0px 0px 0px rgba(0,0,0,0.4),
+    0px 2px 0px 0px rgba(0,0,0,0.4),
+    2px 2px 0px 0px rgba(0,0,0,0.4);
+}
+.pixel-btn--primary { background: var(--dore-source); color: var(--texte-sombre); }
+.pixel-btn--secondary { background: var(--ardoise); color: var(--texte-clair); }
+.pixel-btn--danger { background: var(--brique); color: var(--texte-clair); }
+
+/* Scrollbar pixel art */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-sombre); }
+::-webkit-scrollbar-thumb { background: var(--ardoise); }
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes pulse-gold {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Herbe animée (landing hero) */
+@keyframes scroll-grass {
+  0% { background-position: 0 0; }
+  100% { background-position: -128px 0; }
 }

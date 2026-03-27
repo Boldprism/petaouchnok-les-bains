@@ -1,0 +1,3326 @@
+{
+  "grass_forest": {
+    "id": "66a07593-c7cc-43cf-9c28-198061a764c3",
+    "name": "green grass → dense forest trees",
+    "lower_description": "green grass",
+    "upper_description": "dense forest trees",
+    "transition_description": "grass to forest edge",
+    "tile_size": {
+      "width": 32,
+      "height": 32
+    },
+    "transition_size": 0.5,
+    "view": "high top-down",
+    "style_settings": {
+      "detail": "highly detailed",
+      "outline": "selective outline",
+      "shading": "detailed shading"
+    },
+    "generation_parameters": {
+      "tile_strength": 1.0,
+      "tileset_adherence": 100.0,
+      "text_guidance_scale": 8.0,
+      "tileset_adherence_freedom": 500
+    },
+    "base_tile_ids": {
+      "lower": "2d32023b-3301-4fb8-aeb5-0dbf634a9008",
+      "upper": "2bd6295e-1370-4052-a007-812e95e61893"
+    },
+    "tileset_data": {
+      "tiles": [
+        {
+          "id": "13",
+          "name": "wang_13",
+          "corners": {
+            "NE": "upper",
+            "NW": "upper",
+            "SE": "upper",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 2,
+            "row": 4
+          },
+          "bounding_box": {
+            "x": 0,
+            "y": 0,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "10",
+          "name": "wang_10",
+          "corners": {
+            "NE": "lower",
+            "NW": "upper",
+            "SE": "lower",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 6,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 32,
+            "y": 0,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "4",
+          "name": "wang_4",
+          "corners": {
+            "NE": "upper",
+            "NW": "lower",
+            "SE": "lower",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 1,
+            "row": 4
+          },
+          "bounding_box": {
+            "x": 64,
+            "y": 0,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "12",
+          "name": "wang_12",
+          "corners": {
+            "NE": "upper",
+            "NW": "upper",
+            "SE": "lower",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 5,
+            "row": 3
+          },
+          "bounding_box": {
+            "x": 96,
+            "y": 0,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "6",
+          "name": "wang_6",
+          "corners": {
+            "NE": "upper",
+            "NW": "lower",
+            "SE": "lower",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 2,
+            "row": 5
+          },
+          "bounding_box": {
+            "x": 0,
+            "y": 32,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "8",
+          "name": "wang_8",
+          "corners": {
+            "NE": "lower",
+            "NW": "upper",
+            "SE": "lower",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 6,
+            "row": 3
+          },
+          "bounding_box": {
+            "x": 32,
+            "y": 32,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "2d32023b-3301-4fb8-aeb5-0dbf634a9008",
+          "name": "wang_0",
+          "corners": {
+            "NE": "lower",
+            "NW": "lower",
+            "SE": "lower",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 3,
+            "row": 6
+          },
+          "bounding_box": {
+            "x": 64,
+            "y": 32,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "1",
+          "name": "wang_1",
+          "corners": {
+            "NE": "lower",
+            "NW": "lower",
+            "SE": "upper",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 1,
+            "row": 1
+          },
+          "bounding_box": {
+            "x": 96,
+            "y": 32,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "11",
+          "name": "wang_11",
+          "corners": {
+            "NE": "lower",
+            "NW": "upper",
+            "SE": "upper",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 3,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 0,
+            "y": 64,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "3",
+          "name": "wang_3",
+          "corners": {
+            "NE": "lower",
+            "NW": "lower",
+            "SE": "upper",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 2,
+            "row": 1
+          },
+          "bounding_box": {
+            "x": 32,
+            "y": 64,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "2",
+          "name": "wang_2",
+          "corners": {
+            "NE": "lower",
+            "NW": "lower",
+            "SE": "lower",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 3,
+            "row": 1
+          },
+          "bounding_box": {
+            "x": 64,
+            "y": 64,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "5",
+          "name": "wang_5",
+          "corners": {
+            "NE": "upper",
+            "NW": "lower",
+            "SE": "upper",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 1,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 96,
+            "y": 64,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "2bd6295e-1370-4052-a007-812e95e61893",
+          "name": "wang_15",
+          "corners": {
+            "NE": "upper",
+            "NW": "upper",
+            "SE": "upper",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 2,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 0,
+            "y": 96,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "14",
+          "name": "wang_14",
+          "corners": {
+            "NE": "upper",
+            "NW": "upper",
+            "SE": "lower",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 4,
+            "row": 3
+          },
+          "bounding_box": {
+            "x": 32,
+            "y": 96,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "9",
+          "name": "wang_9",
+          "corners": {
+            "NE": "lower",
+            "NW": "upper",
+            "SE": "upper",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 4,
+            "row": 4
+          },
+          "bounding_box": {
+            "x": 64,
+            "y": 96,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "7",
+          "name": "wang_7",
+          "corners": {
+            "NE": "upper",
+            "NW": "lower",
+            "SE": "upper",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 4,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 96,
+            "y": 96,
+            "width": 32,
+            "height": 32
+          }
+        }
+      ],
+      "tile_size": {
+        "width": 32,
+        "height": 32
+      },
+      "total_tiles": 16,
+      "terrain_types": [
+        "lower",
+        "upper"
+      ],
+      "spritesheet_url": "https://backblaze.pixellab.ai/file/pixellab-tiles/76490730-0239-47b5-bb9e-67ebe5a03abf/66a07593-c7cc-43cf-9c28-198061a764c3/spritesheet.png"
+    },
+    "metadata": {
+      "terrain_prompts": {
+        "lower": "green grass",
+        "upper": "dense forest trees",
+        "transition": "grass to forest edge"
+      }
+    },
+    "created_at": "2026-03-26T12:20:04.766597+00:00",
+    "format": "tileset15",
+    "layout": {
+      "type": "tileset15",
+      "description": "4x4 grid of 16 unique Wang tiles",
+      "grid_size": {
+        "width": 4,
+        "height": 4
+      },
+      "tile_count": 16
+    },
+    "pattern_system": {
+      "type": "4x4_wildcard",
+      "description": "4×4 patterns with wildcards for flexible tile matching",
+      "wildcard_value": 255,
+      "pattern_layout": {
+        "description": "4×4 grid where center 2×2 matches tile corners, outer ring uses wildcards",
+        "example": {
+          "row_0": "All wildcards (*)",
+          "row_1": "Wildcard + NW corner + NE corner + Wildcard",
+          "row_2": "Wildcard + SW corner + SE corner + Wildcard",
+          "row_3": "All wildcards (*)"
+        }
+      },
+      "terrain_encoding": {
+        "lower": 0,
+        "upper": 1,
+        "wildcard": 255
+      },
+      "usage": {
+        "description": "Sample 4×4 terrain around tile position, encode as pattern key, lookup in cache",
+        "benefits": [
+          "O(1) lookup performance",
+          "Flexible edge matching",
+          "Unified pattern system"
+        ]
+      }
+    },
+    "tileset_image": {
+      "filename": "tileset_66a07593-c7cc-43cf-9c28-198061a764c3.png",
+      "format": "PNG",
+      "dimensions": {
+        "width": 128,
+        "height": 128
+      }
+    }
+  },
+  "grass_path": {
+    "id": "26b6e55d-ac64-475d-8dc3-70e3114fae25",
+    "name": "green grass → sandy dirt path",
+    "lower_description": "green grass",
+    "upper_description": "sandy dirt path",
+    "transition_description": "grass to dirt path",
+    "tile_size": {
+      "width": 32,
+      "height": 32
+    },
+    "transition_size": 0.5,
+    "view": "high top-down",
+    "style_settings": {
+      "detail": "highly detailed",
+      "outline": "selective outline",
+      "shading": "detailed shading"
+    },
+    "generation_parameters": {
+      "tile_strength": 1.0,
+      "tileset_adherence": 100.0,
+      "text_guidance_scale": 8.0,
+      "tileset_adherence_freedom": 500
+    },
+    "base_tile_ids": {
+      "lower": "2d32023b-3301-4fb8-aeb5-0dbf634a9008",
+      "upper": "db37cff3-698d-412a-8d81-f681dcca4c0d"
+    },
+    "tileset_data": {
+      "tiles": [
+        {
+          "id": "13",
+          "name": "wang_13",
+          "corners": {
+            "NE": "upper",
+            "NW": "upper",
+            "SE": "upper",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 2,
+            "row": 4
+          },
+          "bounding_box": {
+            "x": 0,
+            "y": 0,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "10",
+          "name": "wang_10",
+          "corners": {
+            "NE": "lower",
+            "NW": "upper",
+            "SE": "lower",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 6,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 32,
+            "y": 0,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "4",
+          "name": "wang_4",
+          "corners": {
+            "NE": "upper",
+            "NW": "lower",
+            "SE": "lower",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 1,
+            "row": 4
+          },
+          "bounding_box": {
+            "x": 64,
+            "y": 0,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "12",
+          "name": "wang_12",
+          "corners": {
+            "NE": "upper",
+            "NW": "upper",
+            "SE": "lower",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 5,
+            "row": 3
+          },
+          "bounding_box": {
+            "x": 96,
+            "y": 0,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "6",
+          "name": "wang_6",
+          "corners": {
+            "NE": "upper",
+            "NW": "lower",
+            "SE": "lower",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 2,
+            "row": 5
+          },
+          "bounding_box": {
+            "x": 0,
+            "y": 32,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "8",
+          "name": "wang_8",
+          "corners": {
+            "NE": "lower",
+            "NW": "upper",
+            "SE": "lower",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 6,
+            "row": 3
+          },
+          "bounding_box": {
+            "x": 32,
+            "y": 32,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "2d32023b-3301-4fb8-aeb5-0dbf634a9008",
+          "name": "wang_0",
+          "corners": {
+            "NE": "lower",
+            "NW": "lower",
+            "SE": "lower",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 3,
+            "row": 6
+          },
+          "bounding_box": {
+            "x": 64,
+            "y": 32,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "1",
+          "name": "wang_1",
+          "corners": {
+            "NE": "lower",
+            "NW": "lower",
+            "SE": "upper",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 1,
+            "row": 1
+          },
+          "bounding_box": {
+            "x": 96,
+            "y": 32,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "11",
+          "name": "wang_11",
+          "corners": {
+            "NE": "lower",
+            "NW": "upper",
+            "SE": "upper",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 3,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 0,
+            "y": 64,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "3",
+          "name": "wang_3",
+          "corners": {
+            "NE": "lower",
+            "NW": "lower",
+            "SE": "upper",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 2,
+            "row": 1
+          },
+          "bounding_box": {
+            "x": 32,
+            "y": 64,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "2",
+          "name": "wang_2",
+          "corners": {
+            "NE": "lower",
+            "NW": "lower",
+            "SE": "lower",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 3,
+            "row": 1
+          },
+          "bounding_box": {
+            "x": 64,
+            "y": 64,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "5",
+          "name": "wang_5",
+          "corners": {
+            "NE": "upper",
+            "NW": "lower",
+            "SE": "upper",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 1,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 96,
+            "y": 64,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "db37cff3-698d-412a-8d81-f681dcca4c0d",
+          "name": "wang_15",
+          "corners": {
+            "NE": "upper",
+            "NW": "upper",
+            "SE": "upper",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 2,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 0,
+            "y": 96,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "14",
+          "name": "wang_14",
+          "corners": {
+            "NE": "upper",
+            "NW": "upper",
+            "SE": "lower",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 4,
+            "row": 3
+          },
+          "bounding_box": {
+            "x": 32,
+            "y": 96,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "9",
+          "name": "wang_9",
+          "corners": {
+            "NE": "lower",
+            "NW": "upper",
+            "SE": "upper",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 4,
+            "row": 4
+          },
+          "bounding_box": {
+            "x": 64,
+            "y": 96,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "7",
+          "name": "wang_7",
+          "corners": {
+            "NE": "upper",
+            "NW": "lower",
+            "SE": "upper",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 4,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 96,
+            "y": 96,
+            "width": 32,
+            "height": 32
+          }
+        }
+      ],
+      "tile_size": {
+        "width": 32,
+        "height": 32
+      },
+      "total_tiles": 16,
+      "terrain_types": [
+        "lower",
+        "upper"
+      ],
+      "spritesheet_url": "https://backblaze.pixellab.ai/file/pixellab-tiles/76490730-0239-47b5-bb9e-67ebe5a03abf/26b6e55d-ac64-475d-8dc3-70e3114fae25/spritesheet.png"
+    },
+    "metadata": {
+      "terrain_prompts": {
+        "lower": "green grass",
+        "upper": "sandy dirt path",
+        "transition": "grass to dirt path"
+      }
+    },
+    "created_at": "2026-03-26T12:20:11.301237+00:00",
+    "format": "tileset15",
+    "layout": {
+      "type": "tileset15",
+      "description": "4x4 grid of 16 unique Wang tiles",
+      "grid_size": {
+        "width": 4,
+        "height": 4
+      },
+      "tile_count": 16
+    },
+    "pattern_system": {
+      "type": "4x4_wildcard",
+      "description": "4×4 patterns with wildcards for flexible tile matching",
+      "wildcard_value": 255,
+      "pattern_layout": {
+        "description": "4×4 grid where center 2×2 matches tile corners, outer ring uses wildcards",
+        "example": {
+          "row_0": "All wildcards (*)",
+          "row_1": "Wildcard + NW corner + NE corner + Wildcard",
+          "row_2": "Wildcard + SW corner + SE corner + Wildcard",
+          "row_3": "All wildcards (*)"
+        }
+      },
+      "terrain_encoding": {
+        "lower": 0,
+        "upper": 1,
+        "wildcard": 255
+      },
+      "usage": {
+        "description": "Sample 4×4 terrain around tile position, encode as pattern key, lookup in cache",
+        "benefits": [
+          "O(1) lookup performance",
+          "Flexible edge matching",
+          "Unified pattern system"
+        ]
+      }
+    },
+    "tileset_image": {
+      "filename": "tileset_26b6e55d-ac64-475d-8dc3-70e3114fae25.png",
+      "format": "PNG",
+      "dimensions": {
+        "width": 128,
+        "height": 128
+      }
+    }
+  },
+  "path_plaza": {
+    "id": "fad1b295-2c00-4091-9a83-a58f18ee5e5e",
+    "name": "sandy dirt path → cobblestone plaza",
+    "lower_description": "sandy dirt path",
+    "upper_description": "cobblestone plaza",
+    "transition_description": "dirt to cobblestone plaza",
+    "tile_size": {
+      "width": 32,
+      "height": 32
+    },
+    "transition_size": 0.5,
+    "view": "high top-down",
+    "style_settings": {
+      "detail": "highly detailed",
+      "outline": "selective outline",
+      "shading": "detailed shading"
+    },
+    "generation_parameters": {
+      "tile_strength": 1.0,
+      "tileset_adherence": 100.0,
+      "text_guidance_scale": 8.0,
+      "tileset_adherence_freedom": 500
+    },
+    "base_tile_ids": {
+      "lower": "db37cff3-698d-412a-8d81-f681dcca4c0d",
+      "upper": "1456b9e0-f0df-48f1-8b79-e3524f27931a"
+    },
+    "tileset_data": {
+      "tiles": [
+        {
+          "id": "13",
+          "name": "wang_13",
+          "corners": {
+            "NE": "upper",
+            "NW": "upper",
+            "SE": "upper",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 2,
+            "row": 4
+          },
+          "bounding_box": {
+            "x": 0,
+            "y": 0,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "10",
+          "name": "wang_10",
+          "corners": {
+            "NE": "lower",
+            "NW": "upper",
+            "SE": "lower",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 6,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 32,
+            "y": 0,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "4",
+          "name": "wang_4",
+          "corners": {
+            "NE": "upper",
+            "NW": "lower",
+            "SE": "lower",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 1,
+            "row": 4
+          },
+          "bounding_box": {
+            "x": 64,
+            "y": 0,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "12",
+          "name": "wang_12",
+          "corners": {
+            "NE": "upper",
+            "NW": "upper",
+            "SE": "lower",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 5,
+            "row": 3
+          },
+          "bounding_box": {
+            "x": 96,
+            "y": 0,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "6",
+          "name": "wang_6",
+          "corners": {
+            "NE": "upper",
+            "NW": "lower",
+            "SE": "lower",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 2,
+            "row": 5
+          },
+          "bounding_box": {
+            "x": 0,
+            "y": 32,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "8",
+          "name": "wang_8",
+          "corners": {
+            "NE": "lower",
+            "NW": "upper",
+            "SE": "lower",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 6,
+            "row": 3
+          },
+          "bounding_box": {
+            "x": 32,
+            "y": 32,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "db37cff3-698d-412a-8d81-f681dcca4c0d",
+          "name": "wang_0",
+          "corners": {
+            "NE": "lower",
+            "NW": "lower",
+            "SE": "lower",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 3,
+            "row": 6
+          },
+          "bounding_box": {
+            "x": 64,
+            "y": 32,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "1",
+          "name": "wang_1",
+          "corners": {
+            "NE": "lower",
+            "NW": "lower",
+            "SE": "upper",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 1,
+            "row": 1
+          },
+          "bounding_box": {
+            "x": 96,
+            "y": 32,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "11",
+          "name": "wang_11",
+          "corners": {
+            "NE": "lower",
+            "NW": "upper",
+            "SE": "upper",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 3,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 0,
+            "y": 64,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "3",
+          "name": "wang_3",
+          "corners": {
+            "NE": "lower",
+            "NW": "lower",
+            "SE": "upper",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 2,
+            "row": 1
+          },
+          "bounding_box": {
+            "x": 32,
+            "y": 64,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "2",
+          "name": "wang_2",
+          "corners": {
+            "NE": "lower",
+            "NW": "lower",
+            "SE": "lower",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 3,
+            "row": 1
+          },
+          "bounding_box": {
+            "x": 64,
+            "y": 64,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "5",
+          "name": "wang_5",
+          "corners": {
+            "NE": "upper",
+            "NW": "lower",
+            "SE": "upper",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 1,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 96,
+            "y": 64,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "1456b9e0-f0df-48f1-8b79-e3524f27931a",
+          "name": "wang_15",
+          "corners": {
+            "NE": "upper",
+            "NW": "upper",
+            "SE": "upper",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 2,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 0,
+            "y": 96,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "14",
+          "name": "wang_14",
+          "corners": {
+            "NE": "upper",
+            "NW": "upper",
+            "SE": "lower",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 4,
+            "row": 3
+          },
+          "bounding_box": {
+            "x": 32,
+            "y": 96,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "9",
+          "name": "wang_9",
+          "corners": {
+            "NE": "lower",
+            "NW": "upper",
+            "SE": "upper",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 4,
+            "row": 4
+          },
+          "bounding_box": {
+            "x": 64,
+            "y": 96,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "7",
+          "name": "wang_7",
+          "corners": {
+            "NE": "upper",
+            "NW": "lower",
+            "SE": "upper",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 4,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 96,
+            "y": 96,
+            "width": 32,
+            "height": 32
+          }
+        }
+      ],
+      "tile_size": {
+        "width": 32,
+        "height": 32
+      },
+      "total_tiles": 16,
+      "terrain_types": [
+        "lower",
+        "upper"
+      ],
+      "spritesheet_url": "https://backblaze.pixellab.ai/file/pixellab-tiles/76490730-0239-47b5-bb9e-67ebe5a03abf/fad1b295-2c00-4091-9a83-a58f18ee5e5e/spritesheet.png"
+    },
+    "metadata": {
+      "terrain_prompts": {
+        "lower": "sandy dirt path",
+        "upper": "cobblestone plaza",
+        "transition": "dirt to cobblestone plaza"
+      }
+    },
+    "created_at": "2026-03-26T12:20:16.727270+00:00",
+    "format": "tileset15",
+    "layout": {
+      "type": "tileset15",
+      "description": "4x4 grid of 16 unique Wang tiles",
+      "grid_size": {
+        "width": 4,
+        "height": 4
+      },
+      "tile_count": 16
+    },
+    "pattern_system": {
+      "type": "4x4_wildcard",
+      "description": "4×4 patterns with wildcards for flexible tile matching",
+      "wildcard_value": 255,
+      "pattern_layout": {
+        "description": "4×4 grid where center 2×2 matches tile corners, outer ring uses wildcards",
+        "example": {
+          "row_0": "All wildcards (*)",
+          "row_1": "Wildcard + NW corner + NE corner + Wildcard",
+          "row_2": "Wildcard + SW corner + SE corner + Wildcard",
+          "row_3": "All wildcards (*)"
+        }
+      },
+      "terrain_encoding": {
+        "lower": 0,
+        "upper": 1,
+        "wildcard": 255
+      },
+      "usage": {
+        "description": "Sample 4×4 terrain around tile position, encode as pattern key, lookup in cache",
+        "benefits": [
+          "O(1) lookup performance",
+          "Flexible edge matching",
+          "Unified pattern system"
+        ]
+      }
+    },
+    "tileset_image": {
+      "filename": "tileset_fad1b295-2c00-4091-9a83-a58f18ee5e5e.png",
+      "format": "PNG",
+      "dimensions": {
+        "width": 128,
+        "height": 128
+      }
+    }
+  },
+  "grass_river": {
+    "id": "cada328a-1e1b-4aca-a93e-d5aed89203e4",
+    "name": "green grass → calm river water with ripples",
+    "lower_description": "green grass",
+    "upper_description": "calm river water with ripples",
+    "transition_description": "grassy riverbank with reeds",
+    "tile_size": {
+      "width": 32,
+      "height": 32
+    },
+    "transition_size": 0.5,
+    "view": "high top-down",
+    "style_settings": {
+      "detail": "highly detailed",
+      "outline": "selective outline",
+      "shading": "detailed shading"
+    },
+    "generation_parameters": {
+      "tile_strength": 1.0,
+      "tileset_adherence": 100.0,
+      "text_guidance_scale": 8.0,
+      "tileset_adherence_freedom": 500
+    },
+    "base_tile_ids": {
+      "lower": "2d32023b-3301-4fb8-aeb5-0dbf634a9008",
+      "upper": "73fb7c32-a8a9-46e8-a38b-e655d132c071"
+    },
+    "tileset_data": {
+      "tiles": [
+        {
+          "id": "13",
+          "name": "wang_13",
+          "corners": {
+            "NE": "upper",
+            "NW": "upper",
+            "SE": "upper",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 2,
+            "row": 4
+          },
+          "bounding_box": {
+            "x": 0,
+            "y": 0,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "10",
+          "name": "wang_10",
+          "corners": {
+            "NE": "lower",
+            "NW": "upper",
+            "SE": "lower",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 6,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 32,
+            "y": 0,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "4",
+          "name": "wang_4",
+          "corners": {
+            "NE": "upper",
+            "NW": "lower",
+            "SE": "lower",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 1,
+            "row": 4
+          },
+          "bounding_box": {
+            "x": 64,
+            "y": 0,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "12",
+          "name": "wang_12",
+          "corners": {
+            "NE": "upper",
+            "NW": "upper",
+            "SE": "lower",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 5,
+            "row": 3
+          },
+          "bounding_box": {
+            "x": 96,
+            "y": 0,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "6",
+          "name": "wang_6",
+          "corners": {
+            "NE": "upper",
+            "NW": "lower",
+            "SE": "lower",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 2,
+            "row": 5
+          },
+          "bounding_box": {
+            "x": 0,
+            "y": 32,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "8",
+          "name": "wang_8",
+          "corners": {
+            "NE": "lower",
+            "NW": "upper",
+            "SE": "lower",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 6,
+            "row": 3
+          },
+          "bounding_box": {
+            "x": 32,
+            "y": 32,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "2d32023b-3301-4fb8-aeb5-0dbf634a9008",
+          "name": "wang_0",
+          "corners": {
+            "NE": "lower",
+            "NW": "lower",
+            "SE": "lower",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 3,
+            "row": 6
+          },
+          "bounding_box": {
+            "x": 64,
+            "y": 32,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "1",
+          "name": "wang_1",
+          "corners": {
+            "NE": "lower",
+            "NW": "lower",
+            "SE": "upper",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 1,
+            "row": 1
+          },
+          "bounding_box": {
+            "x": 96,
+            "y": 32,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "11",
+          "name": "wang_11",
+          "corners": {
+            "NE": "lower",
+            "NW": "upper",
+            "SE": "upper",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 3,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 0,
+            "y": 64,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "3",
+          "name": "wang_3",
+          "corners": {
+            "NE": "lower",
+            "NW": "lower",
+            "SE": "upper",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 2,
+            "row": 1
+          },
+          "bounding_box": {
+            "x": 32,
+            "y": 64,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "2",
+          "name": "wang_2",
+          "corners": {
+            "NE": "lower",
+            "NW": "lower",
+            "SE": "lower",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 3,
+            "row": 1
+          },
+          "bounding_box": {
+            "x": 64,
+            "y": 64,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "5",
+          "name": "wang_5",
+          "corners": {
+            "NE": "upper",
+            "NW": "lower",
+            "SE": "upper",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 1,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 96,
+            "y": 64,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "73fb7c32-a8a9-46e8-a38b-e655d132c071",
+          "name": "wang_15",
+          "corners": {
+            "NE": "upper",
+            "NW": "upper",
+            "SE": "upper",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 2,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 0,
+            "y": 96,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "14",
+          "name": "wang_14",
+          "corners": {
+            "NE": "upper",
+            "NW": "upper",
+            "SE": "lower",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              1,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 4,
+            "row": 3
+          },
+          "bounding_box": {
+            "x": 32,
+            "y": 96,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "9",
+          "name": "wang_9",
+          "corners": {
+            "NE": "lower",
+            "NW": "upper",
+            "SE": "upper",
+            "SW": "lower"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              1,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 4,
+            "row": 4
+          },
+          "bounding_box": {
+            "x": 64,
+            "y": 96,
+            "width": 32,
+            "height": 32
+          }
+        },
+        {
+          "id": "7",
+          "name": "wang_7",
+          "corners": {
+            "NE": "upper",
+            "NW": "lower",
+            "SE": "upper",
+            "SW": "upper"
+          },
+          "pattern_4x4": {
+            "row_0": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "row_1": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "row_2": [
+              255,
+              0,
+              1,
+              255
+            ],
+            "row_3": [
+              255,
+              255,
+              255,
+              255
+            ]
+          },
+          "original_position": {
+            "col": 4,
+            "row": 2
+          },
+          "bounding_box": {
+            "x": 96,
+            "y": 96,
+            "width": 32,
+            "height": 32
+          }
+        }
+      ],
+      "tile_size": {
+        "width": 32,
+        "height": 32
+      },
+      "total_tiles": 16,
+      "terrain_types": [
+        "lower",
+        "upper"
+      ],
+      "spritesheet_url": "https://backblaze.pixellab.ai/file/pixellab-tiles/76490730-0239-47b5-bb9e-67ebe5a03abf/cada328a-1e1b-4aca-a93e-d5aed89203e4/spritesheet.png"
+    },
+    "metadata": {
+      "terrain_prompts": {
+        "lower": "green grass",
+        "upper": "calm river water with ripples",
+        "transition": "grassy riverbank with reeds"
+      }
+    },
+    "created_at": "2026-03-26T12:20:23.982350+00:00",
+    "format": "tileset15",
+    "layout": {
+      "type": "tileset15",
+      "description": "4x4 grid of 16 unique Wang tiles",
+      "grid_size": {
+        "width": 4,
+        "height": 4
+      },
+      "tile_count": 16
+    },
+    "pattern_system": {
+      "type": "4x4_wildcard",
+      "description": "4×4 patterns with wildcards for flexible tile matching",
+      "wildcard_value": 255,
+      "pattern_layout": {
+        "description": "4×4 grid where center 2×2 matches tile corners, outer ring uses wildcards",
+        "example": {
+          "row_0": "All wildcards (*)",
+          "row_1": "Wildcard + NW corner + NE corner + Wildcard",
+          "row_2": "Wildcard + SW corner + SE corner + Wildcard",
+          "row_3": "All wildcards (*)"
+        }
+      },
+      "terrain_encoding": {
+        "lower": 0,
+        "upper": 1,
+        "wildcard": 255
+      },
+      "usage": {
+        "description": "Sample 4×4 terrain around tile position, encode as pattern key, lookup in cache",
+        "benefits": [
+          "O(1) lookup performance",
+          "Flexible edge matching",
+          "Unified pattern system"
+        ]
+      }
+    },
+    "tileset_image": {
+      "filename": "tileset_cada328a-1e1b-4aca-a93e-d5aed89203e4.png",
+      "format": "PNG",
+      "dimensions": {
+        "width": 128,
+        "height": 128
+      }
+    }
+  }
+}
