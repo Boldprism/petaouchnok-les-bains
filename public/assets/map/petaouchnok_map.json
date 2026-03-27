@@ -41,12 +41,7 @@
       "tilecount": 16,
       "imagewidth": 128,
       "imageheight": 128,
-      "image": "tileset_master.png",
-      "tileoffset": {
-        "x": 0,
-        "y": 0
-      },
-      "source": "grass_forest"
+      "image": "grass_forest.png"
     },
     {
       "firstgid": 17,
@@ -59,12 +54,7 @@
       "tilecount": 16,
       "imagewidth": 128,
       "imageheight": 128,
-      "image": "tileset_master.png",
-      "tileoffset": {
-        "x": 0,
-        "y": 128
-      },
-      "source": "grass_path"
+      "image": "grass_path.png"
     },
     {
       "firstgid": 33,
@@ -77,12 +67,7 @@
       "tilecount": 16,
       "imagewidth": 128,
       "imageheight": 128,
-      "image": "tileset_master.png",
-      "tileoffset": {
-        "x": 0,
-        "y": 256
-      },
-      "source": "path_plaza"
+      "image": "path_plaza.png"
     },
     {
       "firstgid": 49,
@@ -95,12 +80,7 @@
       "tilecount": 16,
       "imagewidth": 128,
       "imageheight": 128,
-      "image": "tileset_master.png",
-      "tileoffset": {
-        "x": 0,
-        "y": 384
-      },
-      "source": "grass_river"
+      "image": "grass_river.png"
     }
   ],
   "layers": [
