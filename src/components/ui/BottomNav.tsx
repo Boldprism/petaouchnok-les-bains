@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const tabs = [
-  { href: '/map', label: 'Map', icon: '🗺️' },
-  { href: '/carnet', label: 'Carnet', icon: '📖' },
-  { href: '/lettres', label: 'Lettres', icon: '💌' },
-  { href: '/boutique', label: 'Boutique', icon: '🛒' },
+  { href: '/map', label: 'Map', sprite: '/assets/buildings/topdown/mairie_topdown.png' },
+  { href: '/carnet', label: 'Carnet', sprite: '/assets/buildings/topdown/bibliotheque_topdown.png' },
+  { href: '/lettres', label: 'Lettres', sprite: '/assets/buildings/topdown/bulletin_topdown.png' },
+  { href: '/boutique', label: 'Boutique', sprite: '/assets/buildings/topdown/epicerie_topdown.png' },
 ];
 
 export default function BottomNav() {
@@ -28,9 +28,18 @@ export default function BottomNav() {
               isActive ? 'scale-110' : ''
             }`}
           >
-            <span className={`text-xl ${isActive ? 'animate-[float_2s_ease-in-out_infinite]' : ''}`}>
-              {tab.icon}
-            </span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={tab.sprite}
+              alt={tab.label}
+              className={isActive ? 'animate-[float_2s_ease-in-out_infinite]' : 'opacity-60'}
+              style={{
+                width: 24,
+                height: 24,
+                imageRendering: 'pixelated',
+                objectFit: 'contain',
+              }}
+            />
             <span
               className={isActive ? 'text-accent-or' : 'text-texte-clair/50'}
               style={{ fontFamily: 'var(--font-pixel)', fontSize: '7px' }}
