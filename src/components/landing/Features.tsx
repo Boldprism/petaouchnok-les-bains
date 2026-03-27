@@ -1,17 +1,17 @@
 const steps = [
   {
-    emoji: '📬',
+    sprite: '/assets/buildings/side/boulangerie_side.png',
     title: "Tu t'abonnes",
     description: 'Tu choisis ton prénom et ton animal. Le village te connaît déjà.',
   },
   {
-    emoji: '💌',
+    sprite: '/assets/buildings/side/mairie_side.png',
     title: 'Tu reçois',
     description:
       'Une lettre physique + des indices chaque mois. Des objets parfois étranges, toujours beaux.',
   },
   {
-    emoji: '🎮',
+    sprite: '/assets/buildings/side/hublot_side.png',
     title: 'Tu joues',
     description:
       "L'app mobile prolonge l'expérience entre les envois. Explore le village, cultive, résous des énigmes.",
@@ -20,9 +20,16 @@ const steps = [
 
 export default function Features() {
   return (
-    <section id="comment-ca-marche" className="px-6 py-20 bg-bg-sombre">
+    <section
+      id="comment-ca-marche"
+      className="px-6 py-20"
+      style={{
+        background: '#2d4a1e',
+        borderBottom: '4px solid #6FB234',
+      }}
+    >
       <h2
-        className="text-accent-or text-center mb-12"
+        className="text-[#F5C842] text-center mb-12"
         style={{
           fontFamily: 'var(--font-pixel)',
           fontSize: 'clamp(10px, 3vw, 14px)',
@@ -36,30 +43,57 @@ export default function Features() {
         {steps.map((step, i) => (
           <div
             key={i}
-            className="bg-bg-nuit border-2 border-ardoise/30 p-6 relative"
-            style={{ boxShadow: '4px 4px 0 rgba(0,0,0,0.3)' }}
+            className="relative p-6"
+            style={{
+              background: '#e8d5a8',
+              border: '4px solid #8b6914',
+              boxShadow: '4px 4px 0px #5a4010',
+            }}
           >
             {/* Numéro pixel */}
             <span
-              className="absolute -top-3 -left-2 bg-dore-source text-texte-sombre w-8 h-8 flex items-center justify-center"
-              style={{ fontFamily: 'var(--font-pixel)', fontSize: '10px' }}
+              className="absolute -top-3 -left-2 w-7 h-7 flex items-center justify-center text-white"
+              style={{
+                fontFamily: 'var(--font-pixel)',
+                fontSize: '9px',
+                background: '#6FB234',
+                border: '2px solid #4A9122',
+              }}
             >
               {i + 1}
             </span>
 
-            <div className="text-3xl mb-3">{step.emoji}</div>
-            <h3
-              className="text-beige-clair mb-2"
-              style={{ fontFamily: 'var(--font-pixel)', fontSize: '11px' }}
-            >
-              {step.title}
-            </h3>
-            <p
-              className="text-texte-clair/70 text-sm leading-relaxed"
-              style={{ fontFamily: 'var(--font-body)' }}
-            >
-              {step.description}
-            </p>
+            <div className="flex items-start gap-4">
+              {/* Sprite bâtiment */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={step.sprite}
+                alt=""
+                className="w-12 h-12 shrink-0 mt-1"
+                style={{ imageRendering: 'pixelated', objectFit: 'contain' }}
+              />
+              <div>
+                <h3
+                  className="mb-2"
+                  style={{
+                    fontFamily: 'var(--font-pixel)',
+                    fontSize: '11px',
+                    color: '#2a1a0a',
+                  }}
+                >
+                  {step.title}
+                </h3>
+                <p
+                  className="text-sm leading-relaxed"
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    color: '#4a3520',
+                  }}
+                >
+                  {step.description}
+                </p>
+              </div>
+            </div>
           </div>
         ))}
       </div>

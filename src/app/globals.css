@@ -22,6 +22,10 @@
   --accent-or:       #F5C842;
   --accent-mystere:  #7B5EA7;
 
+  /* Forêt (landing page) */
+  --foret-sombre:    #1a2e1a;
+  --foret-moyen:     #2d4a1e;
+
   /* Éclats de Source */
   --eclat-or:        #FFD700;
   --eclat-lueur:     #FFF3A0;
@@ -49,6 +53,8 @@
   --color-accent-mystere: #7B5EA7;
   --color-eclat-or: #FFD700;
   --color-eclat-lueur: #FFF3A0;
+  --color-foret-sombre: #1a2e1a;
+  --color-foret-moyen: #2d4a1e;
   --font-pixel: 'Press Start 2P', monospace;
   --font-body: 'Lora', serif;
   --font-mono: 'VT323', monospace;
@@ -92,10 +98,10 @@ canvas, img[data-pixel] {
 .pixel-btn--secondary { background: var(--ardoise); color: var(--texte-clair); }
 .pixel-btn--danger { background: var(--brique); color: var(--texte-clair); }
 
-/* Scrollbar pixel art */
+/* Scrollbar pixel art — forêt */
 ::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--bg-sombre); }
-::-webkit-scrollbar-thumb { background: var(--ardoise); }
+::-webkit-scrollbar-track { background: #1a2e1a; }
+::-webkit-scrollbar-thumb { background: #6FB234; border: 2px solid #1a2e1a; }
 
 /* Animations */
 @keyframes float {
