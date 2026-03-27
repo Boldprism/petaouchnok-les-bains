@@ -96,17 +96,19 @@ export default function CarnetPage() {
         {filtered.map((fragment) => (
           <div
             key={fragment.id}
-            className={`bg-bg-sombre border-2 p-4 relative ${
-              fragment.unlocked ? 'border-accent-or/20' : 'border-ardoise/20'
-            }`}
-            style={{ boxShadow: '3px 3px 0 rgba(0,0,0,0.3)' }}
+            className="p-4 relative"
+            style={{
+              background: '#f5ead8',
+              color: '#2a1a0a',
+              border: fragment.unlocked ? '2px solid #c8a96e' : '2px solid #a0937e',
+              boxShadow: '3px 3px 0px #8b6914',
+            }}
           >
             {/* Lock indicator */}
             {!fragment.unlocked && (
-              <div className="absolute inset-0 bg-bg-sombre/80 backdrop-blur-sm flex items-center justify-center z-10">
+              <div className="absolute inset-0 backdrop-blur-sm flex items-center justify-center z-10" style={{ background: 'rgba(245,234,216,0.85)' }}>
                 <span
-                  className="text-ardoise"
-                  style={{ fontFamily: 'var(--font-pixel)', fontSize: '14px' }}
+                  style={{ fontFamily: 'var(--font-pixel)', fontSize: '14px', color: '#a0937e' }}
                 >
                   ???
                 </span>
@@ -115,14 +117,13 @@ export default function CarnetPage() {
 
             <div className="flex items-start justify-between mb-2">
               <h3
-                className="text-beige-clair"
-                style={{ fontFamily: 'var(--font-pixel)', fontSize: '8px', lineHeight: '1.6' }}
+                style={{ fontFamily: 'var(--font-pixel)', fontSize: '8px', lineHeight: '1.6', color: '#2a1a0a' }}
               >
                 {fragment.title}
               </h3>
               <span
-                className="text-ardoise shrink-0 ml-2"
-                style={{ fontFamily: 'var(--font-mono)', fontSize: '14px' }}
+                className="shrink-0 ml-2"
+                style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', color: '#8b6914' }}
               >
                 Mois {fragment.month}
               </span>
@@ -130,16 +131,16 @@ export default function CarnetPage() {
 
             {fragment.unlocked && (
               <p
-                className="text-texte-clair/70 text-sm leading-relaxed"
-                style={{ fontFamily: 'var(--font-body)' }}
+                className="text-sm leading-relaxed"
+                style={{ fontFamily: 'var(--font-body)', color: '#4a3520' }}
               >
                 {fragment.text}
               </p>
             )}
 
             <span
-              className="inline-block mt-2 text-accent-mystere"
-              style={{ fontFamily: 'var(--font-pixel)', fontSize: '6px' }}
+              className="inline-block mt-2"
+              style={{ fontFamily: 'var(--font-pixel)', fontSize: '6px', color: '#7b5ea7' }}
             >
               {fragment.category}
             </span>

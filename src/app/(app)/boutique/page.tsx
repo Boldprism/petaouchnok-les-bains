@@ -22,7 +22,7 @@ const SHOPS: Shop[] = [
     id: 'boulangerie',
     emoji: '🥐',
     name: 'Boulangerie',
-    keeper: 'Gaston Miette',
+    keeper: 'Gaston Mielleux',
     greeting: 'Ah, un client ! Goûtez donc ce croissant. Il a une saveur que personne n\'arrive à nommer.',
     items: [
       { name: 'Croissant Doré', price: 5, description: 'Boost de récolte +10% pendant 1h' },
@@ -46,7 +46,7 @@ const SHOPS: Shop[] = [
     id: 'epicerie',
     emoji: '🛒',
     name: 'Épicerie',
-    keeper: 'Noisette Provision',
+    keeper: 'Noisette Grignotier',
     greeting: 'Bienvenue ! On a tout ce qu\'il faut. Et même des choses dont vous ignoriez avoir besoin.',
     items: [
       { name: 'Graines de Vanille', price: 10, description: 'Plante une culture (récolte en 4h)' },
