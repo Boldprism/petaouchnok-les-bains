@@ -55,20 +55,3 @@ export default function MapPage() {
     </div>
   );
 }
-      {/* Phaser */}
-      <PhaserGame
-        key="phaser-map-instance"
-        onBuildingClick={(building) => setActiveBuilding(building)}
-        onSourceClick={() =>
-          setActiveBuilding({ id: 'source', label: '✦ Source Thermale' })
-        }
-      />
-
-      {/* Bottom sheet bâtiment */}
-      <BuildingSheet
-        building={activeBuilding}
-        onClose={() => setActiveBuilding(null)}
-      />
-    </div>
-  );
-}
