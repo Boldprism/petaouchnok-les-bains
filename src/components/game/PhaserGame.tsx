@@ -44,22 +44,21 @@ export default function PhaserGame({ onBuildingClick, onSourceClick }: PhaserGam
 
         const MapScene = mod.default;
 
-const config: Phaser.Types.Core.GameConfig = {
-  type: Phaser.WEBGL, // 1. On force WebGL au lieu de AUTO
-  parent: containerRef.current!,
-  // 2. On lit la taille réelle de la div plutôt que celle de la fenêtre
-  width: containerRef.current!.clientWidth || window.innerWidth,
-  height: containerRef.current!.clientHeight || (window.innerHeight - 64),
-  backgroundColor: '#6FB234',
-  pixelArt: true,
-  antialias: false,
-  roundPixels: true,
-  scene: [MapScene],
-  scale: {
-    mode: Phaser.Scale.FIT,
-    autoCenter: Phaser.Scale.CENTER_BOTH,
-  },
-};
+        const config: Phaser.Types.Core.GameConfig = {
+          type: Phaser.AUTO,
+          parent: containerRef.current!,
+          width: window.innerWidth > 430 ? 430 : window.innerWidth,
+          height: window.innerHeight - 64,
+          backgroundColor: '#6FB234',
+          pixelArt: true,
+          antialias: false,
+          roundPixels: true,
+          scene: [MapScene],
+          scale: {
+            mode: Phaser.Scale.FIT,
+            autoCenter: Phaser.Scale.CENTER_BOTH,
+          },
+        };
 
         gameRef.current = new Phaser.Game(config);
       });
