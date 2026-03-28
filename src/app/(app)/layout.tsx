@@ -18,7 +18,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       )}
 
       {/* Colonne droite — contenu + nav */}
-            <div className={`flex-1 w-full flex flex-col h-dvh ${isMapPage ? 'max-w-[430px] md:max-w-none' : ''} mx-auto md:mx-0`}>
+          <div className={`flex-1 flex flex-col h-dvh ${isMapPage ? 'max-w-[430px] md:max-w-none' : ''} mx-auto md:mx-0`}>
         <main className="flex-1 flex flex-col min-h-0">{children}</main>
         <BottomNav />
       </div>
