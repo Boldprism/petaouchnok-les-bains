@@ -121,16 +121,11 @@ export default class MapScene extends Phaser.Scene {
     this.cameras.main.centerOn(plazaCX, plazaCY);
 
 // ── Scroll tactile ──
-this.input.on('pointermove', (pointer) => {
-  if (!pointer.isDown) return;
-  
-  // Utiliser la différence de position exacte (beaucoup plus stable sur mobile)
-  const deltaX = pointer.x - pointer.prevPosition.x;
-  const deltaY = pointer.y - pointer.prevPosition.y;
-  
-  this.cameras.main.scrollX -= deltaX;
-  this.cameras.main.scrollY -= deltaY;
-});
+    this.input.on('pointermove', (pointer) => {
+      if (!pointer.isDown) return;
+      this.cameras.main.scrollX -= pointer.velocity.x / 8;
+      this.cameras.main.scrollY -= pointer.velocity.y / 8;
+    });
 
     // ── Mise à jour heure toutes les minutes ──
     this.time.addEvent({
