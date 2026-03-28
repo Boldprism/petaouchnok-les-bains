@@ -8,8 +8,7 @@ import EclatCounter from '@/components/ui/EclatCounter';
 const PhaserGame = dynamic(() => import('@/components/game/PhaserGame'), {
   ssr: false,
   loading: () => (
-    // TEMPORAIRE : On met du bleu pour vérifier si c'est Next.js qui bloque
-    <div className="w-full h-full bg-blue-500 flex items-center justify-center">
+    <div className="w-full h-full bg-vert-village flex items-center justify-center">
       <p
         className="text-white"
         style={{ fontFamily: 'var(--font-pixel)', fontSize: '10px' }}
@@ -36,16 +35,14 @@ export default function MapPage() {
         <EclatCounter />
       </div>
 
-      {/* Phaser enfermé dans une DIV absolute pour contrer le bug de hauteur iOS */}
-      <div className="absolute inset-0 z-0">
-        <PhaserGame
-          key="phaser-map-instance"
-          onBuildingClick={(building) => setActiveBuilding(building)}
-          onSourceClick={() =>
-            setActiveBuilding({ id: 'source', label: '✦ Source Thermale' })
-          }
-        />
-      </div>
+      {/* Phaser */}
+      <PhaserGame
+        key="phaser-map-instance"
+        onBuildingClick={(building) => setActiveBuilding(building)}
+        onSourceClick={() =>
+          setActiveBuilding({ id: 'source', label: '✦ Source Thermale' })
+        }
+      />
 
       {/* Bottom sheet bâtiment */}
       <BuildingSheet
