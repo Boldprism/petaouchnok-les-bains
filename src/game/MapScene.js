@@ -95,10 +95,10 @@ export default class MapScene extends Phaser.Scene {
 
     // ── Layer objets — bâtiments ──
     this.buildingGroup = this.add.group();
-    this._placeBuildingsFromTiled();
+    //this._placeBuildingsFromTiled();
 
     // ── Source thermale (dessinée en code, pas de sprite) ──
-    this._placeSource();
+    //this._placeSource();
 
     // ── Overlay lumière (jour/nuit) ──
     this.lightOverlay = this.add.rectangle(
