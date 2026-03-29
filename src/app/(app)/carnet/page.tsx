@@ -11,7 +11,7 @@ const FRAGMENTS = [
     category: 'Mystère',
     month: 1,
     unlocked: true,
-    text: 'Pétaouchnok-les-Bains n\'apparaît sur aucune carte depuis 1924. Le dernier cartographe à l\'avoir mentionné s\'appelait Émile Vautour. Il n\'a jamais expliqué pourquoi il avait cessé.',
+    text: "Pétaouchnok-les-Bains n'apparaît sur aucune carte depuis 1924. Le dernier cartographe à l'avoir mentionné s'appelait Émile Vautour. Il n'a jamais expliqué pourquoi il avait cessé.",
   },
   {
     id: 'f2',
@@ -19,7 +19,7 @@ const FRAGMENTS = [
     category: 'Mystère',
     month: 1,
     unlocked: true,
-    text: 'L\'eau de la Source est légèrement dorée et sent vaguement la vanille. Les analyses chimiques ne révèlent rien d\'anormal. Pourtant, personne n\'arrive à la reproduire.',
+    text: "L'eau de la Source est légèrement dorée et sent vaguement la vanille. Les analyses chimiques ne révèlent rien d'anormal. Pourtant, personne n'arrive à la reproduire.",
   },
   {
     id: 'f3',
@@ -43,7 +43,7 @@ const FRAGMENTS = [
     category: 'Mystère',
     month: 1,
     unlocked: true,
-    text: 'De petits fragments dorés, translucides, qu\'on trouve parfois au bord de la fontaine après une nuit de forte lune. Tout le monde les accepte. Personne ne sait pourquoi.',
+    text: "De petits fragments dorés, translucides, qu'on trouve parfois au bord de la fontaine après une nuit de forte lune. Tout le monde les accepte. Personne ne sait pourquoi.",
   },
   {
     id: 'f6',
@@ -55,6 +55,8 @@ const FRAGMENTS = [
   },
 ];
 
+const BG_PAGE = '#0f1520';
+
 export default function CarnetPage() {
   const [activeFilter, setActiveFilter] = useState('Tous');
 
@@ -65,55 +67,58 @@ export default function CarnetPage() {
   });
 
   return (
-    <div className="w-full flex-1 flex flex-col p-4 overflow-y-auto">
-      <h1
-        className="text-accent-or mb-4"
-        style={{ fontFamily: 'var(--font-pixel)', fontSize: '12px', textShadow: '2px 2px 0 rgba(0,0,0,0.4)' }}
-      >
-        CARNET DE LORE
-      </h1>
+    <div className="w-full flex-1 flex flex-col overflow-y-auto" style={{ background: BG_PAGE }}>
 
-      {/* Filters — sticky */}
-      <div
-        className="flex gap-2 mb-6 overflow-x-auto pb-2 sticky top-0 z-20"
-        style={{ background: 'var(--color-bg-nuit, #0d1117)', paddingTop: '4px' }}
-      >     {FILTERS.map((f) => (
-        <button
-          key={f}
-          onClick={() => setActiveFilter(f)}
-          className="shrink-0 transition-colors" style={{
-            fontFamily: 'var(--font-pixel)',
-            fontSize: '9px',
-            whiteSpace: 'nowrap',
-            background: activeFilter === f ? 'rgba(212,170,80,0.2)' : 'transparent',
-            border: activeFilter === f ? '2px solid rgba(212,170,80,0.6)' : '2px solid rgba(255,255,255,0.25)',
-            color: activeFilter === f ? '#d4aa50' : 'rgba(220,210,195,0.85)',
-            padding: '6px 12px',
-          }}
+      {/* Header + filtres — sticky, fond opaque identique à la page */}
+      <div className="sticky top-0 z-20 px-4 pt-4 pb-3" style={{ background: BG_PAGE }}>
+        <h1
+          className="mb-4"
+          style={{ fontFamily: 'var(--font-pixel)', fontSize: '12px', color: '#d4aa50', textShadow: '2px 2px 0 rgba(0,0,0,0.4)' }}
         >
-          {f}
-        </button>
-      ))}
+          CARNET DE LORE
+        </h1>
+
+        <div className="flex gap-2 overflow-x-auto pb-1">
+          {FILTERS.map((f) => (
+            <button
+              key={f}
+              onClick={() => setActiveFilter(f)}
+              style={{
+                fontFamily: 'var(--font-pixel)',
+                fontSize: '9px',
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
+                padding: '6px 12px',
+                background: activeFilter === f ? 'rgba(212,170,80,0.2)' : 'rgba(255,255,255,0.05)',
+                border: `2px solid ${activeFilter === f ? 'rgba(212,170,80,0.6)' : 'rgba(255,255,255,0.2)'}`,
+                color: activeFilter === f ? '#d4aa50' : 'rgba(220,210,195,0.8)',
+                cursor: 'pointer',
+              }}
+            >
+              {f}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Fragment cards */}
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 px-4 pb-4">
         {filtered.map((fragment) => (
           <div
             key={fragment.id}
-            className="p-4 relative overflow-hidden"
+            className="relative overflow-hidden"
             style={{
               background: '#f5ead8',
-              color: '#2a1a0a',
               border: fragment.unlocked ? '2px solid #c8a96e' : '2px solid #a0937e',
               boxShadow: '3px 3px 0px #8b6914',
+              padding: '16px',
             }}
           >
-            {/* Lock indicator — uniquement si verrouillé */}
+            {/* Carte verrouillée */}
             {!fragment.unlocked && (
               <div
-                className="absolute inset-0 flex items-center justify-center z-10"
-                style={{ background: 'rgba(245,234,216,0.92)' }}
+                className="absolute inset-0 flex items-center justify-center"
+                style={{ background: 'rgba(245,234,216,0.92)', zIndex: 2 }}
               >
                 <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '14px', color: '#a0937e' }}>
                   ???
@@ -131,12 +136,12 @@ export default function CarnetPage() {
             </div>
 
             {fragment.unlocked && (
-              <p className="text-sm leading-relaxed" style={{ fontFamily: 'var(--font-body)', color: '#4a3520' }}>
+              <p className="text-sm leading-relaxed mb-2" style={{ fontFamily: 'var(--font-body)', color: '#4a3520' }}>
                 {fragment.text}
               </p>
             )}
 
-            <span className="inline-block mt-2" style={{ fontFamily: 'var(--font-pixel)', fontSize: '6px', color: '#7b5ea7' }}>
+            <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '6px', color: '#7b5ea7' }}>
               {fragment.category}
             </span>
           </div>
