@@ -91,18 +91,21 @@ export default class MapScene extends Phaser.Scene {
     this._applyTimePalette();
 
     // ── Zoom adaptatif ──
-    const mapPixelW = MAP_W * TILE_SIZE;
-    const mapPixelH = MAP_H * TILE_SIZE;
+    const mapPixelW = MAP_W * TILE_SIZE; // 640px
+    const mapPixelH = MAP_H * TILE_SIZE; // 1152px
     const screenW = this.scale.width;
     const screenH = this.scale.height;
 
+    const zoomX = screenW / mapPixelW;
+    const zoomY = screenH / mapPixelH;
+
     let zoom;
     if (screenW < 768) {
-      // Mobile : remplit la largeur exactement
-      zoom = screenW / mapPixelW;
+      // Mobile : toute la carte visible, pas de scroll
+      zoom = Math.min(zoomX, zoomY);
     } else {
-      // Desktop : zoom confortable, scroll pour naviguer
-      zoom = screenH / mapPixelH;
+      // Desktop : remplit l'écran, scroll pour naviguer
+      zoom = Math.max(zoomX, zoomY);
     }
 
     this.cameras.main.setZoom(zoom);
