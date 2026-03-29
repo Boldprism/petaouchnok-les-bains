@@ -65,30 +65,38 @@ export default class MapScene extends Phaser.Scene {
   // ─────────────────────────────────────────
   // CREATE
   // ─────────────────────────────────────────
-  create() {
-    console.log('[MapScene] create() — début');
+ create() {
+  console.log('[MapScene] create() — début');
 
-    const { width, height } = this.scale;
+  // Charge la map
+  this.map = this.make.tilemap({ key: 'map' });
+  console.log('[MapScene] tilemap loaded:', this.map ? 'OK' : 'NULL ⚠️');
 
-    // ── Tilemap ──
-    this.map = this.make.tilemap({ key: 'map' });
+  // Tilesets
+  const tsForet   = this.map.addTilesetImage('grass_forest', 'ts_grass_forest', 32, 32, 0, 0);
+  const tsChemins = this.map.addTilesetImage('grass_path',   'ts_grass_path',   32, 32, 0, 0);
+  const tsPlace   = this.map.addTilesetImage('path_plaza',   'ts_path_plaza',   32, 32, 0, 0);
+  const tsRiviere = this.map.addTilesetImage('grass_river',  'ts_grass_river',  32, 32, 0, 0);
+  console.log('[MapScene] tilesets:', { tsForet, tsChemins, tsPlace, tsRiviere });
 
-    // 4 tilesets individuels — chacun mappé sur son propre PNG
-    const tsForet   = this.map.addTilesetImage('grass_forest', 'ts_grass_forest', TILE_SIZE, TILE_SIZE, 0, 0);
-    const tsChemins = this.map.addTilesetImage('grass_path',   'ts_grass_path',   TILE_SIZE, TILE_SIZE, 0, 0);
-    const tsPlace   = this.map.addTilesetImage('path_plaza',   'ts_path_plaza',   TILE_SIZE, TILE_SIZE, 0, 0);
-    const tsRiviere = this.map.addTilesetImage('grass_river',  'ts_grass_river',  TILE_SIZE, TILE_SIZE, 0, 0);
+  const allTilesets = [tsForet, tsChemins, tsPlace, tsRiviere].filter(Boolean);
+  console.log('[MapScene] allTilesets count:', allTilesets.length);
 
-    const allTilesets = [tsForet, tsChemins, tsPlace, tsRiviere].filter(Boolean);
+  // Layers
+  this.layerForet = this.map.createLayer('Forêt', allTilesets, 0, 0);
+  console.log('[MapScene] layerForet:', this.layerForet ? 'OK' : 'NULL ⚠️');
 
-    console.log('[MapScene] Tilesets chargés:', allTilesets.length);
+  this.layerChemins = this.map.createLayer('Chemins', allTilesets, 0, 0);
+  console.log('[MapScene] layerChemins:', this.layerChemins ? 'OK' : 'NULL ⚠️');
 
-    // Layers terrain (ordre d'affichage : bas → haut)
-    // Chaque layer doit recevoir tous les tilesets pour pouvoir résoudre tous les GIDs
-    this.layerForet    = this.map.createLayer('Forêt',           allTilesets, 0, 0);
-    this.layerChemins  = this.map.createLayer('Chemins',         allTilesets, 0, 0);
-    this.layerPlace    = this.map.createLayer('Place centrale',  allTilesets, 0, 0);
-    this.layerRiviere  = this.map.createLayer('Rivière',         allTilesets, 0, 0);
+  this.layerPlace = this.map.createLayer('Place centrale', allTilesets, 0, 0);
+  console.log('[MapScene] layerPlace:', this.layerPlace ? 'OK' : 'NULL ⚠️');
+
+  this.layerRiviere = this.map.createLayer('Rivière', allTilesets, 0, 0);
+  console.log('[MapScene] layerRiviere:', this.layerRiviere ? 'OK' : 'NULL ⚠️');
+
+  // ... reste du create
+}
 
     const layers = [this.layerForet, this.layerChemins, this.layerPlace, this.layerRiviere];
     console.log('[MapScene] Layers créés:', layers.filter(Boolean).length, '/ 4');
