@@ -53,9 +53,6 @@ export default class MapScene extends Phaser.Scene {
       this.load.image(`bat_${name}`, `/assets/buildings/topdown/${name}_topdown.png`);
     });
 
-    // Note: source.png et halo_gold.png ne sont pas chargés
-    // car ils n'existent pas encore — on les dessine en code
-
     // Error handler pour éviter le crash silencieux
     this.load.on('loaderror', (file) => {
       console.warn('[MapScene] Échec chargement:', file.key, file.url);
@@ -65,41 +62,43 @@ export default class MapScene extends Phaser.Scene {
   // ─────────────────────────────────────────
   // CREATE
   // ─────────────────────────────────────────
- create() {
-  console.log('[MapScene] create() — début');
+  create() {
+    console.log('[MapScene] create() — début');
 
-  // Charge la map
-  this.map = this.make.tilemap({ key: 'map' });
-  console.log('[MapScene] tilemap loaded:', this.map ? 'OK' : 'NULL ⚠️');
+    // ── Tilemap ──
+    this.map = this.make.tilemap({ key: 'map' });
+    console.log('[MapScene] tilemap:', this.map ? 'OK' : 'NULL ⚠️');
 
-  // Tilesets
-  const tsForet   = this.map.addTilesetImage('grass_forest', 'ts_grass_forest', 32, 32, 0, 0);
-  const tsChemins = this.map.addTilesetImage('grass_path',   'ts_grass_path',   32, 32, 0, 0);
-  const tsPlace   = this.map.addTilesetImage('path_plaza',   'ts_path_plaza',   32, 32, 0, 0);
-  const tsRiviere = this.map.addTilesetImage('grass_river',  'ts_grass_river',  32, 32, 0, 0);
-  console.log('[MapScene] tilesets:', { tsForet, tsChemins, tsPlace, tsRiviere });
+    // ── Tilesets ──
+    const tsForet   = this.map.addTilesetImage('grass_forest', 'ts_grass_forest', 32, 32, 0, 0);
+    const tsChemins = this.map.addTilesetImage('grass_path',   'ts_grass_path',   32, 32, 0, 0);
+    const tsPlace   = this.map.addTilesetImage('path_plaza',   'ts_path_plaza',   32, 32, 0, 0);
+    const tsRiviere = this.map.addTilesetImage('grass_river',  'ts_grass_river',  32, 32, 0, 0);
+    console.log('[MapScene] tilesets:', {
+      tsForet:   tsForet   ? 'OK' : 'NULL ⚠️',
+      tsChemins: tsChemins ? 'OK' : 'NULL ⚠️',
+      tsPlace:   tsPlace   ? 'OK' : 'NULL ⚠️',
+      tsRiviere: tsRiviere ? 'OK' : 'NULL ⚠️',
+    });
 
-  const allTilesets = [tsForet, tsChemins, tsPlace, tsRiviere].filter(Boolean);
-  console.log('[MapScene] allTilesets count:', allTilesets.length);
+    const allTilesets = [tsForet, tsChemins, tsPlace, tsRiviere].filter(Boolean);
+    console.log('[MapScene] allTilesets count:', allTilesets.length, '/ 4');
 
-  // Layers
-  this.layerForet = this.map.createLayer('Forêt', allTilesets, 0, 0);
-  console.log('[MapScene] layerForet:', this.layerForet ? 'OK' : 'NULL ⚠️');
+    // ── Layers terrain ──
+    this.layerForet    = this.map.createLayer('Forêt',          allTilesets, 0, 0);
+    this.layerChemins  = this.map.createLayer('Chemins',        allTilesets, 0, 0);
+    this.layerPlace    = this.map.createLayer('Place centrale', allTilesets, 0, 0);
+    this.layerRiviere  = this.map.createLayer('Rivière',        allTilesets, 0, 0);
+    console.log('[MapScene] layers:', {
+      Forêt:          this.layerForet    ? 'OK' : 'NULL ⚠️',
+      Chemins:        this.layerChemins  ? 'OK' : 'NULL ⚠️',
+      'Place centrale': this.layerPlace  ? 'OK' : 'NULL ⚠️',
+      Rivière:        this.layerRiviere  ? 'OK' : 'NULL ⚠️',
+    });
 
-  this.layerChemins = this.map.createLayer('Chemins', allTilesets, 0, 0);
-  console.log('[MapScene] layerChemins:', this.layerChemins ? 'OK' : 'NULL ⚠️');
-
-  this.layerPlace = this.map.createLayer('Place centrale', allTilesets, 0, 0);
-  console.log('[MapScene] layerPlace:', this.layerPlace ? 'OK' : 'NULL ⚠️');
-
-  this.layerRiviere = this.map.createLayer('Rivière', allTilesets, 0, 0);
-  console.log('[MapScene] layerRiviere:', this.layerRiviere ? 'OK' : 'NULL ⚠️');
-
-  // ... reste du create
-
-
-    const layers = [this.layerForet, this.layerChemins, this.layerPlace, this.layerRiviere];
-    console.log('[MapScene] Layers créés:', layers.filter(Boolean).length, '/ 4');
+    const layerCount = [this.layerForet, this.layerChemins, this.layerPlace, this.layerRiviere]
+      .filter(Boolean).length;
+    console.log('[MapScene] Layers créés:', layerCount, '/ 4');
 
     // ── Layer objets — bâtiments ──
     this.buildingGroup = this.add.group();
@@ -128,7 +127,7 @@ export default class MapScene extends Phaser.Scene {
     const plazaCY = (MAP_H / 2) * TILE_SIZE;
     this.cameras.main.centerOn(plazaCX, plazaCY);
 
-// ── Scroll tactile ──
+    // ── Scroll tactile ──
     this.input.on('pointermove', (pointer) => {
       if (!pointer.isDown) return;
       this.cameras.main.scrollX -= pointer.velocity.x / 8;
@@ -143,8 +142,8 @@ export default class MapScene extends Phaser.Scene {
       loop: true,
     });
 
-    console.log('[MapScene] create() — terminé');
-  }
+    console.log('[MapScene] create() — terminé ✅');
+  } // ← fin create()
 
   // ─────────────────────────────────────────
   // BÂTIMENTS — Placement depuis objets Tiled
@@ -172,19 +171,16 @@ export default class MapScene extends Phaser.Scene {
         obj.x + obj.width / 2,
         obj.y + obj.height / 2,
         spriteKey
-      ).setDepth(obj.y); // Depth = Y pour tri correct
+      ).setDepth(obj.y);
 
-      // Adapter la taille du sprite à la zone Tiled
       const tex = this.textures.get(spriteKey).getSourceImage();
       const scaleX = obj.width / tex.width;
       const scaleY = obj.height / tex.height;
       const scale = Math.min(scaleX, scaleY);
       sprite.setScale(scale);
 
-      // Hitbox cliquable
       sprite.setInteractive();
 
-      // Hover effect
       sprite.on('pointerover', () => {
         this.tweens.add({ targets: sprite, scaleX: scale * 1.08, scaleY: scale * 1.08, duration: 80 });
       });
@@ -192,7 +188,6 @@ export default class MapScene extends Phaser.Scene {
         this.tweens.add({ targets: sprite, scaleX: scale, scaleY: scale, duration: 80 });
       });
 
-      // Clic → ouvre l'écran du bâtiment
       sprite.on('pointerdown', () => {
         this._openBuilding(obj);
       });
@@ -219,7 +214,6 @@ export default class MapScene extends Phaser.Scene {
     const cx = sourceObj.x + sourceObj.width / 2;
     const cy = sourceObj.y + sourceObj.height / 2;
 
-    // Halo doré pulsant (dessiné via Graphics)
     const haloGraphics = this.add.graphics();
     haloGraphics.setDepth(5);
     haloGraphics.fillStyle(0xf5c842, 0.3);
@@ -227,7 +221,6 @@ export default class MapScene extends Phaser.Scene {
     haloGraphics.fillStyle(0xffd700, 0.15);
     haloGraphics.fillCircle(cx, cy, 40);
 
-    // Tween sur alpha pour le pulse
     this.tweens.add({
       targets: haloGraphics,
       alpha: { from: 0.5, to: 1 },
@@ -237,7 +230,6 @@ export default class MapScene extends Phaser.Scene {
       ease: 'Sine.easeInOut',
     });
 
-    // Zone cliquable pour la source
     const hitZone = this.add.zone(cx, cy, sourceObj.width, sourceObj.height)
       .setInteractive()
       .setDepth(6);
@@ -255,7 +247,6 @@ export default class MapScene extends Phaser.Scene {
     const palette = getCurrentTimePalette();
     this.lightOverlay.setFillStyle(palette.tint, palette.alpha);
 
-    // Fenêtres allumées la nuit
     const isNight = palette === TIME_PALETTES.night;
     this.buildingGroup.getChildren().forEach(sprite => {
       sprite.setTint(isNight ? 0xaabbdd : 0xffffff);
@@ -278,7 +269,6 @@ export default class MapScene extends Phaser.Scene {
     });
     window.dispatchEvent(event);
 
-    // Animation caméra — zoom vers le bâtiment
     this.cameras.main.pan(
       obj.x + obj.width / 2,
       obj.y + obj.height / 2,
@@ -294,7 +284,6 @@ export default class MapScene extends Phaser.Scene {
   // UPDATE
   // ─────────────────────────────────────────
   update() {
-    // Tri par profondeur Y pour les bâtiments
     this.buildingGroup.getChildren().forEach(child => {
       child.setDepth(child.y);
     });
