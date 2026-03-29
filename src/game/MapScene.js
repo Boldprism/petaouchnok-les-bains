@@ -35,9 +35,7 @@ export default class MapScene extends Phaser.Scene {
   // PRELOAD
   // ─────────────────────────────────────────
   preload() {
-    // Charger le JSON via load.json au lieu de tilemapTiledJSON
-    // (plus fiable sur Safari WebKit)
-    this.load.json('mapData', '/assets/map/petaouchnok_map.json');
+    this.load.tilemapTiledJSON('map', '/assets/map/petaouchnok_map.json');
 
     this.load.image('ts_grass_forest', '/assets/map/grass_forest.png');
     this.load.image('ts_grass_path', '/assets/map/grass_path.png');
@@ -60,13 +58,7 @@ export default class MapScene extends Phaser.Scene {
   create() {
     console.log('[MapScene] create() — début');
 
-    const mapData = this.cache.json.get('mapData');
-    console.log('[MapScene] mapData depuis cache:', mapData ? 'OK' : 'NULL ⚠️');
-
-    // Parser directement — bypass du cache tilemap (incompatible Safari/Phaser 3.90)
-    const tilemapData = Phaser.Tilemaps.Parsers.Tiled.ParseTiledJSON(mapData);
-    this.map = new Phaser.Tilemaps.Tilemap(this, tilemapData);
-    console.log('[MapScene] tilemap:', this.map ? 'OK' : 'NULL ⚠️');
+    this.map = this.make.tilemap({ key: 'map' });
 
     // Tilesets — identique
     const tsForet = this.map.addTilesetImage('grass_forest', 'ts_grass_forest', 32, 32, 0, 0);
