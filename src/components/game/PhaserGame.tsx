@@ -44,22 +44,24 @@ export default function PhaserGame({ onBuildingClick, onSourceClick }: PhaserGam
 
         const MapScene = mod.default;
 
+        const w = containerRef.current!.clientWidth || window.innerWidth;
+        const h = containerRef.current!.clientHeight || window.innerHeight - 64;
+
         const config: Phaser.Types.Core.GameConfig = {
           type: Phaser.AUTO,
           parent: containerRef.current!,
-          width: window.innerWidth > 430 ? 430 : window.innerWidth,
-          height: window.innerHeight - 64,
+          width: w,
+          height: h,
           backgroundColor: '#6FB234',
           pixelArt: true,
           antialias: false,
           roundPixels: true,
           scene: [MapScene],
           scale: {
-            mode: Phaser.Scale.FIT,
+            mode: Phaser.Scale.RESIZE,
             autoCenter: Phaser.Scale.CENTER_BOTH,
           },
         };
-
         gameRef.current = new Phaser.Game(config);
       });
     });
