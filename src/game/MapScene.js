@@ -101,10 +101,8 @@ export default class MapScene extends Phaser.Scene {
 
     let zoom;
     if (screenW < 768) {
-      // Mobile : toute la carte visible, pas de scroll
-      zoom = Math.min(zoomX, zoomY);
+      zoom = screenW / mapPixelW; // zoomX uniquement — remplit la largeur
     } else {
-      // Desktop : remplit l'écran, scroll pour naviguer
       zoom = Math.max(zoomX, zoomY);
     }
 

@@ -58,7 +58,7 @@ export default function PhaserGame({ onBuildingClick, onSourceClick }: PhaserGam
           roundPixels: true,
           scene: [MapScene],
           scale: {
-            mode: Phaser.Scale.RESIZE,
+            mode: Phaser.Scale.NONE,
             autoCenter: Phaser.Scale.CENTER_BOTH,
           },
         };
