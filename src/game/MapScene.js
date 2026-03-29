@@ -63,11 +63,19 @@ export default class MapScene extends Phaser.Scene {
   // CREATE
   // ─────────────────────────────────────────
   create() {
-    console.log('[MapScene] create() — début');
+  console.log('[MapScene] create() — début');
+  try {
+    this._init();
+  } catch(e) {
+    console.error('[MapScene] CRASH:', e?.message ?? e, e?.stack);
+  }
+}
 
-    // ── Tilemap ──
-    this.map = this.make.tilemap({ key: 'map' });
-    console.log('[MapScene] tilemap:', this.map ? 'OK' : 'NULL ⚠️');
+_init() {
+  this.map = this.make.tilemap({ key: 'map' });
+  console.log('[MapScene] tilemap:', this.map);
+  // ... tout le reste du create ici
+
 
     // ── Tilesets ──
     const tsForet   = this.map.addTilesetImage('grass_forest', 'ts_grass_forest', 32, 32, 0, 0);
