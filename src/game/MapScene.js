@@ -9,15 +9,15 @@ const MAP_H = 36;
 
 const TIME_PALETTES = {
   morning: { tint: 0xffe8b0, alpha: 0.15 },
-  day:     { tint: 0xffffff, alpha: 0.0  },
+  day: { tint: 0xffffff, alpha: 0.0 },
   evening: { tint: 0xff9040, alpha: 0.22 },
-  night:   { tint: 0x1a2045, alpha: 0.55 },
+  night: { tint: 0x1a2045, alpha: 0.55 },
 };
 
 function getCurrentTimePalette() {
   const h = new Date().getHours();
-  if (h >= 6  && h < 9)  return TIME_PALETTES.morning;
-  if (h >= 9  && h < 17) return TIME_PALETTES.day;
+  if (h >= 6 && h < 9) return TIME_PALETTES.morning;
+  if (h >= 9 && h < 17) return TIME_PALETTES.day;
   if (h >= 17 && h < 20) return TIME_PALETTES.evening;
   return TIME_PALETTES.night;
 }
@@ -34,13 +34,13 @@ export default class MapScene extends Phaser.Scene {
     this.load.tilemapTiledJSON('map', '/assets/map/petaouchnok_map.json');
 
     this.load.image('ts_grass_forest', '/assets/map/grass_forest.png');
-    this.load.image('ts_grass_path',   '/assets/map/grass_path.png');
-    this.load.image('ts_path_plaza',   '/assets/map/path_plaza.png');
-    this.load.image('ts_grass_river',  '/assets/map/grass_river.png');
+    this.load.image('ts_grass_path', '/assets/map/grass_path.png');
+    this.load.image('ts_path_plaza', '/assets/map/path_plaza.png');
+    this.load.image('ts_grass_river', '/assets/map/grass_river.png');
 
     const buildings = [
-      'boulangerie','mairie','bibliotheque','epicerie','garage',
-      'fleuriste','medecin','hublot','leonie','bulletin','maurice',
+      'boulangerie', 'mairie', 'bibliotheque', 'epicerie', 'garage',
+      'fleuriste', 'medecin', 'hublot', 'leonie', 'bulletin', 'maurice',
     ];
     buildings.forEach(name => {
       this.load.image(`bat_${name}`, `/assets/buildings/topdown/${name}_topdown.png`);
@@ -60,18 +60,18 @@ export default class MapScene extends Phaser.Scene {
     // ── Tilemap ──
     this.map = this.make.tilemap({ key: 'map' });
 
-    const tsForet   = this.map.addTilesetImage('grass_forest', 'ts_grass_forest', 32, 32, 0, 0);
-    const tsChemins = this.map.addTilesetImage('grass_path',   'ts_grass_path',   32, 32, 0, 0);
-    const tsPlace   = this.map.addTilesetImage('path_plaza',   'ts_path_plaza',   32, 32, 0, 0);
-    const tsRiviere = this.map.addTilesetImage('grass_river',  'ts_grass_river',  32, 32, 0, 0);
+    const tsForet = this.map.addTilesetImage('grass_forest', 'ts_grass_forest', 32, 32, 0, 0);
+    const tsChemins = this.map.addTilesetImage('grass_path', 'ts_grass_path', 32, 32, 0, 0);
+    const tsPlace = this.map.addTilesetImage('path_plaza', 'ts_path_plaza', 32, 32, 0, 0);
+    const tsRiviere = this.map.addTilesetImage('grass_river', 'ts_grass_river', 32, 32, 0, 0);
 
     const allTilesets = [tsForet, tsChemins, tsPlace, tsRiviere].filter(Boolean);
     console.log('[MapScene] tilesets:', allTilesets.length, '/ 4');
 
-    this.layerForet   = this.map.createLayer('For\u00eat',          allTilesets, 0, 0);
-    this.layerChemins = this.map.createLayer('Chemins',        allTilesets, 0, 0);
-    this.layerPlace   = this.map.createLayer('Place centrale', allTilesets, 0, 0);
-    this.layerRiviere = this.map.createLayer('Rivi\u00e8re',   allTilesets, 0, 0);
+    this.layerForet = this.map.createLayer('For\u00eat', allTilesets, 0, 0);
+    this.layerChemins = this.map.createLayer('Chemins', allTilesets, 0, 0);
+    this.layerPlace = this.map.createLayer('Place centrale', allTilesets, 0, 0);
+    this.layerRiviere = this.map.createLayer('Rivi\u00e8re', allTilesets, 0, 0);
 
     // ── Batiments ──
     this.buildingGroup = this.add.group();
@@ -91,25 +91,25 @@ export default class MapScene extends Phaser.Scene {
     this._applyTimePalette();
 
     // ── Zoom adaptatif ──
-    const mapPixelW = MAP_W * TILE_SIZE; // 640px
-    const mapPixelH = MAP_H * TILE_SIZE; // 1152px
-    const screenW   = this.scale.width;
-    const screenH   = this.scale.height;
+    const mapPixelW = MAP_W * TILE_SIZE;
+    const mapPixelH = MAP_H * TILE_SIZE;
+    const screenW = this.scale.width;
+    const screenH = this.scale.height;
 
-    const zoomX = screenW / mapPixelW;
-    const zoomY = screenH / mapPixelH;
-
-    // Mobile (<768px) : min() → toute la carte tient dans l'écran, pas de scroll nécessaire
-    // Desktop (>=768px) : max() → carte remplit tout l'écran
-    const zoom = screenW < 768
-      ? Math.min(zoomX, zoomY)
-      : Math.max(zoomX, zoomY);
-
-    console.log('[MapScene] screen:', screenW, 'x', screenH, '| zoom:', zoom.toFixed(2));
+    let zoom;
+    if (screenW < 768) {
+      // Mobile : remplit la largeur exactement
+      zoom = screenW / mapPixelW;
+    } else {
+      // Desktop : zoom confortable, scroll pour naviguer
+      zoom = screenH / mapPixelH;
+    }
 
     this.cameras.main.setZoom(zoom);
     this.cameras.main.setBounds(0, 0, mapPixelW, mapPixelH);
     this.cameras.main.centerOn(mapPixelW / 2, mapPixelH / 2);
+
+    console.log('[MapScene] screen:', screenW, 'x', screenH, '| zoom:', zoom.toFixed(2));
 
     // ── Scroll tactile (desktop uniquement — mobile voit tout) ──
     if (screenW >= 768) {
@@ -146,7 +146,7 @@ export default class MapScene extends Phaser.Scene {
       if (obj.type !== 'building') return;
 
       const spriteProp = obj.properties?.find(p => p.name === 'sprite');
-      const spriteKey  = spriteProp ? spriteProp.value : null;
+      const spriteKey = spriteProp ? spriteProp.value : null;
       if (!spriteKey || !this.textures.exists(spriteKey)) {
         console.warn('[MapScene] Sprite manquant:', obj.name, spriteKey);
         return;
@@ -158,7 +158,7 @@ export default class MapScene extends Phaser.Scene {
         spriteKey
       ).setDepth(obj.y);
 
-      const tex   = this.textures.get(spriteKey).getSourceImage();
+      const tex = this.textures.get(spriteKey).getSourceImage();
       const scale = Math.min(obj.width / tex.width, obj.height / tex.height);
       sprite.setScale(scale);
       sprite.setInteractive();
@@ -232,7 +232,7 @@ export default class MapScene extends Phaser.Scene {
   // NAVIGATION
   // ─────────────────────────────────────────
   _openBuilding(obj) {
-    const labelProp    = obj.properties?.find(p => p.name === 'label');
+    const labelProp = obj.properties?.find(p => p.name === 'label');
     const residentProp = obj.properties?.find(p => p.name === 'resident');
     window.dispatchEvent(new CustomEvent('petaouchnok:open-building', {
       detail: {

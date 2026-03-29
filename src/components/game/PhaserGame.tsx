@@ -52,7 +52,7 @@ export default function PhaserGame({ onBuildingClick, onSourceClick }: PhaserGam
           parent: containerRef.current!,
           width: w,
           height: h,
-          backgroundColor: '#6FB234',
+          backgroundColor: '#5a9628', // matche le vert forêt
           pixelArt: true,
           antialias: false,
           roundPixels: true,
@@ -80,7 +80,7 @@ export default function PhaserGame({ onBuildingClick, onSourceClick }: PhaserGam
     <div
       ref={containerRef}
       className="w-full h-full"
-      style={{ imageRendering: 'pixelated' }}
+      style={{ imageRendering: 'pixelated', overflow: 'hidden' }}
     />
   );
 }
