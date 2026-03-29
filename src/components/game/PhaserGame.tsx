@@ -19,16 +19,13 @@ export default function PhaserGame({ onBuildingClick, onSourceClick }: PhaserGam
   const gameRef = useRef<Phaser.Game | null>(null);
   const callbacksRef = useRef({ onBuildingClick, onSourceClick });
 
-  // Keep refs up to date
   callbacksRef.current = { onBuildingClick, onSourceClick };
 
   useEffect(() => {
     if (!containerRef.current || gameRef.current) return;
 
-    // Listen for CustomEvents dispatched by MapScene.js
     const handleBuilding = (e: Event) => {
-      const detail = (e as CustomEvent).detail;
-      callbacksRef.current.onBuildingClick(detail);
+      callbacksRef.current.onBuildingClick((e as CustomEvent).detail);
     };
     const handleSource = () => {
       callbacksRef.current.onSourceClick();
@@ -37,13 +34,11 @@ export default function PhaserGame({ onBuildingClick, onSourceClick }: PhaserGam
     window.addEventListener('petaouchnok:open-building', handleBuilding);
     window.addEventListener('petaouchnok:open-source', handleSource);
 
-    // Dynamic import — Phaser cannot run during SSR
     import('phaser').then((Phaser) => {
       import('@/game/MapScene').then((mod) => {
         if (!containerRef.current || gameRef.current) return;
 
         const MapScene = mod.default;
-
         const w = containerRef.current!.clientWidth || window.innerWidth;
         const h = containerRef.current!.clientHeight || window.innerHeight - 64;
 
@@ -52,16 +47,18 @@ export default function PhaserGame({ onBuildingClick, onSourceClick }: PhaserGam
           parent: containerRef.current!,
           width: w,
           height: h,
-          backgroundColor: '#5a9628', // matche le vert forêt
+          // Couleur qui correspond au bord forêt de la carte
+          backgroundColor: '#2d5a1b',
           pixelArt: true,
           antialias: false,
           roundPixels: true,
           scene: [MapScene],
           scale: {
             mode: Phaser.Scale.NONE,
-            autoCenter: Phaser.Scale.CENTER_BOTH,
+            autoCenter: Phaser.Scale.NO_CENTER,
           },
         };
+
         gameRef.current = new Phaser.Game(config);
       });
     });
@@ -80,7 +77,7 @@ export default function PhaserGame({ onBuildingClick, onSourceClick }: PhaserGam
     <div
       ref={containerRef}
       className="w-full h-full"
-      style={{ imageRendering: 'pixelated', overflow: 'hidden' }}
+      style={{ imageRendering: 'pixelated', overflow: 'hidden', background: '#2d5a1b' }}
     />
   );
 }
