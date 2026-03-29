@@ -74,23 +74,22 @@ export default function CarnetPage() {
       </h1>
 
       {/* Filters */}
-      <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-        {FILTERS.map((f) => (
-          <button
-            key={f}
-            onClick={() => setActiveFilter(f)}
-            className="shrink-0 px-3 py-1.5 border transition-colors"
-            style={{
-              fontFamily: 'var(--font-pixel)',
-              fontSize: '9px',
-              background: activeFilter === f ? 'rgba(212,170,80,0.2)' : '#1a1f2e',
-              borderColor: activeFilter === f ? 'rgba(212,170,80,0.5)' : 'rgba(100,110,140,0.3)',
-              color: activeFilter === f ? '#d4aa50' : 'rgba(220,210,195,0.5)',
-            }}
-          >
-            {f}
-          </button>
-        ))}
+      <div className="flex gap-2 mb-6 overflow-x-auto pb-2 relative z-10">        {FILTERS.map((f) => (
+        <button
+          key={f}
+          onClick={() => setActiveFilter(f)}
+          className="shrink-0 px-3 py-1.5 border transition-colors"
+          style={{
+            fontFamily: 'var(--font-pixel)',
+            fontSize: '9px',
+            background: activeFilter === f ? 'rgba(212,170,80,0.2)' : '#1a1f2e',
+            borderColor: activeFilter === f ? 'rgba(212,170,80,0.5)' : 'rgba(100,110,140,0.3)',
+            color: activeFilter === f ? '#d4aa50' : 'rgba(220,210,195,0.5)',
+          }}
+        >
+          {f}
+        </button>
+      ))}
       </div>
 
       {/* Fragment cards */}
@@ -132,12 +131,14 @@ export default function CarnetPage() {
             </div>
 
             {fragment.unlocked && (
-              <p
-                className="text-sm leading-relaxed"
-                style={{ fontFamily: 'var(--font-body)', color: '#4a3520' }}
+              <div
+                className="absolute inset-0 flex items-center justify-center z-10"
+                style={{ background: 'rgba(245,234,216,0.92)' }}
               >
-                {fragment.text}
-              </p>
+                <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '14px', color: '#a0937e' }}>
+                  ???
+                </span>
+              </div>
             )}
 
             <span
