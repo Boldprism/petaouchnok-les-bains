@@ -123,6 +123,12 @@ export default class MapScene extends Phaser.Scene {
       });
     }
 
+    // ── Scroll molette (desktop) ──
+    this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY) => {
+      this.cameras.main.scrollY += deltaY * 0.5;
+      this.cameras.main.scrollX += deltaX * 0.5;
+    });
+
     // ── Mise à jour heure toutes les minutes ──
     this.time.addEvent({
       delay: 60000,
