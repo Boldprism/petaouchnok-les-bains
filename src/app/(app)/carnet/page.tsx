@@ -73,8 +73,11 @@ export default function CarnetPage() {
         CARNET DE LORE
       </h1>
 
-      {/* Filters */}
-      <div className="flex gap-2 mb-6 overflow-x-auto pb-2 relative z-10">        {FILTERS.map((f) => (
+      {/* Filters — sticky */}
+      <div
+        className="flex gap-2 mb-6 overflow-x-auto pb-2 sticky top-0 z-20"
+        style={{ background: 'var(--color-bg-nuit, #0d1117)', paddingTop: '4px' }}
+      >     {FILTERS.map((f) => (
         <button
           key={f}
           onClick={() => setActiveFilter(f)}
