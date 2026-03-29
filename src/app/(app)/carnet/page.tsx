@@ -78,7 +78,7 @@ export default function CarnetPage() {
         <button
           key={f}
           onClick={() => setActiveFilter(f)}
-          className="shrink-0 px-3 py-1.5 border transition-colors"
+          className="shrink-0 px-3 py-1.5 border transition-colors whitespace-nowrap"
           style={{
             fontFamily: 'var(--font-pixel)',
             fontSize: '9px',
@@ -97,7 +97,7 @@ export default function CarnetPage() {
         {filtered.map((fragment) => (
           <div
             key={fragment.id}
-            className="p-4 relative"
+            className="p-4 relative overflow-hidden"
             style={{
               background: '#f5ead8',
               color: '#2a1a0a',
@@ -105,32 +105,8 @@ export default function CarnetPage() {
               boxShadow: '3px 3px 0px #8b6914',
             }}
           >
-            {/* Lock indicator */}
+            {/* Lock indicator — uniquement si verrouillé */}
             {!fragment.unlocked && (
-              <div className="absolute inset-0 backdrop-blur-sm flex items-center justify-center z-10" style={{ background: 'rgba(245,234,216,0.85)' }}>
-                <span
-                  style={{ fontFamily: 'var(--font-pixel)', fontSize: '14px', color: '#a0937e' }}
-                >
-                  ???
-                </span>
-              </div>
-            )}
-
-            <div className="flex items-start justify-between mb-2">
-              <h3
-                style={{ fontFamily: 'var(--font-pixel)', fontSize: '8px', lineHeight: '1.6', color: '#2a1a0a' }}
-              >
-                {fragment.title}
-              </h3>
-              <span
-                className="shrink-0 ml-2"
-                style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', color: '#8b6914' }}
-              >
-                Mois {fragment.month}
-              </span>
-            </div>
-
-            {fragment.unlocked && (
               <div
                 className="absolute inset-0 flex items-center justify-center z-10"
                 style={{ background: 'rgba(245,234,216,0.92)' }}
@@ -141,10 +117,22 @@ export default function CarnetPage() {
               </div>
             )}
 
-            <span
-              className="inline-block mt-2"
-              style={{ fontFamily: 'var(--font-pixel)', fontSize: '6px', color: '#7b5ea7' }}
-            >
+            <div className="flex items-start justify-between mb-2">
+              <h3 style={{ fontFamily: 'var(--font-pixel)', fontSize: '8px', lineHeight: '1.6', color: '#2a1a0a' }}>
+                {fragment.title}
+              </h3>
+              <span className="shrink-0 ml-2" style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', color: '#8b6914' }}>
+                Mois {fragment.month}
+              </span>
+            </div>
+
+            {fragment.unlocked && (
+              <p className="text-sm leading-relaxed" style={{ fontFamily: 'var(--font-body)', color: '#4a3520' }}>
+                {fragment.text}
+              </p>
+            )}
+
+            <span className="inline-block mt-2" style={{ fontFamily: 'var(--font-pixel)', fontSize: '6px', color: '#7b5ea7' }}>
               {fragment.category}
             </span>
           </div>
