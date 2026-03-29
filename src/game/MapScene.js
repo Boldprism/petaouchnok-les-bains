@@ -96,7 +96,7 @@ export default class MapScene extends Phaser.Scene {
   console.log('[MapScene] layerRiviere:', this.layerRiviere ? 'OK' : 'NULL ⚠️');
 
   // ... reste du create
-}
+
 
     const layers = [this.layerForet, this.layerChemins, this.layerPlace, this.layerRiviere];
     console.log('[MapScene] Layers créés:', layers.filter(Boolean).length, '/ 4');
