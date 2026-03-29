@@ -13,15 +13,15 @@ const MAP_H = 36;
 // Heure → palette de teinte (jour/nuit)
 const TIME_PALETTES = {
   morning: { tint: 0xffe8b0, alpha: 0.15 },   // 6h–9h : doré
-  day:     { tint: 0xffffff, alpha: 0.0  },    // 9h–17h : neutre
+  day: { tint: 0xffffff, alpha: 0.0 },    // 9h–17h : neutre
   evening: { tint: 0xff9040, alpha: 0.22 },    // 17h–20h : orangé
-  night:   { tint: 0x1a2045, alpha: 0.55 },    // 20h–6h : nuit
+  night: { tint: 0x1a2045, alpha: 0.55 },    // 20h–6h : nuit
 };
 
 function getCurrentTimePalette() {
   const h = new Date().getHours();
-  if (h >= 6  && h < 9)  return TIME_PALETTES.morning;
-  if (h >= 9  && h < 17) return TIME_PALETTES.day;
+  if (h >= 6 && h < 9) return TIME_PALETTES.morning;
+  if (h >= 9 && h < 17) return TIME_PALETTES.day;
   if (h >= 17 && h < 20) return TIME_PALETTES.evening;
   return TIME_PALETTES.night;
 }
@@ -35,57 +35,55 @@ export default class MapScene extends Phaser.Scene {
   // PRELOAD
   // ─────────────────────────────────────────
   preload() {
-    // Tilemap JSON (généré par build_map.py)
-    this.load.tilemapTiledJSON('map', '/assets/map/petaouchnok_map.json');
+    // Charger le JSON via load.json au lieu de tilemapTiledJSON
+    // (plus fiable sur Safari WebKit)
+    this.load.json('mapData', '/assets/map/petaouchnok_map.json');
 
-    // 4 tilesets individuels (chacun 128×128px)
     this.load.image('ts_grass_forest', '/assets/map/grass_forest.png');
-    this.load.image('ts_grass_path',   '/assets/map/grass_path.png');
-    this.load.image('ts_path_plaza',   '/assets/map/path_plaza.png');
-    this.load.image('ts_grass_river',  '/assets/map/grass_river.png');
+    this.load.image('ts_grass_path', '/assets/map/grass_path.png');
+    this.load.image('ts_path_plaza', '/assets/map/path_plaza.png');
+    this.load.image('ts_grass_river', '/assets/map/grass_river.png');
 
-    // Sprites bâtiments (top-down, générés par PixelLab)
     const buildings = [
-      'boulangerie','mairie','bibliotheque','epicerie','garage',
-      'fleuriste','medecin','hublot','leonie','bulletin','maurice',
+      'boulangerie', 'mairie', 'bibliotheque', 'epicerie', 'garage',
+      'fleuriste', 'medecin', 'hublot', 'leonie', 'bulletin', 'maurice',
     ];
     buildings.forEach(name => {
       this.load.image(`bat_${name}`, `/assets/buildings/topdown/${name}_topdown.png`);
     });
 
-    // Error handler pour éviter le crash silencieux
     this.load.on('loaderror', (file) => {
       console.warn('[MapScene] Échec chargement:', file.key, file.url);
     });
   }
 
-  // ─────────────────────────────────────────
-  // CREATE
-  // ─────────────────────────────────────────
   create() {
-  console.log('[MapScene] create() — début');
-  try {
-    this._init();
-  } catch(e) {
-    console.error('[MapScene] CRASH:', e?.message ?? e, e?.stack);
-  }
-}
+    console.log('[MapScene] create() — début');
 
-_init() {
-  this.map = this.make.tilemap({ key: 'map' });
-  console.log('[MapScene] tilemap:', this.map);
-  // ... tout le reste du create ici
+    // Injecter manuellement le JSON dans le cache tilemap de Phaser
+    const mapData = this.cache.json.get('mapData');
+    console.log('[MapScene] mapData depuis cache:', mapData ? 'OK' : 'NULL ⚠️');
+
+    this.cache.tilemap.add('map', {
+      data: mapData,
+      format: Phaser.Tilemaps.Formats.TILED_JSON
+    });
+
+    this.map = this.make.tilemap({ key: 'map' });
+    console.log('[MapScene] tilemap:', this.map ? 'OK' : 'NULL ⚠️');
+
+    // ... reste identique
 
 
     // ── Tilesets ──
-    const tsForet   = this.map.addTilesetImage('grass_forest', 'ts_grass_forest', 32, 32, 0, 0);
-    const tsChemins = this.map.addTilesetImage('grass_path',   'ts_grass_path',   32, 32, 0, 0);
-    const tsPlace   = this.map.addTilesetImage('path_plaza',   'ts_path_plaza',   32, 32, 0, 0);
-    const tsRiviere = this.map.addTilesetImage('grass_river',  'ts_grass_river',  32, 32, 0, 0);
+    const tsForet = this.map.addTilesetImage('grass_forest', 'ts_grass_forest', 32, 32, 0, 0);
+    const tsChemins = this.map.addTilesetImage('grass_path', 'ts_grass_path', 32, 32, 0, 0);
+    const tsPlace = this.map.addTilesetImage('path_plaza', 'ts_path_plaza', 32, 32, 0, 0);
+    const tsRiviere = this.map.addTilesetImage('grass_river', 'ts_grass_river', 32, 32, 0, 0);
     console.log('[MapScene] tilesets:', {
-      tsForet:   tsForet   ? 'OK' : 'NULL ⚠️',
+      tsForet: tsForet ? 'OK' : 'NULL ⚠️',
       tsChemins: tsChemins ? 'OK' : 'NULL ⚠️',
-      tsPlace:   tsPlace   ? 'OK' : 'NULL ⚠️',
+      tsPlace: tsPlace ? 'OK' : 'NULL ⚠️',
       tsRiviere: tsRiviere ? 'OK' : 'NULL ⚠️',
     });
 
@@ -93,15 +91,15 @@ _init() {
     console.log('[MapScene] allTilesets count:', allTilesets.length, '/ 4');
 
     // ── Layers terrain ──
-    this.layerForet    = this.map.createLayer('Forêt',          allTilesets, 0, 0);
-    this.layerChemins  = this.map.createLayer('Chemins',        allTilesets, 0, 0);
-    this.layerPlace    = this.map.createLayer('Place centrale', allTilesets, 0, 0);
-    this.layerRiviere  = this.map.createLayer('Rivière',        allTilesets, 0, 0);
+    this.layerForet = this.map.createLayer('Forêt', allTilesets, 0, 0);
+    this.layerChemins = this.map.createLayer('Chemins', allTilesets, 0, 0);
+    this.layerPlace = this.map.createLayer('Place centrale', allTilesets, 0, 0);
+    this.layerRiviere = this.map.createLayer('Rivière', allTilesets, 0, 0);
     console.log('[MapScene] layers:', {
-      Forêt:          this.layerForet    ? 'OK' : 'NULL ⚠️',
-      Chemins:        this.layerChemins  ? 'OK' : 'NULL ⚠️',
-      'Place centrale': this.layerPlace  ? 'OK' : 'NULL ⚠️',
-      Rivière:        this.layerRiviere  ? 'OK' : 'NULL ⚠️',
+      Forêt: this.layerForet ? 'OK' : 'NULL ⚠️',
+      Chemins: this.layerChemins ? 'OK' : 'NULL ⚠️',
+      'Place centrale': this.layerPlace ? 'OK' : 'NULL ⚠️',
+      Rivière: this.layerRiviere ? 'OK' : 'NULL ⚠️',
     });
 
     const layerCount = [this.layerForet, this.layerChemins, this.layerPlace, this.layerRiviere]
@@ -169,7 +167,7 @@ _init() {
       if (obj.type !== 'building') return;
 
       const spriteProp = obj.properties?.find(p => p.name === 'sprite');
-      const spriteKey  = spriteProp ? spriteProp.value : null;
+      const spriteKey = spriteProp ? spriteProp.value : null;
       if (!spriteKey || !this.textures.exists(spriteKey)) {
         console.warn('[MapScene] Sprite manquant pour', obj.name, spriteKey);
         return;
@@ -265,7 +263,7 @@ _init() {
   // NAVIGATION — Ouverture bâtiment
   // ─────────────────────────────────────────
   _openBuilding(obj) {
-    const labelProp    = obj.properties?.find(p => p.name === 'label');
+    const labelProp = obj.properties?.find(p => p.name === 'label');
     const residentProp = obj.properties?.find(p => p.name === 'resident');
     const event = new CustomEvent('petaouchnok:open-building', {
       detail: {
