@@ -79,12 +79,14 @@ export default function CarnetPage() {
           <button
             key={f}
             onClick={() => setActiveFilter(f)}
-            className={`shrink-0 px-3 py-1.5 border transition-colors ${
-              activeFilter === f
-                ? 'bg-accent-or/20 border-accent-or/50 text-accent-or'
-                : 'bg-bg-sombre border-ardoise/30 text-texte-clair/50'
-            }`}
-            style={{ fontFamily: 'var(--font-pixel)', fontSize: '7px' }}
+            className="shrink-0 px-3 py-1.5 border transition-colors"
+            style={{
+              fontFamily: 'var(--font-pixel)',
+              fontSize: '9px',
+              background: activeFilter === f ? 'rgba(212,170,80,0.2)' : '#1a1f2e',
+              borderColor: activeFilter === f ? 'rgba(212,170,80,0.5)' : 'rgba(100,110,140,0.3)',
+              color: activeFilter === f ? '#d4aa50' : 'rgba(220,210,195,0.5)',
+            }}
           >
             {f}
           </button>
