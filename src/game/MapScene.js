@@ -1,7 +1,6 @@
 /**
  * Pétaouchnok-les-Bains — MapScene.js
- * UX responsive : mobile = largeur remplie + drag vertical
- *                 desktop = plein écran + scroll molette
+ * 6 tilesets : grass_forest, grass_path, path_plaza, grass_river, river_bank, stone_grass
  */
 
 const TILE_SIZE = 32;
@@ -10,15 +9,15 @@ const MAP_H = 36;
 
 const TIME_PALETTES = {
   morning: { tint: 0xffe8b0, alpha: 0.15 },
-  day: { tint: 0xffffff, alpha: 0.0 },
+  day:     { tint: 0xffffff, alpha: 0.0  },
   evening: { tint: 0xff9040, alpha: 0.22 },
-  night: { tint: 0x1a2045, alpha: 0.55 },
+  night:   { tint: 0x1a2045, alpha: 0.55 },
 };
 
 function getCurrentTimePalette() {
   const h = new Date().getHours();
-  if (h >= 6 && h < 9) return TIME_PALETTES.morning;
-  if (h >= 9 && h < 17) return TIME_PALETTES.day;
+  if (h >= 6  && h < 9)  return TIME_PALETTES.morning;
+  if (h >= 9  && h < 17) return TIME_PALETTES.day;
   if (h >= 17 && h < 20) return TIME_PALETTES.evening;
   return TIME_PALETTES.night;
 }
@@ -31,16 +30,19 @@ export default class MapScene extends Phaser.Scene {
   preload() {
     this.load.tilemapTiledJSON('map', '/assets/map/petaouchnok_map.json');
 
+    // 4 tilesets originaux
     this.load.image('ts_grass_forest', '/assets/map/grass_forest.png');
-    this.load.image('ts_grass_path', '/assets/map/grass_path.png');
-    this.load.image('ts_path_plaza', '/assets/map/path_plaza.png');
-    this.load.image('ts_grass_river', '/assets/map/grass_river.png');
-    this.load.image('ts_river_bank', '/assets/map/river_bank.png');
-    this.load.image('ts_stone_grass', '/assets/map/stone_grass.png');
+    this.load.image('ts_grass_path',   '/assets/map/grass_path.png');
+    this.load.image('ts_path_plaza',   '/assets/map/path_plaza.png');
+    this.load.image('ts_grass_river',  '/assets/map/grass_river.png');
+
+    // 2 nouveaux tilesets de transition
+    this.load.image('ts_river_bank',   '/assets/map/river_bank.png');
+    this.load.image('ts_stone_grass',  '/assets/map/stone_grass.png');
 
     const buildings = [
-      'boulangerie', 'mairie', 'bibliotheque', 'epicerie', 'garage',
-      'fleuriste', 'medecin', 'hublot', 'leonie', 'bulletin', 'maurice',
+      'boulangerie','mairie','bibliotheque','epicerie','garage',
+      'fleuriste','medecin','hublot','leonie','bulletin','maurice',
     ];
     buildings.forEach(name => {
       this.load.image(`bat_${name}`, `/assets/buildings/topdown/${name}_topdown.png`);
@@ -56,25 +58,33 @@ export default class MapScene extends Phaser.Scene {
 
     this.map = this.make.tilemap({ key: 'map' });
 
-    const tsForet = this.map.addTilesetImage('grass_forest', 'ts_grass_forest', 32, 32, 0, 0);
-    const tsChemins = this.map.addTilesetImage('grass_path', 'ts_grass_path', 32, 32, 0, 0);
-    const tsPlace = this.map.addTilesetImage('path_plaza', 'ts_path_plaza', 32, 32, 0, 0);
-    const tsRiviere = this.map.addTilesetImage('grass_river', 'ts_grass_river', 32, 32, 0, 0);
-    const tsRiverBank = this.map.addTilesetImage('river_bank', 'ts_river_bank', 32, 32, 0, 0);
-    const tsStoneGrass = this.map.addTilesetImage('stone_grass', 'ts_stone_grass', 32, 32, 0, 0);
+    // ── 6 tilesets ──
+    const tsForet     = this.map.addTilesetImage('grass_forest', 'ts_grass_forest', 32, 32, 0, 0);
+    const tsChemins   = this.map.addTilesetImage('grass_path',   'ts_grass_path',   32, 32, 0, 0);
+    const tsPlace     = this.map.addTilesetImage('path_plaza',   'ts_path_plaza',   32, 32, 0, 0);
+    const tsRiviere   = this.map.addTilesetImage('grass_river',  'ts_grass_river',  32, 32, 0, 0);
+    const tsRiverBank = this.map.addTilesetImage('river_bank',   'ts_river_bank',   32, 32, 0, 0);
+    const tsStoneGrass= this.map.addTilesetImage('stone_grass',  'ts_stone_grass',  32, 32, 0, 0);
 
     const allTilesets = [tsForet, tsChemins, tsPlace, tsRiviere, tsRiverBank, tsStoneGrass].filter(Boolean);
-    console.log('[MapScene] tilesets:', allTilesets.length, '/ 4');
+    console.log('[MapScene] tilesets:', allTilesets.length, '/ 6');
 
-    this.map.createLayer('For\u00eat', allTilesets, 0, 0);
-    this.map.createLayer('Chemins', allTilesets, 0, 0);
+    // ── 6 layers terrain ──
+    this.map.createLayer('For\u00eat',          allTilesets, 0, 0);
+    this.map.createLayer('Chemins',        allTilesets, 0, 0);
     this.map.createLayer('Place centrale', allTilesets, 0, 0);
-    this.map.createLayer('Rivi\u00e8re', allTilesets, 0, 0);
+    this.map.createLayer('Rivi\u00e8re',   allTilesets, 0, 0);
+    this.map.createLayer('Berge',          allTilesets, 0, 0);
+    this.map.createLayer('Pierre/Herbe',   allTilesets, 0, 0);
 
+    // ── Bâtiments ──
     this.buildingGroup = this.add.group();
     this._placeBuildingsFromTiled();
+
+    // ── Source thermale ──
     this._placeSource();
 
+    // ── Overlay jour/nuit ──
     this.lightOverlay = this.add.rectangle(
       MAP_W * TILE_SIZE / 2,
       MAP_H * TILE_SIZE / 2,
@@ -84,25 +94,20 @@ export default class MapScene extends Phaser.Scene {
     ).setDepth(100);
     this._applyTimePalette();
 
-    // ── Zoom & caméra ──
-    const mapPixelW = MAP_W * TILE_SIZE; // 640px
-    const mapPixelH = MAP_H * TILE_SIZE; // 1152px
-    const screenW = this.scale.width;
-    const screenH = this.scale.height;
-    const isMobile = screenW < 768;
+    // ── Zoom adaptatif ──
+    const mapPixelW = MAP_W * TILE_SIZE;
+    const mapPixelH = MAP_H * TILE_SIZE;
+    const screenW   = this.scale.width;
+    const screenH   = this.scale.height;
+    const isMobile  = screenW < 768;
 
-    // Mobile : remplit la largeur, drag pour voir le reste en hauteur
-    // Desktop : remplit l'écran (zoom max), scroll molette
     const zoom = isMobile
       ? screenW / mapPixelW
       : Math.max(screenW / mapPixelW, screenH / mapPixelH);
 
-    console.log('[MapScene] screen:', screenW, 'x', screenH, '| zoom:', zoom.toFixed(2), '| mobile:', isMobile);
-
     this.cameras.main.setZoom(zoom);
     this.cameras.main.setBounds(0, 0, mapPixelW, mapPixelH);
 
-    // Démarrer en haut de la map sur mobile, centré sur desktop
     if (isMobile) {
       this.cameras.main.scrollX = 0;
       this.cameras.main.scrollY = 0;
@@ -110,14 +115,14 @@ export default class MapScene extends Phaser.Scene {
       this.cameras.main.centerOn(mapPixelW / 2, mapPixelH / 2);
     }
 
-    // ── Drag tactile (tous appareils) ──
+    // ── Drag tactile ──
     this.input.on('pointermove', (pointer) => {
       if (!pointer.isDown) return;
       this.cameras.main.scrollX -= pointer.velocity.x / (8 * zoom);
       this.cameras.main.scrollY -= pointer.velocity.y / (8 * zoom);
     });
 
-    // ── Scroll molette (desktop) ──
+    // ── Scroll molette desktop ──
     this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY) => {
       this.cameras.main.scrollY += deltaY * 0.5;
       this.cameras.main.scrollX += deltaX * 0.5;
@@ -144,7 +149,7 @@ export default class MapScene extends Phaser.Scene {
       if (obj.type !== 'building') return;
 
       const spriteProp = obj.properties?.find(p => p.name === 'sprite');
-      const spriteKey = spriteProp ? spriteProp.value : null;
+      const spriteKey  = spriteProp ? spriteProp.value : null;
       if (!spriteKey || !this.textures.exists(spriteKey)) return;
 
       const sprite = this.add.image(
@@ -153,7 +158,7 @@ export default class MapScene extends Phaser.Scene {
         spriteKey
       ).setDepth(obj.y);
 
-      const tex = this.textures.get(spriteKey).getSourceImage();
+      const tex   = this.textures.get(spriteKey).getSourceImage();
       const scale = Math.min(obj.width / tex.width, obj.height / tex.height);
       sprite.setScale(scale);
       sprite.setInteractive();
@@ -213,7 +218,7 @@ export default class MapScene extends Phaser.Scene {
   }
 
   _openBuilding(obj) {
-    const labelProp = obj.properties?.find(p => p.name === 'label');
+    const labelProp    = obj.properties?.find(p => p.name === 'label');
     const residentProp = obj.properties?.find(p => p.name === 'resident');
     window.dispatchEvent(new CustomEvent('petaouchnok:open-building', {
       detail: {
