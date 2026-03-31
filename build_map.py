@@ -1,8 +1,8 @@
 """
-Pétaouchnok-les-Bains — Map Builder v1.3
+Pétaouchnok-les-Bains — Map Builder v1.4
 =========================================
-4 tilesets : grass_forest, grass_path, path_plaza, grass_river
-river_bank et stone_grass supprimés
+4 tilesets : grass_forest, grass_path, path_plaza, river_bank
+river_bank remplace grass_river
 """
 
 import requests, json, os, sys
@@ -13,6 +13,8 @@ HEADERS     = {"Authorization": f"Bearer {API_TOKEN}"}
 OUT_DIR     = "public/assets/map"
 TILE_SIZE   = 32
 
+# river_bank : id=None car le PNG est déjà dans OUT_DIR
+# (généré via l'interface web PixelLab)
 TILESETS = {
     "grass_forest": {
         "id": "66a07593-c7cc-43cf-9c28-198061a764c3",
@@ -29,16 +31,20 @@ TILESETS = {
         "lower": "path",  "upper": "plaza",
         "lower_idx": 2,   "upper_idx": 3,
     },
-    "grass_river": {
-        "id": "cada328a-1e1b-4aca-a93e-d5aed89203e4",
-        "lower": "grass", "upper": "river",
-        "lower_idx": 0,   "upper_idx": 4,
+    "river_bank": {
+        "id": None,        # PNG déjà présent dans public/assets/map/river_bank.png
+        "lower": "grass",  "upper": "river",
+        "lower_idx": 0,    "upper_idx": 4,
     },
 }
 
 MAP_W = 20
 MAP_H = 36
 
+# ─────────────────────────────────────
+# TERRAIN GRID
+# 0=herbe  1=forêt  2=chemin  3=place  4=rivière
+# ─────────────────────────────────────
 def build_terrain_grid():
     grid = [[0]*MAP_W for _ in range(MAP_H)]
 
@@ -89,6 +95,9 @@ def build_terrain_grid():
     return grid
 
 
+# ─────────────────────────────────────
+# WANG TILING
+# ─────────────────────────────────────
 WANG_CORNER_TO_INDEX = {
     (0,0,0,0): 6,  (0,0,0,1): 7,  (0,0,1,0): 10, (0,0,1,1): 9,
     (0,1,0,0): 2,  (0,1,0,1): 11, (0,1,1,0): 4,  (0,1,1,1): 15,
@@ -134,6 +143,9 @@ def build_tile_layers(grid):
     return layers
 
 
+# ─────────────────────────────────────
+# DOWNLOAD / ASSEMBLE
+# ─────────────────────────────────────
 def download_and_assemble_tilesets():
     os.makedirs(OUT_DIR, exist_ok=True)
     strips = []
@@ -141,9 +153,14 @@ def download_and_assemble_tilesets():
 
     for ts_name, ts in TILESETS.items():
         img_path = f"{OUT_DIR}/{ts_name}.png"
+
         if os.path.exists(img_path):
             print(f"  {ts_name} — existant ✓")
             img = Image.open(img_path)
+        elif ts["id"] is None:
+            print(f"  ERREUR : {ts_name}.png introuvable dans {OUT_DIR} !")
+            print(f"  → Place le PNG généré via l'interface PixelLab dans {OUT_DIR}/")
+            sys.exit(1)
         else:
             print(f"  Téléchargement {ts_name}...")
             r = requests.get(
@@ -156,11 +173,15 @@ def download_and_assemble_tilesets():
 
         strips.append(img)
 
-        r2 = requests.get(
-            f"https://api.pixellab.ai/mcp/tilesets/{ts['id']}/metadata",
-            headers=HEADERS
-        )
-        meta_all[ts_name] = r2.json()
+        if ts["id"]:
+            r2 = requests.get(
+                f"https://api.pixellab.ai/mcp/tilesets/{ts['id']}/metadata",
+                headers=HEADERS
+            )
+            meta_all[ts_name] = r2.json()
+        else:
+            meta_all[ts_name] = {"note": "PNG fourni manuellement via PixelLab web"}
+
         print(f"    ✓ {img.size[0]}×{img.size[1]}px")
 
     total_h = sum(img.size[1] for img in strips)
@@ -177,6 +198,9 @@ def download_and_assemble_tilesets():
     return offsets, meta_all
 
 
+# ─────────────────────────────────────
+# TILED JSON
+# ─────────────────────────────────────
 def build_tiled_json(tile_layers, offsets):
     ts_order = list(TILESETS.keys())
 
@@ -198,7 +222,7 @@ def build_tiled_json(tile_layers, offsets):
         "grass_forest": "Forêt",
         "grass_path":   "Chemins",
         "path_plaza":   "Place centrale",
-        "grass_river":  "Rivière",
+        "river_bank":   "Rivière",
     }
 
     tiled_layers = []
@@ -306,15 +330,18 @@ def build_tiled_json(tile_layers, offsets):
         "infinite": False, "nextlayerid": 20, "nextobjectid": 100,
         "properties": [
             {"name": "village", "value": "Pétaouchnok-les-Bains"},
-            {"name": "version", "value": "1.3"},
+            {"name": "version", "value": "1.4"},
         ],
         "tilesets": tiled_tilesets,
         "layers": tiled_layers + [objects_layer],
     }
 
 
+# ─────────────────────────────────────
+# MAIN
+# ─────────────────────────────────────
 if __name__ == "__main__":
-    print("🏘️  Pétaouchnok-les-Bains — Map Builder v1.3")
+    print("🏘️  Pétaouchnok-les-Bains — Map Builder v1.4")
     print("=" * 45)
 
     print("\n1️⃣  Grille terrain...")
