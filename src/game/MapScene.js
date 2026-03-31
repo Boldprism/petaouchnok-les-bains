@@ -1,6 +1,6 @@
 /**
  * Pétaouchnok-les-Bains — MapScene.js
- * 4 tilesets : grass_forest, grass_path, path_plaza, grass_river
+ * 4 tilesets : grass_forest, grass_path, path_plaza, river_bank
  */
 
 const TILE_SIZE = 32;
@@ -33,7 +33,7 @@ export default class MapScene extends Phaser.Scene {
     this.load.image('ts_grass_forest', '/assets/map/grass_forest.png');
     this.load.image('ts_grass_path',   '/assets/map/grass_path.png');
     this.load.image('ts_path_plaza',   '/assets/map/path_plaza.png');
-    this.load.image('ts_grass_river',  '/assets/map/grass_river.png');
+    this.load.image('ts_river_bank',   '/assets/map/river_bank.png');
 
     const buildings = [
       'boulangerie','mairie','bibliotheque','epicerie','garage',
@@ -53,12 +53,12 @@ export default class MapScene extends Phaser.Scene {
 
     this.map = this.make.tilemap({ key: 'map' });
 
-    const tsForet   = this.map.addTilesetImage('grass_forest', 'ts_grass_forest', 32, 32, 0, 0);
-    const tsChemins = this.map.addTilesetImage('grass_path',   'ts_grass_path',   32, 32, 0, 0);
-    const tsPlace   = this.map.addTilesetImage('path_plaza',   'ts_path_plaza',   32, 32, 0, 0);
-    const tsRiviere = this.map.addTilesetImage('grass_river',  'ts_grass_river',  32, 32, 0, 0);
+    const tsForet     = this.map.addTilesetImage('grass_forest', 'ts_grass_forest', 32, 32, 0, 0);
+    const tsChemins   = this.map.addTilesetImage('grass_path',   'ts_grass_path',   32, 32, 0, 0);
+    const tsPlace     = this.map.addTilesetImage('path_plaza',   'ts_path_plaza',   32, 32, 0, 0);
+    const tsRiverBank = this.map.addTilesetImage('river_bank',   'ts_river_bank',   32, 32, 0, 0);
 
-    const allTilesets = [tsForet, tsChemins, tsPlace, tsRiviere].filter(Boolean);
+    const allTilesets = [tsForet, tsChemins, tsPlace, tsRiverBank].filter(Boolean);
     console.log('[MapScene] tilesets:', allTilesets.length, '/ 4');
 
     this.map.createLayer('For\u00eat',          allTilesets, 0, 0);
