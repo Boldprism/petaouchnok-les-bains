@@ -31,11 +31,11 @@ TILESETS = {
         "lower": "path",  "upper": "plaza",
         "lower_idx": 2,   "upper_idx": 3,
     },
-    "river_bank": {
-        "id": None,        # PNG déjà présent dans public/assets/map/river_bank.png
-        "lower": "grass",  "upper": "river",
-        "lower_idx": 0,    "upper_idx": 4,
-    },
+"river_bank": {
+    "id": None,
+    "lower": "river",  "upper": "grass",
+    "lower_idx": 4,    "upper_idx": 0,   # ← corrigé
+},
 }
 
 MAP_W = 20
