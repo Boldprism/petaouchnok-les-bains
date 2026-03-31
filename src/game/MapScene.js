@@ -1,6 +1,6 @@
 /**
  * Pétaouchnok-les-Bains — MapScene.js
- * 6 tilesets : grass_forest, grass_path, path_plaza, grass_river, river_bank, stone_grass
+ * 4 tilesets : grass_forest, grass_path, path_plaza, grass_river
  */
 
 const TILE_SIZE = 32;
@@ -30,15 +30,10 @@ export default class MapScene extends Phaser.Scene {
   preload() {
     this.load.tilemapTiledJSON('map', '/assets/map/petaouchnok_map.json');
 
-    // 4 tilesets originaux
     this.load.image('ts_grass_forest', '/assets/map/grass_forest.png');
     this.load.image('ts_grass_path',   '/assets/map/grass_path.png');
     this.load.image('ts_path_plaza',   '/assets/map/path_plaza.png');
     this.load.image('ts_grass_river',  '/assets/map/grass_river.png');
-
-    // 2 nouveaux tilesets de transition
-    this.load.image('ts_river_bank',   '/assets/map/river_bank.png');
-    this.load.image('ts_stone_grass',  '/assets/map/stone_grass.png');
 
     const buildings = [
       'boulangerie','mairie','bibliotheque','epicerie','garage',
@@ -58,33 +53,23 @@ export default class MapScene extends Phaser.Scene {
 
     this.map = this.make.tilemap({ key: 'map' });
 
-    // ── 6 tilesets ──
-    const tsForet     = this.map.addTilesetImage('grass_forest', 'ts_grass_forest', 32, 32, 0, 0);
-    const tsChemins   = this.map.addTilesetImage('grass_path',   'ts_grass_path',   32, 32, 0, 0);
-    const tsPlace     = this.map.addTilesetImage('path_plaza',   'ts_path_plaza',   32, 32, 0, 0);
-    const tsRiviere   = this.map.addTilesetImage('grass_river',  'ts_grass_river',  32, 32, 0, 0);
-    const tsRiverBank = this.map.addTilesetImage('river_bank',   'ts_river_bank',   32, 32, 0, 0);
-    const tsStoneGrass= this.map.addTilesetImage('stone_grass',  'ts_stone_grass',  32, 32, 0, 0);
+    const tsForet   = this.map.addTilesetImage('grass_forest', 'ts_grass_forest', 32, 32, 0, 0);
+    const tsChemins = this.map.addTilesetImage('grass_path',   'ts_grass_path',   32, 32, 0, 0);
+    const tsPlace   = this.map.addTilesetImage('path_plaza',   'ts_path_plaza',   32, 32, 0, 0);
+    const tsRiviere = this.map.addTilesetImage('grass_river',  'ts_grass_river',  32, 32, 0, 0);
 
-    const allTilesets = [tsForet, tsChemins, tsPlace, tsRiviere, tsRiverBank, tsStoneGrass].filter(Boolean);
-    console.log('[MapScene] tilesets:', allTilesets.length, '/ 6');
+    const allTilesets = [tsForet, tsChemins, tsPlace, tsRiviere].filter(Boolean);
+    console.log('[MapScene] tilesets:', allTilesets.length, '/ 4');
 
-    // ── 6 layers terrain ──
     this.map.createLayer('For\u00eat',          allTilesets, 0, 0);
     this.map.createLayer('Chemins',        allTilesets, 0, 0);
     this.map.createLayer('Place centrale', allTilesets, 0, 0);
     this.map.createLayer('Rivi\u00e8re',   allTilesets, 0, 0);
-    this.map.createLayer('Berge',          allTilesets, 0, 0);
-    this.map.createLayer('Pierre/Herbe',   allTilesets, 0, 0);
 
-    // ── Bâtiments ──
     this.buildingGroup = this.add.group();
     this._placeBuildingsFromTiled();
-
-    // ── Source thermale ──
     this._placeSource();
 
-    // ── Overlay jour/nuit ──
     this.lightOverlay = this.add.rectangle(
       MAP_W * TILE_SIZE / 2,
       MAP_H * TILE_SIZE / 2,
@@ -94,7 +79,6 @@ export default class MapScene extends Phaser.Scene {
     ).setDepth(100);
     this._applyTimePalette();
 
-    // ── Zoom adaptatif ──
     const mapPixelW = MAP_W * TILE_SIZE;
     const mapPixelH = MAP_H * TILE_SIZE;
     const screenW   = this.scale.width;
@@ -115,14 +99,12 @@ export default class MapScene extends Phaser.Scene {
       this.cameras.main.centerOn(mapPixelW / 2, mapPixelH / 2);
     }
 
-    // ── Drag tactile ──
     this.input.on('pointermove', (pointer) => {
       if (!pointer.isDown) return;
       this.cameras.main.scrollX -= pointer.velocity.x / (8 * zoom);
       this.cameras.main.scrollY -= pointer.velocity.y / (8 * zoom);
     });
 
-    // ── Scroll molette desktop ──
     this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY) => {
       this.cameras.main.scrollY += deltaY * 0.5;
       this.cameras.main.scrollX += deltaX * 0.5;
@@ -140,10 +122,7 @@ export default class MapScene extends Phaser.Scene {
 
   _placeBuildingsFromTiled() {
     const objectLayer = this.map.getObjectLayer('B\u00e2timents');
-    if (!objectLayer) {
-      console.warn('[MapScene] Layer Batiments introuvable');
-      return;
-    }
+    if (!objectLayer) return;
 
     objectLayer.objects.forEach(obj => {
       if (obj.type !== 'building') return;
