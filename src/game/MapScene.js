@@ -28,7 +28,8 @@ export default class MapScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.tilemapTiledJSON('map', '/assets/map/petaouchnok_map.json');
+    // load.json + cache.tilemap.add — contourne le bug tilemapTiledJSON sur Safari WebKit
+    this.load.json('mapData', '/assets/map/petaouchnok_map.json');
 
     this.load.image('ts_grass_forest', '/assets/map/grass_forest.png');
     this.load.image('ts_grass_path',   '/assets/map/grass_path.png');
@@ -50,6 +51,11 @@ export default class MapScene extends Phaser.Scene {
 
   create() {
     console.log('[MapScene] create() - debut');
+
+    // Injection manuelle dans le cache tilemap (compatible Safari)
+    const mapJSON = this.cache.json.get('mapData');
+    if (!mapJSON) { console.error('[MapScene] mapJSON null'); return; }
+    this.cache.tilemap.add('map', { format: 1, data: mapJSON });
 
     this.map = this.make.tilemap({ key: 'map' });
 
