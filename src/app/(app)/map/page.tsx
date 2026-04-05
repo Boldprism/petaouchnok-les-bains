@@ -1,54 +1,12 @@
-'use client';
-
-import { useState } from 'react';
-import dynamic from 'next/dynamic';
-import BuildingSheet from '@/components/game/BuildingSheet';
-import EclatCounter from '@/components/ui/EclatCounter';
-
-const PhaserGame = dynamic(() => import('@/components/game/PhaserGame'), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full bg-vert-village flex items-center justify-center">
-      <p
-        className="text-white"
-        style={{ fontFamily: 'var(--font-pixel)', fontSize: '10px' }}
-      >
-        Chargement du village...
-      </p>
-    </div>
-  ),
-});
-
-interface Building {
-  id: string;
-  label: string;
-  resident?: string | null;
-}
-
 export default function MapPage() {
-  const [activeBuilding, setActiveBuilding] = useState<Building | null>(null);
-
   return (
-    <div className="relative flex-1 w-full overflow-hidden">
-      {/* HUD — Éclats */}
-      <div className="absolute top-3 left-3 z-10">
-        <EclatCounter />
-      </div>
-
-      {/* Phaser */}
-      <PhaserGame
-        key="phaser-map-instance"
-        onBuildingClick={(building) => setActiveBuilding(building)}
-        onSourceClick={() =>
-          setActiveBuilding({ id: 'source', label: '✦ Source Thermale' })
-        }
-      />
-
-      {/* Bottom sheet bâtiment */}
-      <BuildingSheet
-        building={activeBuilding}
-        onClose={() => setActiveBuilding(null)}
-      />
+    <div className="w-full flex-1 flex flex-col items-center justify-center p-8">
+      <p style={{ fontFamily: 'var(--font-pixel)', fontSize: '10px', color: 'var(--accent-or)' }}>
+        CARTE DU VILLAGE
+      </p>
+      <p style={{ fontFamily: 'var(--font-body)', color: 'var(--texte-clair)', opacity: 0.5, marginTop: 12, fontSize: 14 }}>
+        Bientôt disponible
+      </p>
     </div>
   );
 }
