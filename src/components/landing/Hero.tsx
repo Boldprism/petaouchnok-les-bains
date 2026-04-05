@@ -1,170 +1,191 @@
-import Link from 'next/link';
+'use client';
 
 const BUILDINGS = [
-  { name: 'bibliotheque', h: 80, opacity: 0.6, delay: '0s' },
-  { name: 'fleuriste',    h: 70, opacity: 0.6, delay: '0.4s' },
-  { name: 'boulangerie',  h: 110, opacity: 0.9, delay: '0.8s' },
-  { name: 'mairie',       h: 120, opacity: 1,   delay: '1.2s' },
-  { name: 'hublot',       h: 95, opacity: 0.9, delay: '1.6s' },
-  { name: 'epicerie',     h: 75, opacity: 0.6, delay: '2.0s' },
-  { name: 'medecin',      h: 70, opacity: 0.6, delay: '2.4s' },
+  { file: 'bibliotheque_side', height: 80, opacity: 0.6, delay: '0s' },
+  { file: 'fleuriste_side',    height: 70, opacity: 0.6, delay: '0.4s' },
+  { file: 'boulangerie_side',  height: 110, opacity: 1,  delay: '0.8s' },
+  { file: 'mairie_side',       height: 120, opacity: 1,  delay: '1.2s' },
+  { file: 'hublot_side',       height: 95, opacity: 1,  delay: '1.6s' },
+  { file: 'epicerie_side',     height: 75, opacity: 0.6, delay: '2.0s' },
+  { file: 'medecin_side',      height: 70, opacity: 0.6, delay: '2.4s' },
 ];
 
 const STARS = [
-  { top: '8%',  left: '6%',  size: 10, delay: '0s' },
-  { top: '12%', right: '10%', size: 8,  delay: '0.5s' },
-  { top: '25%', left: '15%', size: 6,  delay: '1s' },
-  { top: '20%', right: '5%', size: 7,  delay: '1.5s' },
-  { top: '40%', left: '3%',  size: 9,  delay: '0.3s' },
-  { top: '35%', right: '18%', size: 6, delay: '0.8s' },
-  { top: '55%', left: '20%', size: 8,  delay: '1.2s' },
-  { top: '50%', right: '8%', size: 10, delay: '1.8s' },
-  { top: '65%', left: '10%', size: 7,  delay: '2.1s' },
+  { top: '8%',  left: '4%',  size: 10, delay: '0s' },
+  { top: '15%', left: '92%', size: 10, delay: '1.2s' },
+  { top: '6%',  left: '78%', size: 7,  delay: '0.6s' },
+  { top: '72%', left: '3%',  size: 7,  delay: '2s' },
+  { top: '30%', left: '97%', size: 7,  delay: '1.8s' },
+  { top: '50%', left: '8%',  size: 6,  delay: '0.3s' },
+  { top: '22%', left: '50%', size: 6,  delay: '2.4s' },
+  { top: '40%', left: '18%', size: 6,  delay: '1.5s' },
+  { top: '65%', left: '85%', size: 6,  delay: '0.9s' },
 ];
 
 export default function Hero() {
   return (
-    <section
-      className="relative min-h-[100dvh] flex flex-col items-center justify-center px-6 py-20 overflow-hidden"
-      style={{
-        background: 'linear-gradient(180deg, #1a2e1a 0%, #2d4a1e 40%, #1a3020 100%)',
-      }}
-    >
-      {/* Float animation for buildings */}
-      <style>{`
-        @keyframes building-float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-5px); }
-        }
-      `}</style>
+    <section style={{
+      background: '#1a2e1a',
+      minHeight: '100dvh',
+      position: 'relative',
+      overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '60px 24px 0',
+    }}>
 
-      {/* Noise texture overlay */}
-      <div
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-          backgroundSize: '128px 128px',
-        }}
-      />
-
-      {/* Étoiles pixel décoratives */}
-      {STARS.map((star, i) => (
-        <div
-          key={i}
-          className="absolute text-[#F5C842] animate-[pulse-gold_3s_ease-in-out_infinite]"
-          style={{
-            top: star.top,
-            left: star.left,
-            right: star.right,
-            fontSize: `${star.size}px`,
-            animationDelay: star.delay,
-          }}
-        >
-          ✦
-        </div>
+      {/* Étoiles */}
+      {STARS.map((s, i) => (
+        <span key={i} style={{
+          position: 'absolute',
+          top: s.top,
+          left: s.left,
+          color: '#F5C842',
+          fontSize: s.size,
+          animation: `twinkle 3s ease-in-out ${s.delay} infinite`,
+          pointerEvents: 'none',
+        }}>✦</span>
       ))}
 
-      <div className="relative z-10 text-center max-w-lg mx-auto">
+      {/* Halo central */}
+      <div style={{
+        position: 'absolute',
+        top: '35%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 500,
+        height: 350,
+        background: 'radial-gradient(ellipse, rgba(245,200,66,0.06) 0%, transparent 70%)',
+        pointerEvents: 'none',
+      }} />
+
+      {/* Contenu centré */}
+      <div style={{ position: 'relative', zIndex: 3, textAlign: 'center', maxWidth: 580 }}>
+
         {/* Badge */}
-        <div
-          style={{
-            display: 'inline-block',
-            background: 'rgba(111,178,52,0.2)',
-            border: '1px solid rgba(111,178,52,0.4)',
-            color: '#6FB234',
-            fontFamily: 'var(--font-pixel)',
-            fontSize: '7px',
-            padding: '5px 10px',
-            marginBottom: '20px',
-            letterSpacing: '1px',
-          }}
-        >
+        <div style={{
+          display: 'inline-block',
+          background: 'rgba(111,178,52,0.2)',
+          border: '1px solid rgba(111,178,52,0.4)',
+          color: '#6FB234',
+          fontFamily: 'var(--font-pixel)',
+          fontSize: 7,
+          padding: '5px 10px',
+          marginBottom: 20,
+          letterSpacing: 1,
+        }}>
           📮 BOX D&apos;ABONNEMENT MENSUELLE
         </div>
 
-        {/* Titre pixel — une seule ligne */}
-        <h1
-          className="text-[#F5C842] leading-relaxed mb-6 whitespace-nowrap"
-          style={{
-            fontFamily: 'var(--font-pixel)',
-            fontSize: 'clamp(10px, 3.2vw, 18px)',
-            textShadow: '3px 3px 0 rgba(0,0,0,0.5)',
-          }}
-        >
+        {/* Titre */}
+        <h1 style={{
+          fontFamily: 'var(--font-pixel)',
+          color: '#F5C842',
+          fontSize: 'clamp(14px, 2.5vw, 22px)',
+          lineHeight: 1.6,
+          marginBottom: 8,
+          textShadow: '3px 3px 0 rgba(0,0,0,0.5)',
+        }}>
           PÉTAOUCHNOK-LES-BAINS
         </h1>
 
-        {/* Sous-titre serif */}
-        <p
-          className="text-[#E8D5A8] text-lg md:text-xl mb-4 italic"
-          style={{ fontFamily: 'var(--font-body)' }}
-        >
+        {/* Tagline */}
+        <p style={{
+          fontFamily: 'var(--font-body)',
+          fontStyle: 'italic',
+          color: '#F0EAD6',
+          fontSize: 18,
+          marginBottom: 20,
+          opacity: 0.9,
+        }}>
           Un village. Un mystère. Une lettre par mois.
         </p>
 
         {/* Description */}
-        <p
-          className="text-[#F0EAD6]/80 text-sm md:text-base mb-10 leading-relaxed max-w-md mx-auto"
-          style={{ fontFamily: 'var(--font-body)' }}
-        >
-          Chaque mois, une lettre physique arrive chez vous. Elle vient d&apos;un village qui
-          n&apos;existe sur aucune carte. Et pourtant — quelque chose vous dit que vous y êtes
-          déjà allé.
+        <p style={{
+          fontFamily: 'var(--font-body)',
+          color: '#F0EAD6',
+          fontSize: 13,
+          lineHeight: 1.8,
+          opacity: 0.7,
+          marginBottom: 36,
+          maxWidth: 440,
+          marginLeft: 'auto',
+          marginRight: 'auto',
+        }}>
+          Chaque mois, une lettre physique arrive chez vous. Elle vient d&apos;un village
+          qui n&apos;existe sur aucune carte. Et pourtant — quelque chose vous dit que
+          vous y êtes déjà allé.
         </p>
 
-        {/* CTAs */}
-        <div className="flex flex-col gap-4 items-center">
-          <Link
-            href="/inscription"
-            className="pixel-btn pixel-btn--primary inline-block"
-          >
-            S&apos;abonner — 14,90€/mois
-          </Link>
-          <a
-            href="#comment-ca-marche"
-            className="text-[#C8A96E] text-sm hover:text-[#F5C842] transition-colors"
-            style={{ fontFamily: 'var(--font-body)' }}
-          >
+        {/* CTA */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+          <button className="pixel-btn pixel-btn--primary" style={{ fontSize: 9, padding: '14px 28px' }}>
+            S&apos;ABONNER — 14,90€/MOIS
+          </button>
+          <a href="#features" style={{
+            fontFamily: 'var(--font-body)',
+            color: '#C8A96E',
+            fontSize: 12,
+            opacity: 0.8,
+            textDecoration: 'none',
+            cursor: 'pointer',
+          }}>
             Découvrir le village ↓
           </a>
         </div>
       </div>
 
-      {/* Bâtiments side-view flottants en bas */}
-      <div className="absolute bottom-6 left-0 right-0 flex justify-center items-end gap-2 px-4">
-        {BUILDINGS.map((b) => (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            key={b.name}
-            src={`/assets/buildings/side/${b.name}_side.png`}
-            alt=""
-            style={{
-              height: `${b.h}px`,
-              width: 'auto',
-              opacity: b.opacity,
-              imageRendering: 'pixelated' as const,
-              filter: 'drop-shadow(3px 4px 0px rgba(0,0,0,0.4))',
-              animation: `building-float 4s ease-in-out infinite`,
-              animationDelay: b.delay,
-            }}
-          />
+      {/* Bâtiments */}
+      <div style={{
+        position: 'relative',
+        zIndex: 1,
+        width: '100%',
+        marginTop: 40,
+        height: 160,
+        display: 'flex',
+        alignItems: 'flex-end',
+        justifyContent: 'space-around',
+        padding: '0 5%',
+      }}>
+        {BUILDINGS.map((b, i) => (
+          <div key={i} style={{
+            opacity: b.opacity,
+            animation: `float 4s ease-in-out ${b.delay} infinite`,
+          }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`/assets/buildings/side/${b.file}.png`}
+              height={b.height}
+              alt=""
+              style={{ imageRendering: 'pixelated', filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.5))' }}
+            />
+          </div>
         ))}
       </div>
 
-      {/* Bande pixel art herbe en bas */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-6"
-        style={{
-          background: `repeating-linear-gradient(
-            90deg,
-            #6FB234 0px, #6FB234 4px,
-            #4A9122 4px, #4A9122 8px,
-            #6FB234 8px, #6FB234 16px,
-            #5a9e2a 16px, #5a9e2a 20px
-          )`,
-          borderTop: '2px solid #4A9122',
-        }}
-      />
+      {/* Bande herbe */}
+      <div style={{
+        width: '100%',
+        height: 18,
+        background: '#6FB234',
+        flexShrink: 0,
+        borderTop: '4px solid #7fc847',
+      }} />
+
+      {/* Keyframes */}
+      <style>{`
+        @keyframes twinkle {
+          0%, 100% { opacity: 0.3; transform: scale(0.8); }
+          50% { opacity: 1; transform: scale(1.2); }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-5px); }
+        }
+      `}</style>
     </section>
   );
 }
