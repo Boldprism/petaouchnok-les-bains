@@ -1,6 +1,6 @@
 /**
  * Pétaouchnok-les-Bains — MapScene.js
- * 4 tilesets : grass_forest, grass_path, path_plaza, river_bank
+ * 5 tilesets : grass_forest, grass_path, path_plaza, river_bank, stone_grass
  */
 
 const TILE_SIZE = 32;
@@ -35,6 +35,7 @@ export default class MapScene extends Phaser.Scene {
     this.load.image('ts_grass_path',   '/assets/map/grass_path.png');
     this.load.image('ts_path_plaza',   '/assets/map/path_plaza.png');
     this.load.image('ts_river_bank',   '/assets/map/river_bank.png');
+    this.load.image('ts_stone_grass',  '/assets/map/stone_grass.png');
 
     const buildings = [
       'boulangerie','mairie','bibliotheque','epicerie','garage',
@@ -59,18 +60,20 @@ export default class MapScene extends Phaser.Scene {
 
     this.map = this.make.tilemap({ key: 'map' });
 
-    const tsForet     = this.map.addTilesetImage('grass_forest', 'ts_grass_forest', 32, 32, 0, 0);
-    const tsChemins   = this.map.addTilesetImage('grass_path',   'ts_grass_path',   32, 32, 0, 0);
-    const tsPlace     = this.map.addTilesetImage('path_plaza',   'ts_path_plaza',   32, 32, 0, 0);
-    const tsRiverBank = this.map.addTilesetImage('river_bank',   'ts_river_bank',   32, 32, 0, 0);
+    const tsForet      = this.map.addTilesetImage('grass_forest', 'ts_grass_forest', 32, 32, 0, 0);
+    const tsChemins    = this.map.addTilesetImage('grass_path',   'ts_grass_path',   32, 32, 0, 0);
+    const tsPlace      = this.map.addTilesetImage('path_plaza',   'ts_path_plaza',   32, 32, 0, 0);
+    const tsRiverBank  = this.map.addTilesetImage('river_bank',   'ts_river_bank',   32, 32, 0, 0);
+    const tsStoneGrass = this.map.addTilesetImage('stone_grass',  'ts_stone_grass',  32, 32, 0, 0);
 
-    const allTilesets = [tsForet, tsChemins, tsPlace, tsRiverBank].filter(Boolean);
-    console.log('[MapScene] tilesets:', allTilesets.length, '/ 4');
+    const allTilesets = [tsForet, tsChemins, tsPlace, tsRiverBank, tsStoneGrass].filter(Boolean);
+    console.log('[MapScene] tilesets:', allTilesets.length, '/ 5');
 
     this.map.createLayer('For\u00eat',          allTilesets, 0, 0);
     this.map.createLayer('Chemins',        allTilesets, 0, 0);
     this.map.createLayer('Place centrale', allTilesets, 0, 0);
     this.map.createLayer('Rivi\u00e8re',   allTilesets, 0, 0);
+    this.map.createLayer('Pierres',        allTilesets, 0, 0);
 
     this.buildingGroup = this.add.group();
     this._placeBuildingsFromTiled();

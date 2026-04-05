@@ -1,7 +1,7 @@
 """
-Pétaouchnok-les-Bains — Map Builder v2.0
+Pétaouchnok-les-Bains — Map Builder v3.0
 =========================================
-4 tilesets chaînés PixelLab : grass_forest, grass_path, path_plaza, river_bank
+5 tilesets : grass_forest, grass_path, path_plaza, river_bank, stone_grass
 Positions bâtiments validées le 2026-04-02
 """
 
@@ -31,6 +31,11 @@ TILESETS = {
         "lower": "river",  "upper": "grass",
         "lower_idx": 4,    "upper_idx": 0,
     },
+    "stone_grass": {
+        "id": "stone_grass",
+        "lower": "stone",  "upper": "grass",
+        "lower_idx": 5,    "upper_idx": 0,
+    },
 }
 
 MAP_W = 20
@@ -38,7 +43,7 @@ MAP_H = 36
 
 # ─────────────────────────────────────
 # TERRAIN GRID
-# 0=herbe  1=forêt  2=chemin  3=place  4=rivière
+# 0=herbe  1=forêt  2=chemin  3=place  4=rivière  5=pierre
 # ─────────────────────────────────────
 def build_terrain_grid():
     grid = [[0]*MAP_W for _ in range(MAP_H)]
@@ -98,6 +103,21 @@ def build_terrain_grid():
         grid[path_row][x] = 2
         grid[path_row+1][x] = 2
 
+    # Zones de pierre (rochers, vieux murs, ruines)
+    stone_positions = [
+        # Rochers près de la clairière de l'écho (nord-ouest)
+        (4, 4), (5, 4), (4, 5),
+        # Pierres près du quai oublié (nord-est, sur herbe)
+        (13, 5), (13, 6),
+        # Vieux mur en ruine au sud
+        (5, 28), (6, 28), (5, 29),
+        # Pierres près de la rivière
+        (13, 11), (14, 11),
+    ]
+    for sx, sy in stone_positions:
+        if grid[sy][sx] == 0:  # seulement sur herbe
+            grid[sy][sx] = 5
+
     return grid
 
 
@@ -142,6 +162,7 @@ def build_tile_layers(grid):
         "grass_path":   2,     # chemin
         "path_plaza":   3,     # place
         "river_bank":   4,     # rivière
+        "stone_grass":  5,     # pierre
     }
 
     layers = {}
@@ -214,6 +235,7 @@ def build_tiled_json(tile_layers):
         "grass_path":   "Chemins",
         "path_plaza":   "Place centrale",
         "river_bank":   "Rivière",
+        "stone_grass":  "Pierres",
     }
 
     tiled_layers = []
@@ -369,7 +391,7 @@ def build_tiled_json(tile_layers):
 # MAIN
 # ─────────────────────────────────────
 if __name__ == "__main__":
-    print("Pétaouchnok-les-Bains — Map Builder v2.0")
+    print("Pétaouchnok-les-Bains — Map Builder v3.0")
     print("=" * 45)
 
     print("\n1. Grille terrain...")
