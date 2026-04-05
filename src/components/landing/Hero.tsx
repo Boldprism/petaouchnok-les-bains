@@ -1,5 +1,27 @@
 import Link from 'next/link';
 
+const BUILDINGS = [
+  { name: 'bibliotheque', h: 80, opacity: 0.6, delay: '0s' },
+  { name: 'fleuriste',    h: 70, opacity: 0.6, delay: '0.4s' },
+  { name: 'boulangerie',  h: 110, opacity: 0.9, delay: '0.8s' },
+  { name: 'mairie',       h: 120, opacity: 1,   delay: '1.2s' },
+  { name: 'hublot',       h: 95, opacity: 0.9, delay: '1.6s' },
+  { name: 'epicerie',     h: 75, opacity: 0.6, delay: '2.0s' },
+  { name: 'medecin',      h: 70, opacity: 0.6, delay: '2.4s' },
+];
+
+const STARS = [
+  { top: '8%',  left: '6%',  size: 10, delay: '0s' },
+  { top: '12%', right: '10%', size: 8,  delay: '0.5s' },
+  { top: '25%', left: '15%', size: 6,  delay: '1s' },
+  { top: '20%', right: '5%', size: 7,  delay: '1.5s' },
+  { top: '40%', left: '3%',  size: 9,  delay: '0.3s' },
+  { top: '35%', right: '18%', size: 6, delay: '0.8s' },
+  { top: '55%', left: '20%', size: 8,  delay: '1.2s' },
+  { top: '50%', right: '8%', size: 10, delay: '1.8s' },
+  { top: '65%', left: '10%', size: 7,  delay: '2.1s' },
+];
+
 export default function Hero() {
   return (
     <section
@@ -8,6 +30,14 @@ export default function Hero() {
         background: 'linear-gradient(180deg, #1a2e1a 0%, #2d4a1e 40%, #1a3020 100%)',
       }}
     >
+      {/* Float animation for buildings */}
+      <style>{`
+        @keyframes building-float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-5px); }
+        }
+      `}</style>
+
       {/* Noise texture overlay */}
       <div
         className="absolute inset-0 opacity-[0.03] pointer-events-none"
@@ -18,20 +48,40 @@ export default function Hero() {
       />
 
       {/* Étoiles pixel décoratives */}
-      <div className="absolute top-12 left-8 text-[#F5C842] text-2xl animate-[pulse-gold_3s_ease-in-out_infinite]">
-        ✦
-      </div>
-      <div className="absolute top-24 right-12 text-[#F5C842] text-lg animate-[pulse-gold_3s_ease-in-out_infinite_0.5s]">
-        ✦
-      </div>
-      <div className="absolute bottom-40 left-16 text-[#F5C842] text-sm animate-[pulse-gold_3s_ease-in-out_infinite_1s]">
-        ✦
-      </div>
-      <div className="absolute top-1/3 right-6 text-[#F5C842] text-xs animate-[pulse-gold_3s_ease-in-out_infinite_1.5s]">
-        ✦
-      </div>
+      {STARS.map((star, i) => (
+        <div
+          key={i}
+          className="absolute text-[#F5C842] animate-[pulse-gold_3s_ease-in-out_infinite]"
+          style={{
+            top: star.top,
+            left: star.left,
+            right: star.right,
+            fontSize: `${star.size}px`,
+            animationDelay: star.delay,
+          }}
+        >
+          ✦
+        </div>
+      ))}
 
       <div className="relative z-10 text-center max-w-lg mx-auto">
+        {/* Badge */}
+        <div
+          style={{
+            display: 'inline-block',
+            background: 'rgba(111,178,52,0.2)',
+            border: '1px solid rgba(111,178,52,0.4)',
+            color: '#6FB234',
+            fontFamily: 'var(--font-pixel)',
+            fontSize: '7px',
+            padding: '5px 10px',
+            marginBottom: '20px',
+            letterSpacing: '1px',
+          }}
+        >
+          📮 BOX D&apos;ABONNEMENT MENSUELLE
+        </div>
+
         {/* Titre pixel — une seule ligne */}
         <h1
           className="text-[#F5C842] leading-relaxed mb-6 whitespace-nowrap"
@@ -81,36 +131,25 @@ export default function Hero() {
       </div>
 
       {/* Bâtiments side-view flottants en bas */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/assets/buildings/side/boulangerie_side.png"
-        alt=""
-        className="absolute bottom-6 left-[5%] h-[100px] md:h-[120px] w-auto opacity-90 animate-[float_4s_ease-in-out_infinite]"
-        style={{
-          imageRendering: 'pixelated',
-          filter: 'drop-shadow(3px 4px 0px rgba(0,0,0,0.4))',
-        }}
-      />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/assets/buildings/side/mairie_side.png"
-        alt=""
-        className="absolute bottom-4 right-[15%] h-[110px] md:h-[130px] w-auto opacity-85 animate-[float_4s_ease-in-out_infinite_0.8s]"
-        style={{
-          imageRendering: 'pixelated',
-          filter: 'drop-shadow(3px 4px 0px rgba(0,0,0,0.4))',
-        }}
-      />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/assets/buildings/side/bibliotheque_side.png"
-        alt=""
-        className="absolute bottom-8 right-[55%] md:right-[60%] h-[80px] md:h-[100px] w-auto opacity-75 animate-[float_4s_ease-in-out_infinite_1.5s]"
-        style={{
-          imageRendering: 'pixelated',
-          filter: 'drop-shadow(3px 4px 0px rgba(0,0,0,0.4))',
-        }}
-      />
+      <div className="absolute bottom-6 left-0 right-0 flex justify-center items-end gap-2 px-4">
+        {BUILDINGS.map((b) => (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            key={b.name}
+            src={`/assets/buildings/side/${b.name}_side.png`}
+            alt=""
+            style={{
+              height: `${b.h}px`,
+              width: 'auto',
+              opacity: b.opacity,
+              imageRendering: 'pixelated' as const,
+              filter: 'drop-shadow(3px 4px 0px rgba(0,0,0,0.4))',
+              animation: `building-float 4s ease-in-out infinite`,
+              animationDelay: b.delay,
+            }}
+          />
+        ))}
+      </div>
 
       {/* Bande pixel art herbe en bas */}
       <div
