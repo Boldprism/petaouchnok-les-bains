@@ -515,8 +515,8 @@ const KEYFRAMES = `
   100% { opacity: 0; transform: translate(-50%, -32px); }
 }
 @keyframes ready-pulse {
-  0%, 100% { box-shadow: 0 0 0 1px #6b3d1e, inset 0 1px 0 rgba(180,120,60,0.3), inset 0 -2px 4px rgba(0,0,0,0.4), 0 0 12px rgba(212,160,23,0.6), 0 0 24px rgba(212,160,23,0.3); }
-  50%      { box-shadow: 0 0 0 1px #6b3d1e, inset 0 1px 0 rgba(180,120,60,0.3), inset 0 -2px 4px rgba(0,0,0,0.4), 0 0 18px rgba(212,160,23,0.85), 0 0 32px rgba(212,160,23,0.5); }
+  0%, 100% { box-shadow: 0 0 8px rgba(212,160,23,0.4), 0 0 16px rgba(212,160,23,0.2); }
+  50%      { box-shadow: 0 0 16px rgba(212,160,23,0.8), 0 0 32px rgba(212,160,23,0.4); }
 }
 `;
 
@@ -599,6 +599,7 @@ const S: Record<string, CSSProperties> = {
   },
   parcelleReady: {
     borderColor: '#d4a017',
+    boxShadow: '0 0 8px rgba(212,160,23,0.4)',
     animation: 'ready-pulse 2s ease-in-out infinite',
   },
   parcelleLocked: {
