@@ -540,7 +540,6 @@ const fontPixel = "'Press Start 2P', monospace";
 
 const S: Record<string, CSSProperties> = {
   page: {
-    width: '100%',
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -583,10 +582,11 @@ const S: Record<string, CSSProperties> = {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
     gridTemplateRows: 'repeat(3, 1fr)',
-    gap: 8,
+    gap: 6,
     padding: '0 10px',
     flex: 1,
     minHeight: 0,
+    minWidth: 0,
   },
 
   /* Parcelle */
