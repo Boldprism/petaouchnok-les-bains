@@ -596,10 +596,17 @@ const S: Record<string, CSSProperties> = {
     userSelect: 'none',
     WebkitUserSelect: 'none',
     WebkitTouchCallout: 'none',
+    transition: 'none',
   },
   parcelleReady: {
-    borderColor: '#d4a017',
-    boxShadow: '0 0 8px rgba(212,160,23,0.4)',
+    boxShadow: [
+      '0 0 0 1px #6b3d1e',
+      'inset 0 1px 0 rgba(180,120,60,0.3)',
+      'inset 0 -2px 4px rgba(0,0,0,0.4)',
+      '0 0 10px rgba(212,160,23,0.6)',
+      '0 0 20px rgba(212,160,23,0.3)',
+      '0 0 0 2px #d4a017',
+    ].join(', '),
     animation: 'ready-pulse 2s ease-in-out infinite',
   },
   parcelleLocked: {
