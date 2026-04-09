@@ -108,7 +108,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             opacity: 0.05,
           }}
         />
-        <div className="relative z-[1]">
+        <div className="relative z-[1] h-full">
           {children}
         </div>
       </main>
