@@ -159,16 +159,78 @@ export default function JardinPage() {
         <span style={{ fontSize: 16 }}>🌱</span>
       </div>
 
-      {/* ─── GRILLE 3×3 ─── */}
-      <div style={S.grid}>
-        {parcelles.map((p) => (
-          <ParcelleCell
-            key={p.id}
-            parcelle={p}
-            onClick={() => handleParcelleClick(p)}
-            recolteAnim={recolteAnim?.id === p.id ? recolteAnim.gain : null}
-          />
-        ))}
+      {/* ─── GRILLE 3×3 (avec décorations latérales) ─── */}
+      <div style={S.gridWrap}>
+        <div style={S.grid}>
+          {parcelles.map((p) => (
+            <ParcelleCell
+              key={p.id}
+              parcelle={p}
+              onClick={() => handleParcelleClick(p)}
+              recolteAnim={recolteAnim?.id === p.id ? recolteAnim.gain : null}
+            />
+          ))}
+        </div>
+
+        {/* Décorations gauche */}
+        <img
+          src="/assets/garden/arrosoir.png"
+          alt=""
+          style={{
+            position: 'absolute',
+            left: -28,
+            top: '30%',
+            width: 32,
+            height: 32,
+            imageRendering: 'pixelated',
+            opacity: 0.9,
+            pointerEvents: 'none',
+          }}
+        />
+        <img
+          src="/assets/garden/cailloux.png"
+          alt=""
+          style={{
+            position: 'absolute',
+            left: -20,
+            bottom: '15%',
+            width: 28,
+            height: 28,
+            imageRendering: 'pixelated',
+            opacity: 0.85,
+            pointerEvents: 'none',
+          }}
+        />
+
+        {/* Décorations droite */}
+        <img
+          src="/assets/garden/ruche.png"
+          alt=""
+          style={{
+            position: 'absolute',
+            right: -28,
+            top: '35%',
+            width: 32,
+            height: 32,
+            imageRendering: 'pixelated',
+            opacity: 0.9,
+            pointerEvents: 'none',
+          }}
+        />
+        <img
+          src="/assets/garden/pierre.png"
+          alt=""
+          style={{
+            position: 'absolute',
+            right: -16,
+            bottom: '20%',
+            width: 20,
+            height: 20,
+            imageRendering: 'pixelated',
+            opacity: 0.85,
+            pointerEvents: 'none',
+          }}
+        />
       </div>
 
       {/* ─── BARRE D'ACTIONS ─── */}
@@ -242,20 +304,47 @@ function ParcelleCell({
 
   return (
     <div style={cellStyle} onClick={isLocked ? undefined : onClick}>
-      {/* Numéro */}
-      <span style={S.parcelleNum}>{parcelle.id}</span>
+      {/* Numéro (gland) */}
+      <div style={S.parcelleNum}>
+        <img
+          src="/assets/garden/gland.png"
+          alt=""
+          style={{ width: 16, height: 16, imageRendering: 'pixelated' }}
+        />
+        <span style={{ fontSize: 5, color: 'rgba(240,200,100,0.9)', fontFamily: fontPixel }}>
+          {parcelle.id}
+        </span>
+      </div>
 
       {/* Récolte +X ✦ */}
       {recolteAnim !== null && (
         <span style={S.recolteFloat}>+{recolteAnim} ✦</span>
       )}
 
-      {/* Sparkles si ready */}
+      {/* Étoiles si ready */}
       {isReady && (
         <>
-          <span style={{ ...S.spark, top: '15%', left: '20%', animationDelay: '0s' }} />
-          <span style={{ ...S.spark, top: '25%', right: '15%', animationDelay: '0.5s' }} />
-          <span style={{ ...S.spark, bottom: '28%', left: '30%', animationDelay: '1s' }} />
+          {[
+            { top: '10%', left: '15%', delay: '0s', size: 12 },
+            { top: '20%', right: '12%', delay: '0.5s', size: 10 },
+            { bottom: '25%', left: '25%', delay: '1s', size: 14 },
+          ].map((pos, i) => (
+            <img
+              key={i}
+              src="/assets/garden/etoile.png"
+              alt=""
+              style={{
+                position: 'absolute',
+                ...pos,
+                width: pos.size,
+                height: pos.size,
+                imageRendering: 'pixelated',
+                animation: 'sparkle 1.5s ease-in-out infinite',
+                animationDelay: pos.delay,
+                pointerEvents: 'none',
+              }}
+            />
+          ))}
         </>
       )}
 
@@ -460,6 +549,12 @@ const S: Record<string, CSSProperties> = {
   },
 
   /* Grille */
+  gridWrap: {
+    position: 'relative',
+    flex: 1,
+    minHeight: 0,
+    display: 'flex',
+  },
   grid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
@@ -500,11 +595,11 @@ const S: Record<string, CSSProperties> = {
 
   parcelleNum: {
     position: 'absolute',
-    top: 4,
-    left: 5,
-    fontFamily: fontPixel,
-    fontSize: 6,
-    color: 'rgba(240,200,100,0.7)',
+    top: 2,
+    left: 2,
+    display: 'flex',
+    alignItems: 'center',
+    gap: 1,
     zIndex: 2,
   },
 
