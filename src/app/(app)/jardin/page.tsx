@@ -12,6 +12,15 @@ const CULTURES = [
   { id: 'myrtilles', emoji: '🫐', nom: 'Myrtilles du Vallon', nomCourt: 'Myrtilles', desc: 'Minuscules et d\'un bleu profond. Le jus tache les doigts pendant des jours.', cout: 35, temps: 16, gain: 130, saison: 'Été', dispo: false },
 ];
 
+const CULTURE_IMAGES: Record<string, string> = {
+  fraises:     '/assets/garden/fraises.png',
+  tournesols:  '/assets/garden/tournesol.png',
+  champignons: '/assets/garden/champignons.png',
+  herbes:      '/assets/garden/herbes.png',
+  courges:     '/assets/garden/courge.png',
+  myrtilles:   '/assets/garden/myrtilles.png',
+};
+
 interface Parcelle {
   id: number;
   etat: 'empty' | 'growing' | 'ready' | 'locked';
@@ -255,7 +264,22 @@ function ParcelleCell({
         {parcelle.etat === 'empty' && <span style={S.emptyPlus}>+</span>}
         {parcelle.etat === 'locked' && <span style={S.lockIcon}>🔒</span>}
         {(parcelle.etat === 'growing' || parcelle.etat === 'ready') && culture && (
-          <span style={S.cropEmoji}>{culture.emoji}</span>
+          CULTURE_IMAGES[culture.id] ? (
+            <img
+              src={CULTURE_IMAGES[culture.id]}
+              alt={culture.nomCourt}
+              style={{
+                width: 'clamp(40px, 70%, 56px)',
+                height: 'clamp(40px, 70%, 56px)',
+                imageRendering: 'pixelated',
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.6))',
+                pointerEvents: 'none',
+              }}
+            />
+          ) : (
+            <span style={S.cropEmoji}>{culture.emoji}</span>
+          )
         )}
       </div>
 
@@ -448,8 +472,10 @@ const S: Record<string, CSSProperties> = {
 
   /* Parcelle */
   parcelle: {
-    background:
-      'repeating-linear-gradient(0deg, transparent 0px, transparent 6px, rgba(0,0,0,0.15) 6px, rgba(0,0,0,0.18) 8px), linear-gradient(180deg, #7a4a20 0%, #5a3010 50%, #4a2808 100%)',
+    background: "url('/assets/garden/soil.png')",
+    backgroundSize: '64px 64px',
+    backgroundRepeat: 'repeat',
+    imageRendering: 'pixelated',
     borderRadius: 8,
     border: '3px solid #2a1408',
     boxShadow:
