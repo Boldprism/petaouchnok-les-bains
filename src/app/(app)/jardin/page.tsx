@@ -303,7 +303,12 @@ function ParcelleCell({
   };
 
   return (
-    <div style={cellStyle} onClick={isLocked ? undefined : onClick}>
+    <div
+      className="jardin-cell"
+      style={cellStyle}
+      onClick={isLocked ? undefined : onClick}
+      tabIndex={-1}
+    >
       {/* Numéro (gland) */}
       <div style={S.parcelleNum}>
         <img
@@ -503,7 +508,7 @@ function ActionsModal({
   );
 }
 
-/* ─── KEYFRAMES ─── */
+/* ─── KEYFRAMES + RESET ─── */
 const KEYFRAMES = `
 @keyframes sparkle {
   0%, 100% { opacity: 0; transform: scale(0); }
@@ -518,6 +523,25 @@ const KEYFRAMES = `
   0%, 100% { box-shadow: 0 0 0 1px #6b3d1e, inset 0 1px 0 rgba(180,120,60,0.3), inset 0 -2px 4px rgba(0,0,0,0.4), 0 0 12px rgba(212,160,23,0.6), 0 0 24px rgba(212,160,23,0.3); }
   50%      { box-shadow: 0 0 0 1px #6b3d1e, inset 0 1px 0 rgba(180,120,60,0.3), inset 0 -2px 4px rgba(0,0,0,0.4), 0 0 18px rgba(212,160,23,0.85), 0 0 32px rgba(212,160,23,0.5); }
 }
+
+/* Suppression agressive du focus ring sur les parcelles */
+.jardin-cell,
+.jardin-cell *,
+.jardin-cell:focus,
+.jardin-cell:focus-visible,
+.jardin-cell:focus-within,
+.jardin-cell:active,
+.jardin-cell *:focus,
+.jardin-cell *:focus-visible {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none !important;
+}
+.jardin-cell img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
 `;
 
 /* ─── STYLES ─── */
@@ -525,6 +549,8 @@ const fontPixel = "'Press Start 2P', monospace";
 
 const S: Record<string, CSSProperties> = {
   page: {
+    position: 'absolute',
+    inset: 0,
     width: '100%',
     height: '100%',
     display: 'flex',
