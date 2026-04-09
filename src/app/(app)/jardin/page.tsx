@@ -78,6 +78,7 @@ export default function JardinPage() {
   const [planterPour, setPlanterPour] = useState<number | null>(null);
   const [actionsOpen, setActionsOpen] = useState(false);
   const [recolteAnim, setRecolteAnim] = useState<{ id: number; gain: number } | null>(null);
+  const [justHarvested, setJustHarvested] = useState<Set<number>>(new Set());
   const [, setTick] = useState(0);
 
   // tick every 1s for live timer + auto ready
@@ -125,6 +126,14 @@ export default function JardinPage() {
           : x,
       );
     });
+    setJustHarvested((prev) => new Set(prev).add(parcelleId));
+    setTimeout(() => {
+      setJustHarvested((prev) => {
+        const next = new Set(prev);
+        next.delete(parcelleId);
+        return next;
+      });
+    }, 800);
   }, []);
 
   const handleArroser = useCallback((parcelleId: number) => {
@@ -168,6 +177,7 @@ export default function JardinPage() {
               parcelle={p}
               onClick={() => handleParcelleClick(p)}
               recolteAnim={recolteAnim?.id === p.id ? recolteAnim.gain : null}
+              justHarvested={justHarvested.has(p.id)}
             />
           ))}
         </div>
@@ -286,10 +296,12 @@ function ParcelleCell({
   parcelle,
   onClick,
   recolteAnim,
+  justHarvested,
 }: {
   parcelle: Parcelle;
   onClick: () => void;
   recolteAnim: number | null;
+  justHarvested: boolean;
 }) {
   const culture = getCulture(parcelle.culture);
   const isReady = parcelle.etat === 'ready';
@@ -299,6 +311,9 @@ function ParcelleCell({
     ...S.parcelle,
     ...(isReady ? S.parcelleReady : {}),
     ...(isLocked ? S.parcelleLocked : {}),
+    ...(justHarvested
+      ? { borderColor: '#d4a017', transition: 'border-color 800ms ease-out' }
+      : { transition: 'border-color 800ms ease-out' }),
     cursor: parcelle.etat === 'empty' || isReady ? 'pointer' : 'default',
   };
 
@@ -596,7 +611,7 @@ const S: Record<string, CSSProperties> = {
     userSelect: 'none',
     WebkitUserSelect: 'none',
     WebkitTouchCallout: 'none',
-    transition: 'none',
+    transition: 'border-color 800ms ease-out',
   },
   parcelleReady: {
     boxShadow: [
