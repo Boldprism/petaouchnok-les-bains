@@ -309,7 +309,14 @@ function ParcelleCell({
         <img
           src="/assets/garden/gland.png"
           alt=""
-          style={{ width: 16, height: 16, imageRendering: 'pixelated' }}
+          draggable={false}
+          style={{
+            width: 16,
+            height: 16,
+            imageRendering: 'pixelated',
+            pointerEvents: 'none',
+            WebkitUserDrag: 'none',
+          } as CSSProperties}
         />
         <span style={{ fontSize: 5, color: 'rgba(240,200,100,0.9)', fontFamily: fontPixel }}>
           {parcelle.id}
@@ -357,6 +364,7 @@ function ParcelleCell({
             <img
               src={CULTURE_IMAGES[culture.id]}
               alt={culture.nomCourt}
+              draggable={false}
               style={{
                 width: 'clamp(40px, 70%, 56px)',
                 height: 'clamp(40px, 70%, 56px)',
@@ -364,7 +372,8 @@ function ParcelleCell({
                 objectFit: 'contain',
                 filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.6))',
                 pointerEvents: 'none',
-              }}
+                WebkitUserDrag: 'none',
+              } as CSSProperties}
             />
           ) : (
             <span style={S.cropEmoji}>{culture.emoji}</span>
@@ -582,6 +591,11 @@ const S: Record<string, CSSProperties> = {
     justifyContent: 'center',
     overflow: 'hidden',
     minHeight: 0,
+    outline: 'none',
+    WebkitTapHighlightColor: 'transparent',
+    userSelect: 'none',
+    WebkitUserSelect: 'none',
+    WebkitTouchCallout: 'none',
   },
   parcelleReady: {
     borderColor: '#d4a017',
