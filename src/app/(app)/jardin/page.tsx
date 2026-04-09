@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, CSSProperties } from 'react';
 
 /* ─── DATA ─── */
 const CULTURES = [
@@ -14,51 +14,64 @@ const CULTURES = [
 
 interface Parcelle {
   id: number;
-  nom: string;
-  etat: 'empty' | 'growing' | 'ready';
+  etat: 'empty' | 'growing' | 'ready' | 'locked';
   culture: string | null;
   planteeLe: Date | null;
 }
 
 const makeParcelles = (): Parcelle[] => [
-  { id: 1, nom: 'Parcelle du Matin', etat: 'ready', culture: 'fraises', planteeLe: null },
-  { id: 2, nom: 'Parcelle de Midi', etat: 'growing', culture: 'champignons', planteeLe: new Date(Date.now() - 3 * 60 * 60 * 1000) },
-  { id: 3, nom: 'Parcelle du Soir', etat: 'empty', culture: null, planteeLe: null },
+  { id: 1, etat: 'ready',   culture: 'fraises',     planteeLe: null },
+  { id: 2, etat: 'growing', culture: 'champignons', planteeLe: new Date(Date.now() - 3 * 60 * 60 * 1000) },
+  { id: 3, etat: 'empty',   culture: null,          planteeLe: null },
+  { id: 4, etat: 'locked',  culture: null,          planteeLe: null },
+  { id: 5, etat: 'locked',  culture: null,          planteeLe: null },
+  { id: 6, etat: 'locked',  culture: null,          planteeLe: null },
+  { id: 7, etat: 'locked',  culture: null,          planteeLe: null },
+  { id: 8, etat: 'locked',  culture: null,          planteeLe: null },
+  { id: 9, etat: 'locked',  culture: null,          planteeLe: null },
 ];
 
 function getCulture(id: string | null) {
   return CULTURES.find((c) => c.id === id) ?? null;
 }
 
-function formatDuree(h: number) {
-  if (h < 1) return `${Math.round(h * 60)}min`;
+function getSecondesRestantes(parcelle: Parcelle) {
+  const culture = getCulture(parcelle.culture);
+  if (!culture || !parcelle.planteeLe) return 0;
+  const elapsedSec = (Date.now() - parcelle.planteeLe.getTime()) / 1000;
+  const totalSec = culture.temps * 3600;
+  return Math.max(totalSec - elapsedSec, 0);
+}
+
+function formatTimer(sec: number) {
+  if (sec <= 0) return '0s';
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  const s = Math.floor(sec % 60);
+  if (h >= 24) {
+    const d = Math.floor(h / 24);
+    return `${d}d ${h % 24}h`;
+  }
+  if (h > 0) return `${h}h ${m}m`;
+  if (m > 0) return `${m}m ${s}s`;
+  return `${s}s`;
+}
+
+function formatDureeShort(h: number) {
+  if (h < 1) return `${Math.round(h * 60)}m`;
+  if (h >= 24) return `${Math.floor(h / 24)}d`;
   return `${h}h`;
-}
-
-function getProgress(parcelle: Parcelle) {
-  const culture = getCulture(parcelle.culture);
-  if (!culture || !parcelle.planteeLe) return 0;
-  const elapsed = (Date.now() - parcelle.planteeLe.getTime()) / (1000 * 60 * 60);
-  return Math.min(elapsed / culture.temps, 1);
-}
-
-function getHeuresRestantes(parcelle: Parcelle) {
-  const culture = getCulture(parcelle.culture);
-  if (!culture || !parcelle.planteeLe) return 0;
-  const elapsed = (Date.now() - parcelle.planteeLe.getTime()) / (1000 * 60 * 60);
-  return Math.max(culture.temps - elapsed, 0);
 }
 
 /* ─── PAGE ─── */
 export default function JardinPage() {
-  const [tab, setTab] = useState<'parcelles' | 'semences'>('parcelles');
   const [parcelles, setParcelles] = useState<Parcelle[]>(makeParcelles);
-  const [detailCulture, setDetailCulture] = useState<string | null>(null);
-  const [planterPour, setPlanterPour] = useState<number | null>(null); // parcelle id
+  const [planterPour, setPlanterPour] = useState<number | null>(null);
+  const [actionsOpen, setActionsOpen] = useState(false);
   const [recolteAnim, setRecolteAnim] = useState<{ id: number; gain: number } | null>(null);
   const [, setTick] = useState(0);
 
-  // tick every 10s to update progress bars + check if growing parcelles are ready
+  // tick every 1s for live timer + auto ready
   useEffect(() => {
     const iv = setInterval(() => {
       setTick((t) => t + 1);
@@ -66,16 +79,17 @@ export default function JardinPage() {
         let changed = false;
         const next = prev.map((p) => {
           if (p.etat !== 'growing') return p;
-          if (getProgress(p) >= 1) { changed = true; return { ...p, etat: 'ready' as const }; }
+          if (getSecondesRestantes(p) <= 0) {
+            changed = true;
+            return { ...p, etat: 'ready' as const };
+          }
           return p;
         });
         return changed ? next : prev;
       });
-    }, 10_000);
+    }, 1000);
     return () => clearInterval(iv);
   }, []);
-
-  const occupees = parcelles.filter((p) => p.etat !== 'empty').length;
 
   const handlePlanter = useCallback((parcelleId: number, cultureId: string) => {
     setParcelles((prev) =>
@@ -86,24 +100,23 @@ export default function JardinPage() {
       ),
     );
     setPlanterPour(null);
-    setDetailCulture(null);
   }, []);
 
   const handleRecolter = useCallback((parcelleId: number) => {
-    const p = parcelles.find((x) => x.id === parcelleId);
-    const culture = getCulture(p?.culture ?? null);
-    if (culture) {
-      setRecolteAnim({ id: parcelleId, gain: culture.gain });
-      setTimeout(() => setRecolteAnim(null), 1200);
-    }
-    setParcelles((prev) =>
-      prev.map((x) =>
+    setParcelles((prev) => {
+      const target = prev.find((x) => x.id === parcelleId);
+      const culture = getCulture(target?.culture ?? null);
+      if (culture) {
+        setRecolteAnim({ id: parcelleId, gain: culture.gain });
+        setTimeout(() => setRecolteAnim(null), 1200);
+      }
+      return prev.map((x) =>
         x.id === parcelleId
           ? { ...x, etat: 'empty' as const, culture: null, planteeLe: null }
           : x,
-      ),
-    );
-  }, [parcelles]);
+      );
+    });
+  }, []);
 
   const handleArroser = useCallback((parcelleId: number) => {
     setParcelles((prev) =>
@@ -111,447 +124,616 @@ export default function JardinPage() {
         if (p.id !== parcelleId || !p.planteeLe) return p;
         const culture = getCulture(p.culture);
         if (!culture) return p;
-        // advance by 20% of total time
         const boost = culture.temps * 0.2 * 60 * 60 * 1000;
         return { ...p, planteeLe: new Date(p.planteeLe.getTime() - boost) };
       }),
     );
   }, []);
 
+  const handleParcelleClick = useCallback(
+    (p: Parcelle) => {
+      if (p.etat === 'empty') setPlanterPour(p.id);
+      else if (p.etat === 'ready') handleRecolter(p.id);
+    },
+    [handleRecolter],
+  );
+
   return (
-    <div className="w-full flex-1 flex flex-col overflow-y-auto">
+    <div style={S.page}>
+      {/* keyframes + global anim */}
+      <style>{KEYFRAMES}</style>
 
-      {/* Header sticky */}
-      <div
-        className="sticky top-0 z-20 px-4 pt-3 pb-2"
-        style={{ background: 'var(--app-bg-dark)' }}
-      >
-        <div className="flex items-baseline justify-between mb-2">
-          <h1 style={{ fontFamily: 'var(--font-pixel)', fontSize: 11, color: 'var(--nav-active)' }}>
-            JARDIN &amp; CULTURES
-          </h1>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 16, color: 'var(--hud-lore)' }}>
-            Slots : {occupees}/3 occupés
-          </span>
-        </div>
-
-        {/* Tabs */}
-        <div className="flex gap-2">
-          {(['parcelles', 'semences'] as const).map((t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              style={{
-                fontFamily: 'var(--font-pixel)',
-                fontSize: 8,
-                padding: '6px 12px',
-                letterSpacing: 0.5,
-                background: tab === t ? 'var(--btn-gold-bg)' : 'rgba(0,0,0,0.3)',
-                border: `2px solid ${tab === t ? 'var(--btn-gold-border)' : 'rgba(255,255,255,0.15)'}`,
-                boxShadow: tab === t ? '2px 2px 0 var(--btn-gold-shadow)' : 'none',
-                color: tab === t ? 'var(--btn-gold-text)' : 'var(--nav-inactive)',
-                textTransform: 'uppercase',
-                cursor: 'pointer',
-              }}
-            >
-              {t === 'parcelles' ? 'MES PARCELLES' : 'SEMENCES'}
-            </button>
-          ))}
-        </div>
+      {/* ─── HEADER BANNIÈRE ─── */}
+      <div style={S.banner}>
+        <span style={{ fontSize: 16 }}>🌱</span>
+        <span style={S.bannerTitle}>JARDIN</span>
+        <span style={{ fontSize: 16 }}>🌱</span>
       </div>
 
-      {/* Content */}
-      <div className="flex-1 px-4 pb-4 pt-2">
-        {tab === 'parcelles' ? (
-          <div className="flex flex-col gap-3">
-            {parcelles.map((p) => (
-              <ParcelleCard
-                key={p.id}
-                parcelle={p}
-                onPlanter={() => setPlanterPour(p.id)}
-                onRecolter={() => handleRecolter(p.id)}
-                onArroser={() => handleArroser(p.id)}
-                recolteAnim={recolteAnim?.id === p.id ? recolteAnim.gain : null}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-3 gap-3">
-            {CULTURES.map((c) => (
-              <SemenceCard key={c.id} culture={c} onTap={() => setDetailCulture(c.id)} />
-            ))}
-          </div>
-        )}
+      {/* ─── GRILLE 3×3 ─── */}
+      <div style={S.grid}>
+        {parcelles.map((p) => (
+          <ParcelleCell
+            key={p.id}
+            parcelle={p}
+            onClick={() => handleParcelleClick(p)}
+            recolteAnim={recolteAnim?.id === p.id ? recolteAnim.gain : null}
+          />
+        ))}
       </div>
 
-      {/* Detail popup */}
-      {detailCulture && (
-        <DetailPopup
-          cultureId={detailCulture}
-          parcelles={parcelles}
-          onClose={() => setDetailCulture(null)}
-          onPlanter={(parcelleId) => handlePlanter(parcelleId, detailCulture)}
-        />
-      )}
+      {/* ─── BARRE D'ACTIONS ─── */}
+      <div style={S.actionBar}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+          <button style={S.agirBtn} onClick={() => setActionsOpen(true)}>
+            AGIR SUR JARDIN
+          </button>
+          <span style={S.agirHint}>PLANTER · ARROSER · RÉCOLTER</span>
+        </div>
+        <button
+          style={S.roundBtn}
+          onClick={() => setActionsOpen(true)}
+          aria-label="Arrosoir"
+        >
+          💧
+        </button>
+        <button
+          style={S.roundBtn}
+          onClick={() => setActionsOpen(true)}
+          aria-label="Panier"
+        >
+          🧺
+        </button>
+      </div>
 
-      {/* Planter selector (from parcelle) */}
+      {/* ─── MODALES ─── */}
       {planterPour !== null && (
         <PlanterSelector
-          parcelleId={planterPour}
           onSelect={(cultureId) => handlePlanter(planterPour, cultureId)}
           onClose={() => setPlanterPour(null)}
         />
       )}
+
+      {actionsOpen && (
+        <ActionsModal
+          parcelles={parcelles}
+          onClose={() => setActionsOpen(false)}
+          onPlanter={(id) => {
+            setActionsOpen(false);
+            setPlanterPour(id);
+          }}
+          onArroser={(id) => handleArroser(id)}
+          onRecolter={(id) => handleRecolter(id)}
+        />
+      )}
     </div>
   );
 }
 
-/* ─── PARCELLE CARD ─── */
-function ParcelleCard({
+/* ─── PARCELLE CELL ─── */
+function ParcelleCell({
   parcelle,
-  onPlanter,
-  onRecolter,
-  onArroser,
+  onClick,
   recolteAnim,
 }: {
   parcelle: Parcelle;
-  onPlanter: () => void;
-  onRecolter: () => void;
-  onArroser: () => void;
+  onClick: () => void;
   recolteAnim: number | null;
 }) {
   const culture = getCulture(parcelle.culture);
+  const isReady = parcelle.etat === 'ready';
+  const isLocked = parcelle.etat === 'locked';
 
-  if (parcelle.etat === 'empty') {
-    return (
-      <div
-        className="pixel-card p-4"
-        style={{ background: '#8B6914', borderColor: 'var(--card-border)' }}
-      >
-        <p style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: 'var(--card-bg-light)', marginBottom: 12 }}>
-          {parcelle.nom}
-        </p>
-        <div
-          className="flex items-center justify-center"
-          style={{ height: 48, background: 'rgba(0,0,0,0.15)', marginBottom: 12 }}
-        >
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 20, color: 'rgba(255,255,255,0.25)' }}>
-            sol vide
-          </span>
-        </div>
-        <button className="app-btn w-full" onClick={onPlanter}>
-          + PLANTER
-        </button>
-      </div>
-    );
-  }
+  const cellStyle: CSSProperties = {
+    ...S.parcelle,
+    ...(isReady ? S.parcelleReady : {}),
+    ...(isLocked ? S.parcelleLocked : {}),
+    cursor: parcelle.etat === 'empty' || isReady ? 'pointer' : 'default',
+  };
 
-  if (parcelle.etat === 'growing') {
-    const progress = getProgress(parcelle);
-    const restant = getHeuresRestantes(parcelle);
-    const elapsed = parcelle.planteeLe
-      ? (Date.now() - parcelle.planteeLe.getTime()) / (1000 * 60 * 60)
-      : 0;
-    const canArroser = elapsed >= 1;
-
-    return (
-      <div className="pixel-card p-4">
-        <p style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: 'var(--card-border)', marginBottom: 8 }}>
-          {parcelle.nom}
-        </p>
-        <div className="flex items-center gap-2 mb-3">
-          <span style={{ fontSize: 28 }}>{culture?.emoji}</span>
-          <span style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: '#2d1a08' }}>
-            {culture?.nom}
-          </span>
-        </div>
-        {/* Progress bar */}
-        <div className="flex items-center gap-2 mb-3">
-          <div
-            className="flex-1"
-            style={{ height: 12, background: '#5a3a10', border: '1px solid var(--card-border)' }}
-          >
-            <div
-              style={{
-                height: '100%',
-                width: `${Math.round(progress * 100)}%`,
-                background: 'var(--btn-gold-bg)',
-                transition: 'width 1s linear',
-              }}
-            />
-          </div>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 16, color: '#5a3a10', whiteSpace: 'nowrap' }}>
-            {restant < 1 ? `${Math.round(restant * 60)}min` : `${Math.round(restant)}h`} restantes
-          </span>
-        </div>
-        <button
-          className="app-btn w-full"
-          onClick={onArroser}
-          disabled={!canArroser}
-          style={{ opacity: canArroser ? 1 : 0.4 }}
-        >
-          ARROSER → -20% temps
-        </button>
-      </div>
-    );
-  }
-
-  // ready
   return (
-    <div
-      className="pixel-card p-4 relative"
-      style={{
-        animation: 'pulse-gold 2s ease-in-out infinite',
-        boxShadow: '3px 3px 0 var(--card-shadow), 0 0 12px rgba(245,200,66,0.3)',
-      }}
-    >
-      {/* Récolte animation */}
+    <div style={cellStyle} onClick={isLocked ? undefined : onClick}>
+      {/* Numéro */}
+      <span style={S.parcelleNum}>{parcelle.id}</span>
+
+      {/* Récolte +X ✦ */}
       {recolteAnim !== null && (
-        <span
-          style={{
-            position: 'absolute',
-            top: 8,
-            right: 16,
-            fontFamily: 'var(--font-pixel)',
-            fontSize: 14,
-            color: 'var(--hud-eclat)',
-            animation: 'float-up 1.2s ease-out forwards',
-            pointerEvents: 'none',
-          }}
-        >
-          +{recolteAnim} ✦
-        </span>
+        <span style={S.recolteFloat}>+{recolteAnim} ✦</span>
       )}
-      <div className="flex items-baseline justify-between mb-2">
-        <p style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: 'var(--card-border)' }}>
-          {parcelle.nom}
-        </p>
-        <span style={{ fontSize: 16 }}>✨</span>
-      </div>
-      <div className="flex items-center gap-2 mb-2">
-        <span style={{ fontSize: 28 }}>{culture?.emoji}</span>
-        <span style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: '#2d1a08' }}>
-          {culture?.nom}
-        </span>
-      </div>
-      <p
-        style={{
-          fontFamily: 'var(--font-pixel)',
-          fontSize: 8,
-          color: 'var(--btn-gold-text)',
-          marginBottom: 8,
-          textAlign: 'center',
-        }}
-      >
-        PRÊTE À RÉCOLTER!
-      </p>
-      <button className="app-btn w-full" onClick={onRecolter}>
-        RÉCOLTER → +{culture?.gain} ✦
-      </button>
-    </div>
-  );
-}
 
-/* ─── SEMENCE CARD ─── */
-function SemenceCard({ culture, onTap }: { culture: (typeof CULTURES)[number]; onTap: () => void }) {
-  return (
-    <button
-      className="pixel-card relative flex flex-col items-center p-2"
-      style={{ minHeight: 120, cursor: culture.dispo ? 'pointer' : 'default' }}
-      onClick={culture.dispo ? onTap : undefined}
-    >
-      {!culture.dispo && (
-        <div
-          className="absolute inset-0 flex items-center justify-center z-10"
-          style={{ background: 'rgba(90,58,16,0.7)' }}
-        >
-          <span style={{ fontSize: 28 }}>🔒</span>
-        </div>
+      {/* Sparkles si ready */}
+      {isReady && (
+        <>
+          <span style={{ ...S.spark, top: '15%', left: '20%', animationDelay: '0s' }} />
+          <span style={{ ...S.spark, top: '25%', right: '15%', animationDelay: '0.5s' }} />
+          <span style={{ ...S.spark, bottom: '28%', left: '30%', animationDelay: '1s' }} />
+        </>
       )}
-      <span style={{ fontSize: 32, marginBottom: 4 }}>{culture.emoji}</span>
-      <span
-        style={{
-          fontFamily: 'var(--font-pixel)',
-          fontSize: 8,
-          color: '#2d1a08',
-          textAlign: 'center',
-          lineHeight: '1.5',
-          marginBottom: 2,
-        }}
-      >
-        {culture.nomCourt}
-      </span>
-      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 16, color: '#5a3a10' }}>
-        {formatDuree(culture.temps)}
-      </span>
-      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 16, color: 'var(--btn-gold-border)' }}>
-        +{culture.gain} ✦
-      </span>
-      <span
-        className="app-btn mt-auto"
-        style={{ fontSize: 7, padding: '4px 8px' }}
-      >
-        {culture.cout} ✦
-      </span>
-    </button>
-  );
-}
 
-/* ─── DETAIL POPUP ─── */
-function DetailPopup({
-  cultureId,
-  parcelles,
-  onClose,
-  onPlanter,
-}: {
-  cultureId: string;
-  parcelles: Parcelle[];
-  onClose: () => void;
-  onPlanter: (parcelleId: number) => void;
-}) {
-  const culture = getCulture(cultureId);
-  if (!culture) return null;
-  const videsCount = parcelles.filter((p) => p.etat === 'empty').length;
-
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-end justify-center"
-      style={{ background: 'rgba(0,0,0,0.6)' }}
-      onClick={onClose}
-    >
-      <div
-        className="pixel-card w-full max-w-md p-5 mb-0"
-        style={{ borderBottom: 'none' }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Close */}
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3"
-          style={{ fontFamily: 'var(--font-pixel)', fontSize: 10, color: 'var(--card-border)', cursor: 'pointer', background: 'none', border: 'none' }}
-        >
-          ✕
-        </button>
-
-        <div className="flex items-center gap-3 mb-3">
-          <span style={{ fontSize: 40 }}>{culture.emoji}</span>
-          <div>
-            <h3 style={{ fontFamily: 'var(--font-pixel)', fontSize: 10, color: '#2d1a08', marginBottom: 4 }}>
-              {culture.nom}
-            </h3>
-            <span
-              style={{ fontFamily: 'var(--font-pixel)', fontSize: 7, color: 'var(--accent-mystere)', textTransform: 'uppercase' }}
-            >
-              {culture.saison}
-            </span>
-          </div>
-        </div>
-
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: '#4a3520', lineHeight: 1.6, marginBottom: 12 }}>
-          {culture.desc}
-        </p>
-
-        <div className="flex gap-4 mb-4">
-          <div>
-            <span style={{ fontFamily: 'var(--font-pixel)', fontSize: 7, color: '#8B5E2A' }}>TEMPS</span>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 20, color: '#2d1a08' }}>{formatDuree(culture.temps)}</p>
-          </div>
-          <div>
-            <span style={{ fontFamily: 'var(--font-pixel)', fontSize: 7, color: '#8B5E2A' }}>GAIN</span>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 20, color: 'var(--btn-gold-border)' }}>+{culture.gain} ✦</p>
-          </div>
-          <div>
-            <span style={{ fontFamily: 'var(--font-pixel)', fontSize: 7, color: '#8B5E2A' }}>COÛT</span>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 20, color: '#2d1a08' }}>{culture.cout} ✦</p>
-          </div>
-        </div>
-
-        {videsCount > 0 ? (
-          <div>
-            <p style={{ fontFamily: 'var(--font-pixel)', fontSize: 7, color: '#8B5E2A', marginBottom: 6 }}>
-              CHOISIR UNE PARCELLE :
-            </p>
-            <div className="flex flex-col gap-2">
-              {parcelles
-                .filter((p) => p.etat === 'empty')
-                .map((p) => (
-                  <button
-                    key={p.id}
-                    className="app-btn w-full"
-                    onClick={() => onPlanter(p.id)}
-                  >
-                    PLANTER → {p.nom}
-                  </button>
-                ))}
-            </div>
-          </div>
-        ) : (
-          <p style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: '#8B5E2A', textAlign: 'center', opacity: 0.7 }}>
-            Aucune parcelle disponible
-          </p>
+      {/* Contenu central */}
+      <div style={S.parcelleContent}>
+        {parcelle.etat === 'empty' && <span style={S.emptyPlus}>+</span>}
+        {parcelle.etat === 'locked' && <span style={S.lockIcon}>🔒</span>}
+        {(parcelle.etat === 'growing' || parcelle.etat === 'ready') && culture && (
+          <span style={S.cropEmoji}>{culture.emoji}</span>
         )}
       </div>
+
+      {/* Badge bas */}
+      {parcelle.etat === 'growing' && (
+        <span style={S.timerBadge}>{formatTimer(getSecondesRestantes(parcelle))}</span>
+      )}
+      {isReady && <span style={S.readyBadge}>PRÊTE !</span>}
     </div>
   );
 }
 
-/* ─── PLANTER SELECTOR ─── */
+/* ─── PLANTER SELECTOR (semences) ─── */
 function PlanterSelector({
-  parcelleId,
   onSelect,
   onClose,
 }: {
-  parcelleId: number;
   onSelect: (cultureId: string) => void;
   onClose: () => void;
 }) {
   const available = CULTURES.filter((c) => c.dispo);
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-end justify-center"
-      style={{ background: 'rgba(0,0,0,0.6)' }}
-      onClick={onClose}
-    >
-      <div
-        className="pixel-card w-full max-w-md p-4 mb-0"
-        style={{ borderBottom: 'none' }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h3 style={{ fontFamily: 'var(--font-pixel)', fontSize: 9, color: '#2d1a08', marginBottom: 12 }}>
-          CHOISIR UNE SEMENCE
-        </h3>
-        <div className="flex flex-col gap-2">
+    <div style={S.modalOverlay} onClick={onClose}>
+      <div style={S.modalSheet} onClick={(e) => e.stopPropagation()}>
+        <h3 style={S.modalTitle}>CHOISIR UNE SEMENCE</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {available.map((c) => (
-            <button
-              key={c.id}
-              className="pixel-card flex items-center gap-3 p-3"
-              style={{ cursor: 'pointer' }}
-              onClick={() => onSelect(c.id)}
-            >
+            <button key={c.id} style={S.semenceRow} onClick={() => onSelect(c.id)}>
               <span style={{ fontSize: 24 }}>{c.emoji}</span>
-              <div className="flex-1 text-left">
-                <span style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: '#2d1a08' }}>
-                  {c.nomCourt}
-                </span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 14, color: '#5a3a10', marginLeft: 8 }}>
-                  {formatDuree(c.temps)} → +{c.gain} ✦
-                </span>
+              <div style={{ flex: 1, textAlign: 'left' }}>
+                <div style={S.semenceNom}>{c.nomCourt}</div>
+                <div style={S.semenceMeta}>
+                  {formatDureeShort(c.temps)} · +{c.gain} ✦
+                </div>
               </div>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 16, color: 'var(--btn-gold-border)' }}>
-                {c.cout} ✦
-              </span>
+              <span style={S.semenceCout}>{c.cout} ✦</span>
             </button>
           ))}
         </div>
-        <button
-          className="app-btn w-full mt-3"
-          style={{ background: 'var(--card-border)' }}
-          onClick={onClose}
-        >
+        <button style={S.modalCancel} onClick={onClose}>
           ANNULER
         </button>
       </div>
     </div>
   );
 }
+
+/* ─── ACTIONS MODAL ─── */
+function ActionsModal({
+  parcelles,
+  onClose,
+  onPlanter,
+  onArroser,
+  onRecolter,
+}: {
+  parcelles: Parcelle[];
+  onClose: () => void;
+  onPlanter: (id: number) => void;
+  onArroser: (id: number) => void;
+  onRecolter: (id: number) => void;
+}) {
+  const actives = parcelles.filter((p) => p.etat !== 'locked');
+
+  return (
+    <div style={S.modalOverlay} onClick={onClose}>
+      <div style={S.modalSheet} onClick={(e) => e.stopPropagation()}>
+        <h3 style={S.modalTitle}>AGIR SUR LE JARDIN</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {actives.map((p) => {
+            const culture = getCulture(p.culture);
+            const elapsedH = p.planteeLe
+              ? (Date.now() - p.planteeLe.getTime()) / (1000 * 60 * 60)
+              : 0;
+            const canArroser = p.etat === 'growing' && elapsedH >= 1;
+
+            return (
+              <div key={p.id} style={S.actionRow}>
+                <span style={S.actionRowNum}>#{p.id}</span>
+                <span style={{ fontSize: 22, width: 28, textAlign: 'center' }}>
+                  {p.etat === 'empty' ? '🟫' : culture?.emoji ?? ''}
+                </span>
+                <div style={{ flex: 1, textAlign: 'left' }}>
+                  <div style={S.actionRowNom}>
+                    {p.etat === 'empty'
+                      ? 'Sol nu'
+                      : culture?.nomCourt ?? '—'}
+                  </div>
+                  <div style={S.actionRowMeta}>
+                    {p.etat === 'growing' && `${formatTimer(getSecondesRestantes(p))} restantes`}
+                    {p.etat === 'ready' && culture && `+${culture.gain} ✦`}
+                    {p.etat === 'empty' && 'Prête à planter'}
+                  </div>
+                </div>
+                {p.etat === 'empty' && (
+                  <button style={S.actionBtnGold} onClick={() => onPlanter(p.id)}>
+                    PLANTER
+                  </button>
+                )}
+                {p.etat === 'growing' && (
+                  <button
+                    style={{ ...S.actionBtnBlue, opacity: canArroser ? 1 : 0.4 }}
+                    onClick={() => canArroser && onArroser(p.id)}
+                    disabled={!canArroser}
+                  >
+                    ARROSER
+                  </button>
+                )}
+                {p.etat === 'ready' && (
+                  <button style={S.actionBtnGreen} onClick={() => onRecolter(p.id)}>
+                    RÉCOLTER
+                  </button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+        <button style={S.modalCancel} onClick={onClose}>
+          FERMER
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ─── KEYFRAMES ─── */
+const KEYFRAMES = `
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0); }
+  50%      { opacity: 1; transform: scale(1); }
+}
+@keyframes float-up {
+  0%   { opacity: 0; transform: translate(-50%, 0); }
+  20%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -32px); }
+}
+@keyframes ready-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px #6b3d1e, inset 0 1px 0 rgba(180,120,60,0.3), inset 0 -2px 4px rgba(0,0,0,0.4), 0 0 12px rgba(212,160,23,0.6), 0 0 24px rgba(212,160,23,0.3); }
+  50%      { box-shadow: 0 0 0 1px #6b3d1e, inset 0 1px 0 rgba(180,120,60,0.3), inset 0 -2px 4px rgba(0,0,0,0.4), 0 0 18px rgba(212,160,23,0.85), 0 0 32px rgba(212,160,23,0.5); }
+}
+`;
+
+/* ─── STYLES ─── */
+const fontPixel = "'Press Start 2P', monospace";
+
+const S: Record<string, CSSProperties> = {
+  page: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden',
+    background:
+      'radial-gradient(ellipse at 50% 30%, #6b3a1f 0%, #3d1f0a 60%, #2a1408 100%)',
+  },
+
+  /* Header */
+  banner: {
+    background: 'linear-gradient(180deg, #f5e8c0 0%, #e8d5a0 100%)',
+    border: '3px solid #3d2010',
+    boxShadow: '0 0 0 5px #1a0d05, 0 0 0 7px #6b3d1e, 0 4px 12px rgba(0,0,0,0.5)',
+    borderRadius: 8,
+    margin: '10px 12px 8px',
+    padding: '8px 16px',
+    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    flexShrink: 0,
+  },
+  bannerTitle: {
+    fontFamily: fontPixel,
+    fontSize: 12,
+    color: '#3d2010',
+    textShadow: '2px 2px 0 rgba(0,0,0,0.25)',
+    letterSpacing: 1,
+  },
+
+  /* Grille */
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gridTemplateRows: 'repeat(3, 1fr)',
+    gap: 8,
+    padding: '0 10px',
+    flex: 1,
+    minHeight: 0,
+  },
+
+  /* Parcelle */
+  parcelle: {
+    background:
+      'repeating-linear-gradient(0deg, transparent 0px, transparent 6px, rgba(0,0,0,0.15) 6px, rgba(0,0,0,0.18) 8px), linear-gradient(180deg, #7a4a20 0%, #5a3010 50%, #4a2808 100%)',
+    borderRadius: 8,
+    border: '3px solid #2a1408',
+    boxShadow:
+      '0 0 0 1px #6b3d1e, inset 0 1px 0 rgba(180,120,60,0.3), inset 0 -2px 4px rgba(0,0,0,0.4)',
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    minHeight: 0,
+  },
+  parcelleReady: {
+    borderColor: '#d4a017',
+    animation: 'ready-pulse 2s ease-in-out infinite',
+  },
+  parcelleLocked: {
+    background:
+      'repeating-linear-gradient(0deg, transparent 0px, transparent 6px, rgba(0,0,0,0.25) 6px, rgba(0,0,0,0.3) 8px), linear-gradient(180deg, #3a2410 0%, #2a1808 100%)',
+    opacity: 0.55,
+  },
+
+  parcelleNum: {
+    position: 'absolute',
+    top: 4,
+    left: 5,
+    fontFamily: fontPixel,
+    fontSize: 6,
+    color: 'rgba(240,200,100,0.7)',
+    zIndex: 2,
+  },
+
+  parcelleContent: {
+    flex: 1,
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    pointerEvents: 'none',
+  },
+
+  emptyPlus: {
+    fontFamily: fontPixel,
+    fontSize: 10,
+    color: 'rgba(240,200,100,0.4)',
+  },
+  lockIcon: {
+    fontSize: 'clamp(18px, 5vw, 26px)',
+    filter: 'grayscale(0.3)',
+    opacity: 0.85,
+  },
+  cropEmoji: {
+    fontSize: 'clamp(24px, 6vw, 36px)',
+    filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.5))',
+  },
+
+  timerBadge: {
+    position: 'absolute',
+    bottom: 4,
+    background: 'rgba(0,0,0,0.7)',
+    border: '1px solid #c8933a',
+    borderRadius: 3,
+    padding: '2px 5px',
+    fontFamily: fontPixel,
+    fontSize: 5,
+    color: '#f0c040',
+    letterSpacing: 0.5,
+    whiteSpace: 'nowrap',
+  },
+  readyBadge: {
+    position: 'absolute',
+    bottom: 4,
+    background: '#4a6a2a',
+    border: '1px solid #7ab83a',
+    borderRadius: 3,
+    padding: '2px 6px',
+    fontFamily: fontPixel,
+    fontSize: 5,
+    color: '#e8ffd0',
+    letterSpacing: 0.5,
+    textShadow: '0 1px 0 rgba(0,0,0,0.5)',
+  },
+
+  spark: {
+    position: 'absolute',
+    width: 4,
+    height: 4,
+    background: '#f0c040',
+    borderRadius: '50%',
+    boxShadow: '0 0 4px #f0c040',
+    animation: 'sparkle 1.5s ease-in-out infinite',
+    pointerEvents: 'none',
+  },
+
+  recolteFloat: {
+    position: 'absolute',
+    top: '30%',
+    left: '50%',
+    transform: 'translate(-50%, 0)',
+    fontFamily: fontPixel,
+    fontSize: 10,
+    color: '#f0c040',
+    textShadow: '0 1px 0 #2a1408, 0 0 6px rgba(240,192,64,0.8)',
+    animation: 'float-up 1.2s ease-out forwards',
+    pointerEvents: 'none',
+    zIndex: 5,
+    whiteSpace: 'nowrap',
+  },
+
+  /* Action bar */
+  actionBar: {
+    padding: '8px 12px 12px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+    flexShrink: 0,
+  },
+  agirBtn: {
+    width: '100%',
+    background: 'linear-gradient(180deg, #f0c040 0%, #d4a017 50%, #b88010 100%)',
+    border: '3px solid #2a1408',
+    boxShadow: '0 0 0 2px #d4a017, 0 3px 0 #6a5000, 0 5px 8px rgba(0,0,0,0.4)',
+    borderRadius: 6,
+    padding: '10px 8px',
+    fontFamily: fontPixel,
+    fontSize: 9,
+    color: '#2a1408',
+    textShadow: '0 1px 0 rgba(255,220,80,0.5)',
+    cursor: 'pointer',
+    letterSpacing: 0.5,
+  },
+  agirHint: {
+    fontFamily: fontPixel,
+    fontSize: 5,
+    color: 'rgba(240,200,100,0.5)',
+    textAlign: 'center',
+    letterSpacing: 0.3,
+  },
+  roundBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: '50%',
+    background: 'linear-gradient(180deg, #c8933a 0%, #8b5a20 100%)',
+    border: '2px solid #2a1408',
+    boxShadow: '0 0 0 2px #c8933a, 0 2px 0 #4a2808',
+    fontSize: 20,
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+  },
+
+  /* Modal */
+  modalOverlay: {
+    position: 'fixed',
+    inset: 0,
+    zIndex: 50,
+    display: 'flex',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    background: 'rgba(0,0,0,0.65)',
+    backdropFilter: 'blur(2px)',
+  },
+  modalSheet: {
+    width: '100%',
+    maxWidth: 480,
+    background: 'linear-gradient(180deg, #f5e8c0 0%, #e8d5a0 100%)',
+    border: '3px solid #3d2010',
+    borderBottom: 'none',
+    boxShadow: '0 0 0 5px #1a0d05, 0 0 0 7px #6b3d1e, 0 -8px 24px rgba(0,0,0,0.6)',
+    borderRadius: '12px 12px 0 0',
+    padding: 16,
+    paddingBottom: 'calc(16px + env(safe-area-inset-bottom, 0px))',
+  },
+  modalTitle: {
+    fontFamily: fontPixel,
+    fontSize: 10,
+    color: '#3d2010',
+    textShadow: '1px 1px 0 rgba(0,0,0,0.2)',
+    marginBottom: 12,
+    textAlign: 'center',
+    letterSpacing: 1,
+  },
+
+  semenceRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 12,
+    padding: 10,
+    background: 'linear-gradient(180deg, #fff5d8 0%, #f0e2b0 100%)',
+    border: '2px solid #6b3d1e',
+    borderRadius: 6,
+    cursor: 'pointer',
+    boxShadow: '0 2px 0 #3d2010',
+  },
+  semenceNom: {
+    fontFamily: fontPixel,
+    fontSize: 8,
+    color: '#3d2010',
+    marginBottom: 3,
+  },
+  semenceMeta: {
+    fontFamily: fontPixel,
+    fontSize: 6,
+    color: '#6b4a20',
+  },
+  semenceCout: {
+    fontFamily: fontPixel,
+    fontSize: 8,
+    color: '#b88010',
+  },
+
+  actionRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+    padding: 8,
+    background: 'linear-gradient(180deg, #fff5d8 0%, #f0e2b0 100%)',
+    border: '2px solid #6b3d1e',
+    borderRadius: 6,
+    boxShadow: '0 2px 0 #3d2010',
+  },
+  actionRowNum: {
+    fontFamily: fontPixel,
+    fontSize: 6,
+    color: '#8B5E2A',
+    width: 16,
+  },
+  actionRowNom: {
+    fontFamily: fontPixel,
+    fontSize: 7,
+    color: '#3d2010',
+    marginBottom: 3,
+  },
+  actionRowMeta: {
+    fontFamily: fontPixel,
+    fontSize: 5,
+    color: '#6b4a20',
+  },
+  actionBtnGold: {
+    fontFamily: fontPixel,
+    fontSize: 7,
+    padding: '6px 8px',
+    background: 'linear-gradient(180deg, #f0c040 0%, #b88010 100%)',
+    border: '2px solid #2a1408',
+    borderRadius: 4,
+    color: '#2a1408',
+    cursor: 'pointer',
+    boxShadow: '0 2px 0 #6a5000',
+  },
+  actionBtnBlue: {
+    fontFamily: fontPixel,
+    fontSize: 7,
+    padding: '6px 8px',
+    background: 'linear-gradient(180deg, #5aa0d0 0%, #2a6090 100%)',
+    border: '2px solid #2a1408',
+    borderRadius: 4,
+    color: '#fff',
+    cursor: 'pointer',
+    boxShadow: '0 2px 0 #103040',
+  },
+  actionBtnGreen: {
+    fontFamily: fontPixel,
+    fontSize: 7,
+    padding: '6px 8px',
+    background: 'linear-gradient(180deg, #7ab83a 0%, #4a6a2a 100%)',
+    border: '2px solid #2a1408',
+    borderRadius: 4,
+    color: '#fff',
+    cursor: 'pointer',
+    boxShadow: '0 2px 0 #2a4010',
+  },
+  modalCancel: {
+    width: '100%',
+    marginTop: 12,
+    padding: 10,
+    background: 'linear-gradient(180deg, #6b3d1e 0%, #3d2010 100%)',
+    border: '2px solid #1a0d05',
+    borderRadius: 6,
+    fontFamily: fontPixel,
+    fontSize: 8,
+    color: '#f5e8c0',
+    cursor: 'pointer',
+    boxShadow: '0 2px 0 #1a0d05',
+  },
+};
