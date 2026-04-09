@@ -30,6 +30,29 @@
   --eclat-or:        #FFD700;
   --eclat-lueur:     #FFF3A0;
 
+  /* APP — palette intérieur abonné */
+  --app-bg:           #3d7a1a;
+  --app-bg-dark:      #2d5c12;
+  --app-bg-darker:    #1a3a08;
+
+  --card-bg:          #c8a84a;
+  --card-bg-light:    #e8d090;
+  --card-border:      #8B5E2A;
+  --card-shadow:      #5a3a10;
+
+  --btn-gold-bg:      #c8a030;
+  --btn-gold-border:  #8B6914;
+  --btn-gold-shadow:  #5a4010;
+  --btn-gold-text:    #2d1a08;
+
+  --nav-bg:           #1a3a08;
+  --nav-active:       #c8a030;
+  --nav-inactive:     #7ab845;
+
+  --hud-text:         #ffffff;
+  --hud-eclat:        #FFD700;
+  --hud-lore:         #d4b87a;
+
   /* Typographie */
   --font-pixel:  'Press Start 2P', monospace;
   --font-body:   'Lora', serif;
@@ -103,6 +126,32 @@ canvas, img[data-pixel] {
 .pixel-btn--secondary { background: var(--ardoise); color: var(--texte-clair); }
 .pixel-btn--danger { background: var(--brique); color: var(--texte-clair); }
 
+/* APP — Carte pixel art */
+.pixel-card {
+  background: var(--card-bg-light);
+  border: 3px solid var(--card-border);
+  box-shadow: 3px 3px 0 var(--card-shadow);
+}
+
+/* APP — Bouton doré */
+.app-btn {
+  background: var(--btn-gold-bg);
+  border: 3px solid var(--btn-gold-border);
+  box-shadow: 3px 3px 0 var(--btn-gold-shadow);
+  color: var(--btn-gold-text);
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  padding: 10px 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform 80ms, box-shadow 80ms;
+}
+.app-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--btn-gold-shadow);
+}
+
 /* Scrollbar pixel art — forêt */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: #1a2e1a; }
@@ -117,9 +166,21 @@ canvas, img[data-pixel] {
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
 }
+@keyframes float-up {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-40px); }
+}
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
+}
+@keyframes bob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(6px); }
+}
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
 }
 
 /* Herbe animée (landing hero) */
@@ -128,13 +189,48 @@ canvas, img[data-pixel] {
   100% { background-position: -128px 0; }
 }
 
-/* PWA — comportements natifs */
+/* ─── PWA & MOBILE NATIF ─────────────────────────────── */
+
+/* Bloque le rebond élastique iOS (pull-to-refresh) */
 html, body {
   overscroll-behavior-y: contain;
-  -webkit-touch-callout: none;
-  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  position: fixed; /* Empêche le scroll du body sur iOS */
+}
+
+/* Container app — comportements natifs */
+.app-container {
   user-select: none;
   -webkit-user-select: none;
+  -webkit-touch-callout: none;       /* Désactive menu contextuel iOS */
+  -webkit-tap-highlight-color: transparent; /* Supprime flash gris au tap */
+  touch-action: pan-y;               /* Autorise scroll vertical uniquement */
+}
+
+/* Scroll fluide dans les zones scrollables */
+.scrollable-zone {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Boutons — retour tactile :active au lieu de :hover */
+.app-btn:active,
+.pixel-card:active,
+[role="button"]:active {
+  transform: translate(2px, 2px);
+  filter: brightness(0.9);
+}
+
+/* Désactiver :hover sur mobile (évite les états collants) */
+@media (hover: none) {
+  .app-btn:hover,
+  .pixel-card:hover {
+    transform: none;
+    filter: none;
+  }
 }
 
 /* Exception : les inputs et les éléments texte */

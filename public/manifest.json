@@ -3,6 +3,7 @@
   "short_name": "Pétaouchnok",
   "description": "Un village. Un mystère. Une lettre par mois.",
   "start_url": "/village",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#3d7a1a",
@@ -20,5 +21,7 @@
       "type": "image/png",
       "purpose": "maskable any"
     }
-  ]
+  ],
+  "categories": ["games", "entertainment"],
+  "lang": "fr"
 }
