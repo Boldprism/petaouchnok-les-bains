@@ -546,8 +546,8 @@ const KEYFRAMES = `
   100% { opacity: 0; transform: translate(-50%, -32px); }
 }
 @keyframes ready-pulse {
-  0%, 100% { box-shadow: 0 0 8px rgba(212,160,23,0.4), 0 0 16px rgba(212,160,23,0.2); }
-  50%      { box-shadow: 0 0 16px rgba(212,160,23,0.8), 0 0 32px rgba(212,160,23,0.4); }
+  0%, 100% { box-shadow: 0 0 0 1px #6b3d1e, inset 0 1px 0 rgba(180,120,60,0.3), 0 0 8px rgba(212,160,23,0.5), 0 0 20px rgba(212,160,23,0.25); }
+  50%      { box-shadow: 0 0 0 1px #6b3d1e, inset 0 1px 0 rgba(180,120,60,0.3), 0 0 16px rgba(212,160,23,0.9), 0 0 36px rgba(212,160,23,0.5); }
 }
 `;
 
@@ -609,7 +609,9 @@ const S: Record<string, CSSProperties> = {
   parcelle: {
     background: '#5a3010',
     borderRadius: 8,
-    border: '3px solid #2a1408',
+    borderWidth: 3,
+    borderStyle: 'solid',
+    borderColor: '#2a1408',
     boxShadow:
       '0 0 0 1px #6b3d1e, inset 0 1px 0 rgba(180,120,60,0.3), inset 0 -2px 4px rgba(0,0,0,0.4)',
     position: 'relative',
@@ -624,18 +626,10 @@ const S: Record<string, CSSProperties> = {
     userSelect: 'none',
     WebkitUserSelect: 'none',
     WebkitTouchCallout: 'none',
-    transition: 'border-color 800ms ease-out',
+    transition: 'border-color 800ms ease-out, box-shadow 300ms ease-out',
   },
   parcelleReady: {
-    boxShadow: [
-      '0 0 0 1px #6b3d1e',
-      'inset 0 1px 0 rgba(180,120,60,0.3)',
-      'inset 0 -2px 4px rgba(0,0,0,0.4)',
-      '0 0 10px rgba(212,160,23,0.6)',
-      '0 0 20px rgba(212,160,23,0.3)',
-      '0 0 0 2px #d4a017',
-    ].join(', '),
-    animation: 'ready-pulse 2s ease-in-out infinite',
+    borderColor: '#d4a017',
   },
   parcelleLocked: {
     background:
