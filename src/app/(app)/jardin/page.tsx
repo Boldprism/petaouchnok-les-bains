@@ -319,6 +319,21 @@ function ParcelleCell({
 
   return (
     <div style={cellStyle} onClick={isLocked ? undefined : onClick}>
+      {/* Sol — image qui s'étire pour remplir la parcelle */}
+      <img
+        src="/assets/garden/soil-tile.png"
+        alt=""
+        style={{
+          position: 'absolute',
+          top: 0, left: 0,
+          width: '100%', height: '100%',
+          objectFit: 'cover',
+          imageRendering: 'pixelated',
+          zIndex: 0,
+          pointerEvents: 'none',
+          borderRadius: 'inherit',
+        }}
+      />
       {/* Numéro (gland) */}
       <div style={S.parcelleNum}>
         <img
@@ -364,6 +379,7 @@ function ParcelleCell({
                 animation: 'sparkle 1.5s ease-in-out infinite',
                 animationDelay: pos.delay,
                 pointerEvents: 'none',
+                zIndex: 1,
               }}
             />
           ))}
@@ -591,10 +607,7 @@ const S: Record<string, CSSProperties> = {
 
   /* Parcelle */
   parcelle: {
-    background: "url('/assets/garden/soil.png')",
-    backgroundSize: '64px 64px',
-    backgroundRepeat: 'repeat',
-    imageRendering: 'pixelated',
+    background: '#5a3010',
     borderRadius: 8,
     border: '3px solid #2a1408',
     boxShadow:
@@ -647,6 +660,8 @@ const S: Record<string, CSSProperties> = {
     alignItems: 'center',
     justifyContent: 'center',
     pointerEvents: 'none',
+    position: 'relative',
+    zIndex: 1,
   },
 
   emptyPlus: {
@@ -676,6 +691,7 @@ const S: Record<string, CSSProperties> = {
     color: '#f0c040',
     letterSpacing: 0.5,
     whiteSpace: 'nowrap',
+    zIndex: 2,
   },
   readyBadge: {
     position: 'absolute',
@@ -689,6 +705,7 @@ const S: Record<string, CSSProperties> = {
     color: '#e8ffd0',
     letterSpacing: 0.5,
     textShadow: '0 1px 0 rgba(0,0,0,0.5)',
+    zIndex: 2,
   },
 
   spark: {
