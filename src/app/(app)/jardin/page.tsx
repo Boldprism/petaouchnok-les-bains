@@ -170,38 +170,60 @@ export default function JardinPage() {
 
       {/* ─── GRILLE 3×3 (avec décorations) ─── */}
       <div style={S.gridWrapper}>
-        {/* Décorations positionnées dans l'espace entre les tuiles */}
-        <img src="/assets/garden/cailloux.png" alt="" style={{
-          position: 'absolute', left: '2%', top: '28%',
-          width: '5%', imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+        {/* Côté gauche - dans le padding */}
+        <img src="/assets/garden/cailloux2.png" alt="" style={{
+          position: 'absolute', left: 2, top: '18%',
+          width: 28, height: 28,
+          imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+          opacity: 0.9,
         }} />
-        <img src="/assets/garden/pierre.png" alt="" style={{
-          position: 'absolute', left: '1%', bottom: '20%',
-          width: '3%', imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+        <img src="/assets/garden/pierres2.png" alt="" style={{
+          position: 'absolute', left: 4, top: '52%',
+          width: 18, height: 18,
+          imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
         }} />
-        <img src="/assets/garden/arrosoir.png" alt="" style={{
-          position: 'absolute', left: '0.5%', top: '52%',
-          width: '5%', imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+        <img src="/assets/garden/brindilles.png" alt="" style={{
+          position: 'absolute', left: 1, bottom: '18%',
+          width: 22, height: 22,
+          imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+          opacity: 0.85,
         }} />
-        <img src="/assets/garden/cailloux.png" alt="" style={{
-          position: 'absolute', right: '1%', top: '15%',
-          width: '4%', imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+
+        {/* Côté droit - dans le padding */}
+        <img src="/assets/garden/pierres2.png" alt="" style={{
+          position: 'absolute', right: 3, top: '22%',
+          width: 18, height: 18,
+          imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
         }} />
         <img src="/assets/garden/ruche.png" alt="" style={{
-          position: 'absolute', right: '0.5%', top: '50%',
-          width: '5%', imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+          position: 'absolute', right: 2, top: '48%',
+          width: 26, height: 26,
+          imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+          opacity: 0.9,
         }} />
-        <img src="/assets/garden/pierre.png" alt="" style={{
-          position: 'absolute', right: '1%', bottom: '15%',
-          width: '3%', imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+        <img src="/assets/garden/cailloux2.png" alt="" style={{
+          position: 'absolute', right: 1, bottom: '22%',
+          width: 20, height: 20,
+          imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
         }} />
-        <img src="/assets/garden/cailloux.png" alt="" style={{
-          position: 'absolute', left: '30%', bottom: '1%',
-          width: '4%', imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+
+        {/* Bas - dans le padding */}
+        <img src="/assets/garden/pierres2.png" alt="" style={{
+          position: 'absolute', left: '28%', bottom: 3,
+          width: 16, height: 16,
+          imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
         }} />
-        <img src="/assets/garden/pierre.png" alt="" style={{
-          position: 'absolute', right: '35%', bottom: '0.5%',
-          width: '3%', imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+        <img src="/assets/garden/brindilles.png" alt="" style={{
+          position: 'absolute', right: '30%', bottom: 2,
+          width: 20, height: 20,
+          imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+          opacity: 0.85,
+        }} />
+        <img src="/assets/garden/arrosoir.png" alt="" style={{
+          position: 'absolute', left: '46%', bottom: 4,
+          width: 22, height: 22,
+          imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+          opacity: 0.9,
         }} />
 
         <div style={S.grid}>
@@ -566,7 +588,7 @@ const S: Record<string, CSSProperties> = {
   gridWrapper: {
     flex: 1,
     minHeight: 0,
-    padding: '8px 14px',
+    padding: '12px 16px',
     background: '#5a3010',
     position: 'relative',
     overflow: 'hidden',
@@ -575,7 +597,7 @@ const S: Record<string, CSSProperties> = {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
     gridTemplateRows: 'repeat(3, 1fr)',
-    gap: 10,
+    gap: 18,
     height: '100%',
     width: '100%',
   },
