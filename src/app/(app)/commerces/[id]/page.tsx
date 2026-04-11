@@ -66,6 +66,54 @@ const COMMERCES: Record<string, CommerceData> = {
   },
 };
 
+const DIALOGUES: Record<string, string[]> = {
+  // Noisette
+  'Clé Rouillée': [
+    "Je sais pas pourquoi je vous la vends. Elle était dans les stocks depuis avant mon arrivée, sous une étiquette 'NE PAS VENDRE'. J'ai pensé que ça datait. Maintenant je suis pas sûre.",
+    "Fragment débloqué — Sur le métal, gravés si finement qu'on ne les voit qu'en pleine lumière : « Pour la prochaine fois. »",
+  ],
+  'Caisse A.P.': [
+    "Elle est là depuis avant moi. Je l'ai jamais ouverte par respect. Mais bon. Vous avez l'air de quelqu'un à qui ça appartient, d'une certaine façon. Je sais pas pourquoi je dis ça.",
+    "Fragment débloqué — Une lanterne qui s'allume seule. Trois graines qui sentent la vanille. Un miroir dont le reflet a une seconde d'avance. Et tout au fond : un portrait qui vous ressemble étrangement.",
+  ],
+  'Arrosoir en cuivre': [
+    "Celui-là, il est spécial. Le cuivre vient de la Source. L'eau qu'il verse... elle fait pousser les choses un peu plus vite que la normale.",
+  ],
+  'Thermos de Source': [
+    "L'eau de la Source, embouteillée. Enfin, thermosée. Ça garde la chaleur pendant 24 heures. Et pendant 24 heures, tout ce que vous touchez brille un peu plus.",
+  ],
+  // Gaston
+  'Millefeuille nov.': [
+    "Celui-là, je l'ai fait sans le vouloir. La pâte a levé trois fois au lieu de deux. J'ai pas compris pourquoi. Mais quand on le mange... la prochaine récolte, elle double. J'explique pas.",
+  ],
+  'Galette Archibald': [
+    "C'est une vieille recette. Très vieille. Je sais pas d'où elle vient. La pâte, elle fait un truc que je comprends pas. Mais quand on la mange, tout repart à zéro. Les timers, les cultures, tout.",
+    "Fragment débloqué — La recette, écrite à la main sur du papier jauni : « Farine de Source, eau de pluie d'automne, un soupçon de patience. Cuire jusqu'à ce que la croûte chante. » Signé : A.P.",
+  ],
+  // Madeleine
+  'Note marginale n°2': [
+    "Celle-ci... je l'ai trouvée entre deux pages du registre. Quelqu'un l'a glissée là exprès. Quelqu'un qui voulait qu'on la trouve, mais pas trop vite.",
+    "Fragment débloqué — L'écriture est différente du reste du registre. Plus petite, plus nerveuse. « Il ment. La Source n'a jamais été découverte. Elle a toujours été là. C'est le village qui est apparu autour. »",
+  ],
+  'Document Archibald': [
+    "Ce document date de 1789. Archibald Pétaouchnok y décrit la Source avec une précision... troublante. Comme s'il la connaissait personnellement.",
+    "Fragment débloqué — « La Source ne donne pas. Elle échange. Chaque Éclat récolté est un souvenir déposé. Les villageois l'oublient. Moi, je note. »",
+  ],
+  'Carnet terrain n°1': [
+    "Le premier tiers du journal d'Archibald. Les pages sont fragiles. Il y décrit ses premières explorations du vallon, avant même que le village n'existe.",
+    "Fragment débloqué — « Jour 1 — J'ai trouvé l'eau. Elle est tiède. Elle brille. Quand je la touche, je me souviens de choses qui ne me sont pas encore arrivées. »",
+  ],
+  'Carnet terrain n°2': [
+    "Le deuxième tiers. L'écriture devient plus pressée. Archibald commence à comprendre quelque chose, mais il a peur de l'écrire clairement.",
+    "Fragment débloqué — « Jour 47 — Les graines que j'ai plantées hier ont déjà poussé. Pas normalement. Elles ont poussé en arrière. Les fruits étaient là avant les fleurs. »",
+  ],
+  'La page arrachée': [
+    "Madeleine sort la page d'un tiroir fermé à clé, les mains légèrement tremblantes.\n\n« Cette page a été arrachée du registre fondateur. Par qui ? Je ne sais pas. Pourquoi ? Ça, je commence à comprendre. »",
+    "« Ce qui est écrit dessus contredit tout ce que Fernand raconte sur la fondation du village. Tout. »",
+    "Fragment débloqué — La page, jaunie et déchirée sur un bord : « Pétaouchnok-les-Bains n'a pas été fondé. Il a été rappelé. La Source se souvient d'un village, et le village apparaît. Encore et encore. Nous sommes la énième itération. » Signé d'une main tremblante : A.P.",
+  ],
+};
+
 const fontPixel = "'Press Start 2P', monospace";
 
 /* ─── STYLES ─── */
@@ -232,6 +280,7 @@ export default function BoutiquePage() {
   const id = params.id as string;
   const commerce = COMMERCES[id];
   const [achatAnim, setAchatAnim] = useState<string | null>(null);
+  const [achatModal, setAchatModal] = useState<{ item: Item; etape: number } | null>(null);
 
   if (!commerce) {
     return (
@@ -275,7 +324,13 @@ export default function BoutiquePage() {
       {/* Grille items */}
       <div style={S.itemGrid}>
         {commerce.items.map((item) => (
-          <div key={item.nom} style={S.card} onClick={() => handleAchat(item.nom)}>
+          <div key={item.nom} style={S.card} onClick={() => {
+            if (item.special && DIALOGUES[item.nom]) {
+              setAchatModal({ item, etape: 0 });
+            } else {
+              handleAchat(item.nom);
+            }
+          }}>
             {/* Badge SPÉCIAL */}
             {item.special && <span style={S.specialBadge}>SPÉCIAL</span>}
 
@@ -294,12 +349,149 @@ export default function BoutiquePage() {
             <span style={S.itemDesc}>{item.desc}</span>
 
             {/* Bouton prix */}
-            <button style={S.priceBtn} onClick={(e) => { e.stopPropagation(); handleAchat(item.nom); }}>
+            <button style={S.priceBtn} onClick={(e) => {
+              e.stopPropagation();
+              if (item.special && DIALOGUES[item.nom]) {
+                setAchatModal({ item, etape: 0 });
+              } else {
+                handleAchat(item.nom);
+              }
+            }}>
               ✦ {item.prix}
             </button>
           </div>
         ))}
       </div>
+
+      {/* Modal achat spécial */}
+      {achatModal && DIALOGUES[achatModal.item.nom] && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 50,
+          background: 'rgba(0,0,0,0.75)',
+          display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
+        }}>
+          <div style={{
+            width: '100%', maxWidth: 480,
+            background: 'linear-gradient(180deg, #f5e8c0 0%, #e8d5a0 100%)',
+            border: '3px solid #3d2010',
+            borderBottom: 'none',
+            boxShadow: '0 0 0 5px #1a0d05, 0 0 0 7px #6b3d1e',
+            borderRadius: '12px 12px 0 0',
+            padding: '20px 16px 28px',
+          }}>
+            {/* Header item */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+              <div style={{
+                width: 44, height: 44, background: '#d4c090',
+                border: '2px solid #b09050', borderRadius: 6,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 24, flexShrink: 0,
+              }}>
+                {achatModal.item.emoji}
+              </div>
+              <div>
+                <div style={{ fontFamily: fontPixel, fontSize: 8, color: '#3d2010', marginBottom: 3 }}>
+                  {achatModal.item.nom}
+                </div>
+                <div style={{ fontFamily: 'Lora, serif', fontSize: 10, color: '#8b6a3e', fontStyle: 'italic' }}>
+                  {achatModal.etape < DIALOGUES[achatModal.item.nom].length - 1
+                    ? `${commerce.perso} dit :`
+                    : 'Fragment de lore'}
+                </div>
+              </div>
+            </div>
+
+            {/* Texte dialogue */}
+            <div style={{
+              background: '#fff8e8',
+              border: '2px solid #c8b078',
+              borderRadius: 6,
+              padding: '12px 14px',
+              marginBottom: 16,
+              fontFamily: 'Lora, serif',
+              fontSize: 13,
+              fontStyle: 'italic',
+              color: achatModal.etape === DIALOGUES[achatModal.item.nom].length - 1 ? '#5a3010' : '#2a1408',
+              lineHeight: 1.6,
+              minHeight: 80,
+              whiteSpace: 'pre-line',
+            }}>
+              {achatModal.etape === DIALOGUES[achatModal.item.nom].length - 1 &&
+                DIALOGUES[achatModal.item.nom].length > 1 && (
+                <span style={{
+                  fontFamily: fontPixel, fontSize: 6,
+                  color: '#4a6a2a', display: 'block', marginBottom: 8,
+                }}>
+                  ✦ FRAGMENT DÉBLOQUÉ
+                </span>
+              )}
+              «&nbsp;{DIALOGUES[achatModal.item.nom][achatModal.etape]}&nbsp;»
+            </div>
+
+            {/* Boutons */}
+            <div style={{ display: 'flex', gap: 8 }}>
+              {achatModal.etape === 0 ? (
+                <>
+                  <button
+                    onClick={() => setAchatModal(null)}
+                    style={{
+                      flex: 1, padding: '10px 8px',
+                      background: '#6b3d1e', border: '2px solid #3d2010',
+                      borderRadius: 6, fontFamily: fontPixel, fontSize: 7,
+                      color: '#f5e8c0', cursor: 'pointer',
+                    }}
+                  >
+                    ANNULER
+                  </button>
+                  <button
+                    onClick={() => setAchatModal(prev => prev ? { ...prev, etape: 1 } : null)}
+                    style={{
+                      flex: 2, padding: '10px 8px',
+                      background: 'linear-gradient(180deg, #f0c040 0%, #d4a017 100%)',
+                      border: '2px solid #9a7010',
+                      borderRadius: 6,
+                      boxShadow: '0 2px 0 #6a5000',
+                      fontFamily: fontPixel, fontSize: 7,
+                      color: '#2a1408', cursor: 'pointer',
+                    }}
+                  >
+                    ACHETER — {achatModal.item.prix} ✦
+                  </button>
+                </>
+              ) : achatModal.etape < DIALOGUES[achatModal.item.nom].length - 1 ? (
+                <button
+                  onClick={() => setAchatModal(prev => prev ? { ...prev, etape: prev.etape + 1 } : null)}
+                  style={{
+                    flex: 1, padding: '10px 8px',
+                    background: 'linear-gradient(180deg, #f0c040 0%, #d4a017 100%)',
+                    border: '2px solid #9a7010',
+                    borderRadius: 6,
+                    boxShadow: '0 2px 0 #6a5000',
+                    fontFamily: fontPixel, fontSize: 7,
+                    color: '#2a1408', cursor: 'pointer',
+                  }}
+                >
+                  SUIVANT →
+                </button>
+              ) : (
+                <button
+                  onClick={() => setAchatModal(null)}
+                  style={{
+                    flex: 1, padding: '10px 8px',
+                    background: 'linear-gradient(180deg, #7ab83a 0%, #4a6a2a 100%)',
+                    border: '2px solid #2a4010',
+                    borderRadius: 6, fontFamily: fontPixel, fontSize: 7,
+                    color: '#e8ffd0', cursor: 'pointer',
+                    boxShadow: '0 2px 0 #2a4010',
+                  }}
+                >
+                  ✓ CONTINUER
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
