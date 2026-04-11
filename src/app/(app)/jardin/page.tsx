@@ -168,8 +168,42 @@ export default function JardinPage() {
         <span style={{ fontSize: 16 }}>🌱</span>
       </div>
 
-      {/* ─── GRILLE 3×3 (avec décorations latérales) ─── */}
-      <div style={S.gridWrap}>
+      {/* ─── GRILLE 3×3 (avec décorations) ─── */}
+      <div style={S.gridWrapper}>
+        {/* Décorations positionnées dans l'espace entre les tuiles */}
+        <img src="/assets/garden/cailloux.png" alt="" style={{
+          position: 'absolute', left: '2%', top: '28%',
+          width: '5%', imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+        }} />
+        <img src="/assets/garden/pierre.png" alt="" style={{
+          position: 'absolute', left: '1%', bottom: '20%',
+          width: '3%', imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+        }} />
+        <img src="/assets/garden/arrosoir.png" alt="" style={{
+          position: 'absolute', left: '0.5%', top: '52%',
+          width: '5%', imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+        }} />
+        <img src="/assets/garden/cailloux.png" alt="" style={{
+          position: 'absolute', right: '1%', top: '15%',
+          width: '4%', imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+        }} />
+        <img src="/assets/garden/ruche.png" alt="" style={{
+          position: 'absolute', right: '0.5%', top: '50%',
+          width: '5%', imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+        }} />
+        <img src="/assets/garden/pierre.png" alt="" style={{
+          position: 'absolute', right: '1%', bottom: '15%',
+          width: '3%', imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+        }} />
+        <img src="/assets/garden/cailloux.png" alt="" style={{
+          position: 'absolute', left: '30%', bottom: '1%',
+          width: '4%', imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+        }} />
+        <img src="/assets/garden/pierre.png" alt="" style={{
+          position: 'absolute', right: '35%', bottom: '0.5%',
+          width: '3%', imageRendering: 'pixelated', zIndex: 2, pointerEvents: 'none',
+        }} />
+
         <div style={S.grid}>
           {parcelles.map((p) => (
             <ParcelleCell
@@ -181,74 +215,6 @@ export default function JardinPage() {
             />
           ))}
         </div>
-
-        {/* Décorations gauche */}
-        <img
-          src="/assets/garden/arrosoir.png"
-          alt=""
-          style={{
-            position: 'absolute',
-            left: -28,
-            top: '30%',
-            width: '4vw',
-            height: '4vw',
-            minWidth: 20,
-            maxWidth: 48,
-            imageRendering: 'pixelated',
-            opacity: 0.9,
-            pointerEvents: 'none',
-          }}
-        />
-        <img
-          src="/assets/garden/cailloux.png"
-          alt=""
-          style={{
-            position: 'absolute',
-            left: -20,
-            bottom: '15%',
-            width: '4vw',
-            height: '4vw',
-            minWidth: 20,
-            maxWidth: 48,
-            imageRendering: 'pixelated',
-            opacity: 0.85,
-            pointerEvents: 'none',
-          }}
-        />
-
-        {/* Décorations droite */}
-        <img
-          src="/assets/garden/ruche.png"
-          alt=""
-          style={{
-            position: 'absolute',
-            right: -28,
-            top: '35%',
-            width: '4vw',
-            height: '4vw',
-            minWidth: 20,
-            maxWidth: 48,
-            imageRendering: 'pixelated',
-            opacity: 0.9,
-            pointerEvents: 'none',
-          }}
-        />
-        <img
-          src="/assets/garden/pierre.png"
-          alt=""
-          style={{
-            position: 'absolute',
-            right: -16,
-            bottom: '20%',
-            width: '4vw',
-            height: '4vw',
-            minWidth: 20,
-            maxWidth: 48,
-            imageRendering: 'pixelated',
-            opacity: 0.85,
-            pointerEvents: 'none',
-          }}
-        />
       </div>
 
       {/* ─── BARRE D'ACTIONS ─── */}
@@ -597,27 +563,27 @@ const S: Record<string, CSSProperties> = {
   },
 
   /* Grille */
-  gridWrap: {
-    position: 'relative',
+  gridWrapper: {
     flex: 1,
     minHeight: 0,
-    display: 'flex',
+    padding: '8px 14px',
+    background: '#5a3010',
+    position: 'relative',
+    overflow: 'hidden',
   },
   grid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
     gridTemplateRows: 'repeat(3, 1fr)',
-    gap: 6,
-    padding: '0 10px',
-    flex: 1,
-    minHeight: 0,
-    minWidth: 0,
+    gap: 10,
+    height: '100%',
+    width: '100%',
   },
 
   /* Parcelle */
   parcelle: {
     background: '#5a3010',
-    borderRadius: 8,
+    borderRadius: 10,
     borderWidth: 3,
     borderStyle: 'solid',
     borderColor: '#2a1408',
