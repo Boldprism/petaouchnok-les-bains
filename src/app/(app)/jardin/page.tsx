@@ -190,8 +190,10 @@ export default function JardinPage() {
             position: 'absolute',
             left: -28,
             top: '30%',
-            width: 32,
-            height: 32,
+            width: '4vw',
+            height: '4vw',
+            minWidth: 20,
+            maxWidth: 48,
             imageRendering: 'pixelated',
             opacity: 0.9,
             pointerEvents: 'none',
@@ -204,8 +206,10 @@ export default function JardinPage() {
             position: 'absolute',
             left: -20,
             bottom: '15%',
-            width: 28,
-            height: 28,
+            width: '4vw',
+            height: '4vw',
+            minWidth: 20,
+            maxWidth: 48,
             imageRendering: 'pixelated',
             opacity: 0.85,
             pointerEvents: 'none',
@@ -220,8 +224,10 @@ export default function JardinPage() {
             position: 'absolute',
             right: -28,
             top: '35%',
-            width: 32,
-            height: 32,
+            width: '4vw',
+            height: '4vw',
+            minWidth: 20,
+            maxWidth: 48,
             imageRendering: 'pixelated',
             opacity: 0.9,
             pointerEvents: 'none',
@@ -234,8 +240,10 @@ export default function JardinPage() {
             position: 'absolute',
             right: -16,
             bottom: '20%',
-            width: 20,
-            height: 20,
+            width: '4vw',
+            height: '4vw',
+            minWidth: 20,
+            maxWidth: 48,
             imageRendering: 'pixelated',
             opacity: 0.85,
             pointerEvents: 'none',
@@ -341,8 +349,8 @@ function ParcelleCell({
           alt=""
           draggable={false}
           style={{
-            width: 16,
-            height: 16,
+            width: '20%',
+            height: 'auto',
             imageRendering: 'pixelated',
             pointerEvents: 'none',
             WebkitUserDrag: 'none',
@@ -362,9 +370,9 @@ function ParcelleCell({
       {isReady && (
         <>
           {[
-            { top: '10%', left: '15%', delay: '0s', size: 12 },
-            { top: '20%', right: '12%', delay: '0.5s', size: 10 },
-            { bottom: '25%', left: '25%', delay: '1s', size: 14 },
+            { top: '10%', left: '15%', delay: '0s' },
+            { top: '20%', right: '12%', delay: '0.5s' },
+            { bottom: '25%', left: '25%', delay: '1s' },
           ].map((pos, i) => (
             <img
               key={i}
@@ -373,8 +381,8 @@ function ParcelleCell({
               style={{
                 position: 'absolute',
                 ...pos,
-                width: pos.size,
-                height: pos.size,
+                width: '12%',
+                height: '12%',
                 imageRendering: 'pixelated',
                 animation: 'sparkle 1.5s ease-in-out infinite',
                 animationDelay: pos.delay,
@@ -397,12 +405,13 @@ function ParcelleCell({
               alt={culture.nomCourt}
               draggable={false}
               style={{
-                width: 'clamp(40px, 70%, 56px)',
-                height: 'clamp(40px, 70%, 56px)',
+                width: '65%',
+                height: '65%',
                 imageRendering: 'pixelated',
                 objectFit: 'contain',
                 filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.6))',
                 pointerEvents: 'none',
+                zIndex: 1,
                 WebkitUserDrag: 'none',
               } as CSSProperties}
             />
