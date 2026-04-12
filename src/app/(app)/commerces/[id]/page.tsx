@@ -330,7 +330,24 @@ const KEYFRAMES = `
   20%  { opacity: 1; }
   100% { opacity: 0; transform: translate(-50%, -32px); }
 }
+@keyframes luciole {
+  0%, 100% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+  25% { opacity: 0.9; transform: translate(4px, -6px) scale(1); }
+  50% { opacity: 0.6; transform: translate(-3px, -12px) scale(0.8); }
+  75% { opacity: 1; transform: translate(6px, -8px) scale(1.1); }
+}
 `;
+
+const LUCIOLES = [
+  { left: '8%',  top: '15%', delay: '0s',    dur: '3.2s' },
+  { left: '85%', top: '12%', delay: '0.8s',  dur: '2.8s' },
+  { left: '15%', top: '35%', delay: '1.5s',  dur: '3.5s' },
+  { left: '90%', top: '40%', delay: '0.3s',  dur: '2.5s' },
+  { left: '5%',  top: '60%', delay: '2.1s',  dur: '3.8s' },
+  { left: '92%', top: '65%', delay: '1.2s',  dur: '2.9s' },
+  { left: '50%', top: '8%',  delay: '0.6s',  dur: '3.1s' },
+  { left: '30%', top: '25%', delay: '1.8s',  dur: '2.7s' },
+];
 
 /* ─── PAGE ─── */
 export default function BoutiquePage() {
@@ -362,6 +379,22 @@ export default function BoutiquePage() {
   return (
     <div style={S.page}>
       <style>{KEYFRAMES}</style>
+
+      {/* Lucioles */}
+      <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 5 }}>
+        {LUCIOLES.map((l, i) => (
+          <div key={i} style={{
+            position: 'absolute',
+            left: l.left, top: l.top,
+            width: 6, height: 6,
+            borderRadius: '50%',
+            background: '#f0e060',
+            boxShadow: '0 0 6px 2px rgba(240,220,60,0.8)',
+            animation: `luciole ${l.dur} ease-in-out infinite`,
+            animationDelay: l.delay,
+          }} />
+        ))}
+      </div>
 
       {/* Header retour */}
       <div style={S.backHeader}>

@@ -30,6 +30,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           height: 52,
           background: 'var(--app-bg-dark)',
           borderBottom: '2px solid var(--btn-gold-border)',
+          position: 'relative',
+          zIndex: 10,
+          overflow: 'visible',
         }}
       >
         {/* Left — Logo */}
@@ -94,6 +97,23 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         >
           🎒
         </button>
+        {/* Feuillage superposé en bas du header */}
+        <img
+          src="/assets/ui/foliage-header.png"
+          alt=""
+          style={{
+            position: 'absolute',
+            bottom: -20,
+            left: 0,
+            width: '100%',
+            height: 40,
+            objectFit: 'cover',
+            objectPosition: 'top center',
+            imageRendering: 'pixelated',
+            pointerEvents: 'none',
+            zIndex: 20,
+          }}
+        />
       </header>
 
       {/* ─── CONTENT ─── */}
@@ -115,14 +135,54 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
       {/* ─── BOTTOM NAV ─── */}
       <nav
-        className="shrink-0 flex items-center justify-around"
+        className="shrink-0"
         style={{
           height: 64,
-          background: 'var(--nav-bg)',
-          borderTop: '3px solid var(--btn-gold-border)',
+          position: 'relative',
+          overflow: 'visible',
           paddingBottom: 'env(safe-area-inset-bottom, 0px)',
         }}
       >
+        {/* Fond planche bois */}
+        <img
+          src="/assets/ui/navbar-wood.png"
+          alt=""
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'fill',
+            imageRendering: 'pixelated',
+            zIndex: 0,
+          }}
+        />
+        {/* Feuillage qui déborde en haut */}
+        <img
+          src="/assets/ui/foliage-dense.png"
+          alt=""
+          style={{
+            position: 'absolute',
+            top: -18,
+            left: 0,
+            width: '100%',
+            height: 28,
+            objectFit: 'cover',
+            imageRendering: 'pixelated',
+            pointerEvents: 'none',
+            zIndex: 20,
+          }}
+        />
+        {/* Tabs */}
+        <div
+          className="flex items-center justify-around"
+          style={{
+            position: 'relative',
+            zIndex: 10,
+            width: '100%',
+            height: '100%',
+          }}
+        >
         {tabs.map((tab) => {
           const isActive = pathname === tab.href;
           return (
@@ -165,6 +225,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </Link>
           );
         })}
+        </div>
       </nav>
 
       {/* ─── MODAL INVENTAIRE ─── */}
