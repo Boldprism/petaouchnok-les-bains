@@ -310,6 +310,35 @@ export default function BoutiquePage() {
         <span style={S.shopName}>{commerce.nom}</span>
       </div>
 
+      {/* Illustration boutique placeholder */}
+      <div style={{
+        position: 'relative',
+        width: '100%',
+        height: 220,
+        overflow: 'hidden',
+        flexShrink: 0,
+      }}>
+        <img
+          src="/assets/commerces/boutique-bg.png"
+          alt=""
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'top center',
+            imageRendering: 'pixelated',
+          }}
+        />
+        {/* Gradient de fondu vers le bas */}
+        <div style={{
+          position: 'absolute',
+          bottom: 0, left: 0, right: 0,
+          height: 60,
+          background: 'linear-gradient(transparent, #3d2010)',
+          pointerEvents: 'none',
+        }} />
+      </div>
+
       {/* Zone NPC */}
       <div style={S.npcZone}>
         <div style={S.npcAvatar}>
