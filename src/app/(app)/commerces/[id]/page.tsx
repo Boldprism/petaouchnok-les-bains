@@ -78,6 +78,38 @@ const BOUTIQUE_BGS: Record<string, string> = {
   madeleine: '/assets/commerces/bibliotheque-bg.png',
 };
 
+const ITEM_IMAGES: Record<string, Record<string, string>> = {
+  noisette: {
+    'Graines de Vanille':   '/assets/items/noisette/graines.png',
+    'Engrais de Gaston':    '/assets/items/noisette/engrais.png',
+    'Loupe de poche':       '/assets/items/noisette/loupe.png',
+    'Arrosoir en cuivre':   '/assets/items/noisette/arrosoir.png',
+    'Thermos de Source':    '/assets/items/noisette/thermos.png',
+    'Parapluie Maurice':    '/assets/items/noisette/parapluie.png',
+    'Lampe à huile':        '/assets/items/noisette/lampe.png',
+    'Clé Rouillée':         '/assets/items/noisette/cle.png',
+    'Caisse A.P.':          '/assets/items/noisette/caisse-ap.png',
+  },
+  gaston: {
+    'Croissant spiralé':    '/assets/items/gaston/croissant.png',
+    'Pain de Source':       '/assets/items/gaston/pain.png',
+    'Brioche bienvenue':    '/assets/items/gaston/brioche.png',
+    'Tarte myrtilles':      '/assets/items/gaston/tarte.png',
+    'Millefeuille nov.':    '/assets/items/gaston/millefeuille.png',
+    'Galette Archibald':    '/assets/items/gaston/galette.png',
+  },
+  madeleine: {
+    'Histoire vol.1':       '/assets/items/madeleine/livre1.png',
+    'Histoire vol.2':       '/assets/items/madeleine/livre2.png',
+    'Flore et faune':       '/assets/items/madeleine/flore.png',
+    'Note marginale n°1':   '/assets/items/madeleine/note1.png',
+    'Note marginale n°2':   '/assets/items/madeleine/note2.png',
+    'Document Archibald':   '/assets/items/madeleine/document.png',
+    'Carnet terrain n°1':   '/assets/items/madeleine/carnet.png',
+    'La page arrachée':     '/assets/items/madeleine/page-arrachee.png',
+  },
+};
+
 const DIALOGUES: Record<string, string[]> = {
   // Noisette
   'Clé Rouillée': [
@@ -406,7 +438,22 @@ export default function BoutiquePage() {
 
             {/* Illustration */}
             <div style={S.illustZone}>
-              <span>{item.emoji}</span>
+              {ITEM_IMAGES[id]?.[item.nom] ? (
+                <img
+                  src={ITEM_IMAGES[id][item.nom]}
+                  alt={item.nom}
+                  style={{
+                    width: '70%',
+                    height: '70%',
+                    objectFit: 'contain',
+                    imageRendering: 'pixelated',
+                    filter: 'drop-shadow(2px 3px 3px rgba(0,0,0,0.5))',
+                    pointerEvents: 'none',
+                  }}
+                />
+              ) : (
+                <span style={{ fontSize: 'clamp(24px, 4vw, 40px)' }}>{item.emoji}</span>
+              )}
             </div>
 
             {/* Nom */}
