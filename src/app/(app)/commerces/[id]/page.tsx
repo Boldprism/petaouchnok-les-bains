@@ -320,7 +320,7 @@ export default function BoutiquePage() {
       <div style={{
         position: 'relative',
         width: '100%',
-        height: 220,
+        height: 'clamp(180px, 30vh, 300px)',
         overflow: 'hidden',
         flexShrink: 0,
       }}>
@@ -331,7 +331,7 @@ export default function BoutiquePage() {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            objectPosition: 'top center',
+            objectPosition: 'center center',
             imageRendering: 'pixelated',
           }}
         />
