@@ -72,6 +72,12 @@ const NPC_SPRITES: Record<string, string> = {
   madeleine: '/assets/commerces/madeleine.png',
 };
 
+const BOUTIQUE_BGS: Record<string, string> = {
+  noisette:  '/assets/commerces/boutique-bg.png',
+  gaston:    '/assets/commerces/boulangerie-bg.png',
+  madeleine: '/assets/commerces/bibliotheque-bg.png',
+};
+
 const DIALOGUES: Record<string, string[]> = {
   // Noisette
   'Clé Rouillée': [
@@ -191,11 +197,11 @@ const S: Record<string, CSSProperties> = {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
     gap: 8,
-    padding: '10px 12px',
+    padding: '8px 12px 12px',
     background: '#3d2010',
     flex: 1,
-    overflowY: 'auto',
-    alignContent: 'start',
+    minHeight: 0,
+    overflow: 'hidden',
   },
   card: {
     background: '#e8d5a0',
@@ -206,9 +212,12 @@ const S: Record<string, CSSProperties> = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'space-between',
     gap: 4,
     position: 'relative',
     cursor: 'pointer',
+    minHeight: 0,
+    overflow: 'hidden',
   },
   specialBadge: {
     position: 'absolute',
@@ -222,19 +231,21 @@ const S: Record<string, CSSProperties> = {
     borderRadius: 2,
   },
   illustZone: {
-    height: 56,
     width: '100%',
+    flex: 1,
+    minHeight: 0,
     background: '#d4c090',
     borderRadius: 4,
     border: '1px solid #b09050',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: 28,
+    fontSize: 'clamp(20px, 4vw, 36px)',
+    marginBottom: 4,
   },
   itemNom: {
     fontFamily: fontPixel,
-    fontSize: 6,
+    fontSize: 'clamp(5px, 1.2vw, 7px)',
     color: '#3d2010',
     textAlign: 'center',
     lineHeight: 1.6,
@@ -242,7 +253,7 @@ const S: Record<string, CSSProperties> = {
   itemDesc: {
     fontFamily: "'Lora', serif",
     fontStyle: 'italic',
-    fontSize: 9,
+    fontSize: 'clamp(8px, 1.5vw, 10px)',
     color: '#6b4a20',
     textAlign: 'center',
   },
@@ -251,12 +262,13 @@ const S: Record<string, CSSProperties> = {
     border: '2px solid #9a7010',
     borderRadius: 4,
     boxShadow: '0 2px 0 #6a5000',
-    padding: '4px 10px',
+    padding: '3px 8px',
     fontFamily: fontPixel,
-    fontSize: 7,
+    fontSize: 'clamp(6px, 1.2vw, 8px)',
     color: '#2a1408',
     cursor: 'pointer',
     marginTop: 'auto',
+    flexShrink: 0,
   },
   achatFloat: {
     position: 'absolute',
@@ -325,7 +337,7 @@ export default function BoutiquePage() {
         flexShrink: 0,
       }}>
         <img
-          src="/assets/commerces/boutique-bg.png"
+          src={BOUTIQUE_BGS[id] ?? '/assets/commerces/boutique-bg.png'}
           alt=""
           style={{
             width: '100%',
@@ -365,7 +377,10 @@ export default function BoutiquePage() {
       </div>
 
       {/* Grille items */}
-      <div style={S.itemGrid}>
+      <div style={{
+        ...S.itemGrid,
+        gridTemplateRows: `repeat(${Math.ceil(commerce.items.length / 3)}, 1fr)`,
+      }}>
         {commerce.items.map((item) => (
           <div key={item.nom} style={S.card} onClick={() => {
             if (item.special && DIALOGUES[item.nom]) {
