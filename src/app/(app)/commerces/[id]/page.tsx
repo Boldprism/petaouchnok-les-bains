@@ -234,13 +234,22 @@ const S: Record<string, CSSProperties> = {
     width: '100%',
     flex: 1,
     minHeight: 0,
-    background: '#d4c090',
+    background: `
+      repeating-linear-gradient(
+        90deg,
+        transparent 0px, transparent 18px,
+        rgba(0,0,0,0.06) 18px, rgba(0,0,0,0.06) 20px
+      ),
+      linear-gradient(180deg, #c8903a 0%, #a06828 40%, #8b5a20 100%)
+    `,
     borderRadius: 4,
     border: '1px solid #b09050',
+    borderBottom: '3px solid #6b3d1e',
+    boxShadow: 'inset 0 -4px 8px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,200,80,0.15)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: 'clamp(20px, 4vw, 36px)',
+    fontSize: 'clamp(28px, 5vw, 48px)',
     marginBottom: 4,
   },
   itemNom: {
