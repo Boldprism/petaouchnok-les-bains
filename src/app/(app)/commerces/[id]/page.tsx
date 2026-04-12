@@ -66,6 +66,12 @@ const COMMERCES: Record<string, CommerceData> = {
   },
 };
 
+const NPC_SPRITES: Record<string, string> = {
+  noisette:  '/assets/commerces/noisette.png',
+  gaston:    '/assets/commerces/gaston.png',
+  madeleine: '/assets/commerces/madeleine.png',
+};
+
 const DIALOGUES: Record<string, string[]> = {
   // Noisette
   'Clé Rouillée': [
@@ -341,9 +347,17 @@ export default function BoutiquePage() {
 
       {/* Zone NPC */}
       <div style={S.npcZone}>
-        <div style={S.npcAvatar}>
-          <span>{commerce.emojiPerso}</span>
-        </div>
+        <img
+          src={NPC_SPRITES[id] ?? ''}
+          alt={commerce.perso}
+          style={{
+            height: 64,
+            width: 'auto',
+            imageRendering: 'pixelated',
+            filter: 'drop-shadow(2px 4px 4px rgba(0,0,0,0.5))',
+            flexShrink: 0,
+          }}
+        />
         <div style={{ flex: 1 }}>
           <div style={S.npcNom}>{commerce.perso}</div>
           <div style={S.npcCitation}>«&nbsp;{commerce.citation}&nbsp;»</div>

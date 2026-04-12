@@ -13,6 +13,12 @@ const COMMERCES = [
     citation: '"Je range dans un ordre que l\'univers comprend..."', emoji: '📚' },
 ];
 
+const NPC_SPRITES: Record<string, string> = {
+  noisette:  '/assets/commerces/noisette.png',
+  gaston:    '/assets/commerces/gaston.png',
+  madeleine: '/assets/commerces/madeleine.png',
+};
+
 const fontPixel = "'Press Start 2P', monospace";
 
 /* ─── STYLES ─── */
@@ -116,7 +122,16 @@ export default function CommercesPage() {
           onClick={() => router.push(`/commerces/${c.id}`)}
         >
           <div style={S.avatar}>
-            <span>{c.emoji}</span>
+            <img
+              src={NPC_SPRITES[c.id]}
+              alt={c.perso}
+              style={{
+                height: 44,
+                width: 'auto',
+                imageRendering: 'pixelated',
+                filter: 'drop-shadow(1px 2px 2px rgba(0,0,0,0.4))',
+              }}
+            />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={S.nom}>{c.nom}</div>
