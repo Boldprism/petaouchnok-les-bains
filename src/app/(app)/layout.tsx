@@ -21,7 +21,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [eclatsOpen, setEclatsOpen] = useState(false);
 
   return (
-    <div className="app-container flex flex-col w-full h-[100dvh] bg-[var(--app-bg)]">
+    <div
+      className="app-container flex flex-col w-full h-[100dvh]"
+      style={{
+        backgroundImage: "url('/assets/ui/bg-wood.png')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        imageRendering: 'pixelated',
+      }}
+    >
 
       {/* ─── HEADER ─── */}
       <header

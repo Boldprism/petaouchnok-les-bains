@@ -89,7 +89,6 @@ html, body {
 }
 
 body {
-  background: var(--bg-nuit);
   color: var(--texte-clair);
   font-family: var(--font-body);
 }
