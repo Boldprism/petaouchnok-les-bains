@@ -143,20 +143,45 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           paddingBottom: 'env(safe-area-inset-bottom, 0px)',
         }}
       >
-        {/* Fond planche bois */}
-        <img
-          src="/assets/ui/navbar-wood.png"
-          alt=""
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'fill',
+        {/* Fond navbar en 3 parties — coins fixes, centre répété */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}>
+          {/* Coin gauche — fixe */}
+          <img
+            src="/assets/ui/navbar-left.png"
+            alt=""
+            style={{
+              height: '100%',
+              width: 'auto',
+              imageRendering: 'pixelated',
+              flexShrink: 0,
+            }}
+          />
+          {/* Centre — s'étire */}
+          <div style={{
+            flex: 1,
+            backgroundImage: "url('/assets/ui/navbar-center.png')",
+            backgroundRepeat: 'repeat-x',
+            backgroundSize: 'auto 100%',
             imageRendering: 'pixelated',
-            zIndex: 0,
-          }}
-        />
+          }} />
+          {/* Coin droit — fixe */}
+          <img
+            src="/assets/ui/navbar-right.png"
+            alt=""
+            style={{
+              height: '100%',
+              width: 'auto',
+              imageRendering: 'pixelated',
+              flexShrink: 0,
+            }}
+          />
+        </div>
         {/* Tabs */}
         <div
           className="flex items-center justify-around"
