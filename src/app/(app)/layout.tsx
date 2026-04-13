@@ -137,7 +137,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <nav
         className="shrink-0"
         style={{
-          height: 64,
+          height: 72,
           position: 'relative',
           overflow: 'visible',
           paddingBottom: 'env(safe-area-inset-bottom, 0px)',
@@ -155,22 +155,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             objectFit: 'fill',
             imageRendering: 'pixelated',
             zIndex: 0,
-          }}
-        />
-        {/* Feuillage qui déborde en haut */}
-        <img
-          src="/assets/ui/foliage-dense.png"
-          alt=""
-          style={{
-            position: 'absolute',
-            top: -18,
-            left: 0,
-            width: '100%',
-            height: 28,
-            objectFit: 'cover',
-            imageRendering: 'pixelated',
-            pointerEvents: 'none',
-            zIndex: 20,
           }}
         />
         {/* Tabs */}
