@@ -34,79 +34,129 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
       {/* ─── HEADER ─── */}
       <header
-        className="shrink-0 flex items-center justify-between px-3"
+        className="shrink-0 flex items-center justify-center px-3"
         style={{
           height: 52,
-          background: 'var(--app-bg-dark)',
-          borderBottom: '2px solid var(--btn-gold-border)',
+          background: '#0e0704',
           position: 'relative',
           zIndex: 10,
           overflow: 'visible',
         }}
       >
-        {/* Left — Logo */}
-        <div className="flex items-center gap-1.5">
-          <span style={{ fontSize: 16 }}>🏠</span>
-          <span
+        {/* Bandeau parchemin */}
+        <div
+          className="flex items-center justify-between w-full"
+          style={{
+            position: 'relative',
+            background: '#e8d8a0',
+            borderTop: '2px solid #c8b060',
+            borderBottom: '2px solid #c8b060',
+            height: 36,
+            padding: '0 20px',
+          }}
+        >
+          {/* Épingle gauche */}
+          <div
             style={{
-              fontFamily: 'var(--font-pixel)',
-              fontSize: 7,
-              color: 'var(--nav-active)',
-              letterSpacing: 1,
+              position: 'absolute',
+              left: -4,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: 10,
+              height: 10,
+              background: '#d4a017',
+              border: '1px solid #9a7010',
+              borderRadius: '50%',
+              zIndex: 5,
             }}
-          >
-            PÉTAOUCHNOK
-          </span>
-        </div>
-
-        {/* Center — HUD Stats */}
-        <div className="flex items-center gap-2">
-          {/* Éclats */}
-          <button
-            className="flex items-center gap-1 px-2 py-1"
-            onClick={() => setEclatsOpen(true)}
+          />
+          {/* Épingle droite */}
+          <div
             style={{
-              background: 'rgba(0,0,0,0.3)',
-              border: '1px solid var(--hud-eclat)',
-              fontFamily: 'var(--font-mono)',
-              fontSize: 16,
-              color: 'var(--hud-eclat)',
+              position: 'absolute',
+              right: -4,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: 10,
+              height: 10,
+              background: '#d4a017',
+              border: '1px solid #9a7010',
+              borderRadius: '50%',
+              zIndex: 5,
+            }}
+          />
+
+          {/* Left — Logo */}
+          <div className="flex items-center gap-1.5">
+            <span style={{ fontSize: 16 }}>🏠</span>
+            <span
+              style={{
+                fontFamily: 'var(--font-pixel)',
+                fontSize: 7,
+                color: '#3a1f08',
+                letterSpacing: 2,
+              }}
+            >
+              PÉTAOUCHNOK
+            </span>
+          </div>
+
+          {/* Center — HUD Stats */}
+          <div className="flex items-center gap-2">
+            {/* Éclats */}
+            <button
+              className="flex items-center gap-1"
+              onClick={() => setEclatsOpen(true)}
+              style={{
+                background: '#d4b870',
+                borderRadius: 3,
+                padding: '4px 10px',
+                border: 'none',
+                fontFamily: 'var(--font-mono)',
+                fontSize: 16,
+                color: '#2a1408',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+              }}
+            >
+              ✦ 245
+            </button>
+            {/* Lore */}
+            <div
+              className="flex items-center gap-1"
+              style={{
+                background: '#d4b870',
+                borderRadius: 3,
+                padding: '4px 10px',
+                fontFamily: 'var(--font-mono)',
+                fontSize: 16,
+                color: '#2a1408',
+                fontWeight: 'bold',
+              }}
+            >
+              📜 12/60
+            </div>
+          </div>
+
+          {/* Right — Inventaire */}
+          <button
+            className="flex items-center justify-center"
+            onClick={() => setInventaireOpen(true)}
+            style={{
+              width: 32,
+              height: 32,
+              background: '#d4b870',
+              border: 'none',
+              borderRadius: 3,
+              fontSize: 18,
               cursor: 'pointer',
             }}
           >
-            ✦ 245
+            🎒
           </button>
-          {/* Lore */}
-          <div
-            className="flex items-center gap-1 px-2 py-1"
-            style={{
-              background: 'rgba(0,0,0,0.3)',
-              border: '1px solid var(--hud-lore)',
-              fontFamily: 'var(--font-mono)',
-              fontSize: 16,
-              color: 'var(--hud-lore)',
-            }}
-          >
-            📜 12/60
-          </div>
         </div>
 
-        {/* Right — Inventaire */}
-        <button
-          className="flex items-center justify-center"
-          onClick={() => setInventaireOpen(true)}
-          style={{
-            width: 32,
-            height: 32,
-            background: 'rgba(0,0,0,0.2)',
-            border: '1px solid var(--btn-gold-border)',
-            fontSize: 18,
-            cursor: 'pointer',
-          }}
-        >
-          🎒
-        </button>
-        {/* Feuillage superposé en bas du header */}
+        {/* Feuillage coin gauche */}
         <img
           src="/assets/ui/foliage-header.png"
           alt=""
@@ -114,10 +164,28 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             position: 'absolute',
             bottom: -20,
             left: 0,
-            width: '100%',
-            height: 40,
+            width: 120,
+            height: 44,
             objectFit: 'cover',
-            objectPosition: 'top center',
+            objectPosition: 'left center',
+            imageRendering: 'pixelated',
+            pointerEvents: 'none',
+            zIndex: 20,
+          }}
+        />
+        {/* Feuillage coin droit (miroir) */}
+        <img
+          src="/assets/ui/foliage-header.png"
+          alt=""
+          style={{
+            position: 'absolute',
+            bottom: -20,
+            right: 0,
+            width: 120,
+            height: 44,
+            objectFit: 'cover',
+            objectPosition: 'right center',
+            transform: 'scaleX(-1)',
             imageRendering: 'pixelated',
             pointerEvents: 'none',
             zIndex: 20,
