@@ -40,7 +40,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           background: '#0e0704',
           position: 'relative',
           zIndex: 10,
-          overflow: 'visible',
         }}
       >
         {/* Bandeau parchemin */}
@@ -156,41 +155,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </button>
         </div>
 
-        {/* Feuillage coin gauche */}
-        <img
-          src="/assets/ui/foliage-header.png"
-          alt=""
-          style={{
-            position: 'absolute',
-            bottom: -20,
-            left: 0,
-            width: 120,
-            height: 44,
-            objectFit: 'cover',
-            objectPosition: 'left center',
-            imageRendering: 'pixelated',
-            pointerEvents: 'none',
-            zIndex: 20,
-          }}
-        />
-        {/* Feuillage coin droit (miroir) */}
-        <img
-          src="/assets/ui/foliage-header.png"
-          alt=""
-          style={{
-            position: 'absolute',
-            bottom: -20,
-            right: 0,
-            width: 120,
-            height: 44,
-            objectFit: 'cover',
-            objectPosition: 'right center',
-            transform: 'scaleX(-1)',
-            imageRendering: 'pixelated',
-            pointerEvents: 'none',
-            zIndex: 20,
-          }}
-        />
       </header>
 
       {/* ─── CONTENT ─── */}
