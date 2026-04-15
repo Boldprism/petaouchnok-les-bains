@@ -227,13 +227,12 @@ const S: Record<string, CSSProperties> = {
   },
   itemGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
     gap: 8,
     padding: '8px 12px 12px',
     background: '#3d2010',
     flex: 1,
     minHeight: 0,
-    overflow: 'hidden',
+    overflowY: 'auto',
   },
   card: {
     background: '#e8d5a0',
@@ -248,7 +247,7 @@ const S: Record<string, CSSProperties> = {
     gap: 4,
     position: 'relative',
     cursor: 'pointer',
-    minHeight: 0,
+    aspectRatio: '1/1',
     overflow: 'hidden',
   },
   specialBadge: {
@@ -335,6 +334,10 @@ const KEYFRAMES = `
   25% { opacity: 0.9; transform: translate(4px, -6px) scale(1); }
   50% { opacity: 0.6; transform: translate(-3px, -12px) scale(0.8); }
   75% { opacity: 1; transform: translate(6px, -8px) scale(1.1); }
+}
+.item-grid { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 768px) {
+  .item-grid { grid-template-columns: repeat(2, 1fr); }
 }
 `;
 
@@ -451,10 +454,7 @@ export default function BoutiquePage() {
       </div>
 
       {/* Grille items */}
-      <div style={{
-        ...S.itemGrid,
-        gridTemplateRows: `repeat(${Math.ceil(commerce.items.length / 3)}, 1fr)`,
-      }}>
+      <div className="item-grid" style={S.itemGrid}>
         {commerce.items.map((item) => (
           <div key={item.nom} style={S.card} onClick={() => {
             if (item.special && DIALOGUES[item.nom]) {
