@@ -72,6 +72,19 @@ function formatDureeShort(h: number) {
   return `${h}h`;
 }
 
+/* ─── FORMES ORGANIQUES PAR PARCELLE ─── */
+const PARCELLE_SHAPES: string[] = [
+  '16px 8px 18px 6px / 8px 18px 6px 16px',    // 1
+  '8px 20px 6px 14px / 18px 6px 16px 10px',   // 2
+  '18px 6px 14px 10px / 6px 14px 10px 20px',  // 3
+  '6px 16px 20px 8px / 14px 20px 8px 6px',    // 4
+  '20px 8px 6px 18px / 8px 6px 18px 20px',    // 5
+  '10px 18px 8px 16px / 20px 8px 14px 10px',  // 6
+  '14px 6px 20px 10px / 6px 20px 10px 14px',  // 7
+  '8px 14px 10px 20px / 16px 10px 18px 8px',  // 8
+  '20px 10px 6px 18px / 10px 6px 20px 16px',  // 9
+];
+
 /* ─── PAGE ─── */
 export default function JardinPage() {
   const [parcelles, setParcelles] = useState<Parcelle[]>(makeParcelles);
@@ -303,8 +316,11 @@ function ParcelleCell({
   const isReady = parcelle.etat === 'ready';
   const isLocked = parcelle.etat === 'locked';
 
+  const shape = PARCELLE_SHAPES[(parcelle.id - 1) % PARCELLE_SHAPES.length];
+
   const cellStyle: CSSProperties = {
     ...S.parcelle,
+    borderRadius: shape,
     ...(isReady ? S.parcelleReady : {}),
     ...(isLocked ? S.parcelleLocked : {}),
     ...(justHarvested
@@ -614,7 +630,7 @@ const S: Record<string, CSSProperties> = {
   gridWrapper: {
     flex: 1,
     minHeight: 0,
-    padding: '12px 16px',
+    padding: '20px 28px',
     background: '#5a3010',
     position: 'relative',
     overflow: 'hidden',
@@ -623,7 +639,7 @@ const S: Record<string, CSSProperties> = {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
     gridTemplateRows: 'repeat(3, 1fr)',
-    gap: 18,
+    gap: 22,
     height: '100%',
     width: '100%',
   },
