@@ -633,6 +633,7 @@ const S: Record<string, CSSProperties> = {
     overflowY: 'auto',
     background: '#5a3010',
     position: 'relative',
+    overflow: 'visible',
     boxSizing: 'border-box',
   },
   grid: {
@@ -642,6 +643,7 @@ const S: Record<string, CSSProperties> = {
     padding: 16,
     width: '100%',
     boxSizing: 'border-box',
+    overflow: 'hidden',
   },
 
   /* Parcelle */
