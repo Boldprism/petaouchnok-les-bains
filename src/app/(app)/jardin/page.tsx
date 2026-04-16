@@ -358,9 +358,21 @@ function ParcelleCell({
           zIndex: 5,
         }}
       />
-      {/* Numéro (badge gland doré) */}
+      {/* Numéro (gland sprite) */}
       <div style={S.parcelleNum}>
-        <span style={{ fontSize: 9, color: '#2a1408', fontFamily: fontPixel, fontWeight: 'bold', lineHeight: 1 }}>
+        <img
+          src="/assets/garden/gland.png"
+          alt=""
+          style={{ width: '100%', height: '100%', imageRendering: 'pixelated', objectFit: 'contain' }}
+        />
+        <span style={{
+          position: 'absolute',
+          fontSize: 7,
+          color: '#2a1408',
+          fontFamily: fontPixel,
+          fontWeight: 'bold',
+          lineHeight: 1,
+        }}>
           {parcelle.id}
         </span>
       </div>
@@ -679,14 +691,11 @@ const S: Record<string, CSSProperties> = {
     left: -10,
     width: 36,
     height: 36,
-    background: '#d4a017',
-    border: '2px solid #9a7010',
-    borderRadius: '50%',
+    zIndex: 20,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 20,
-    boxShadow: '0 2px 4px rgba(0,0,0,0.5)',
+    overflow: 'visible',
   },
 
   parcelleContent: {
