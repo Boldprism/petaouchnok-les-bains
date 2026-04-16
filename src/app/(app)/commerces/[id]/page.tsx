@@ -233,6 +233,7 @@ const S: Record<string, CSSProperties> = {
     flex: 1,
     minHeight: 0,
     overflowY: 'auto',
+    alignContent: 'start',
   },
   card: {
     background: '#e8d5a0',
@@ -247,7 +248,8 @@ const S: Record<string, CSSProperties> = {
     gap: 4,
     position: 'relative',
     cursor: 'pointer',
-    overflow: 'hidden',
+    height: 'auto',
+    overflow: 'visible',
   },
   specialBadge: {
     position: 'absolute',
@@ -262,7 +264,8 @@ const S: Record<string, CSSProperties> = {
   },
   illustZone: {
     width: '100%',
-    height: 80,
+    height: 72,
+    flexShrink: 0,
     background: `
       repeating-linear-gradient(
         90deg,
@@ -287,6 +290,7 @@ const S: Record<string, CSSProperties> = {
     color: '#3d2010',
     textAlign: 'center',
     lineHeight: 1.6,
+    flexShrink: 0,
   },
   itemDesc: {
     fontFamily: "'Lora', serif",
@@ -294,6 +298,7 @@ const S: Record<string, CSSProperties> = {
     fontSize: 'clamp(8px, 1.5vw, 10px)',
     color: '#6b4a20',
     textAlign: 'center',
+    flexShrink: 0,
   },
   priceBtn: {
     background: 'linear-gradient(180deg, #f0c040 0%, #d4a017 100%)',
@@ -305,7 +310,6 @@ const S: Record<string, CSSProperties> = {
     fontSize: 'clamp(6px, 1.2vw, 8px)',
     color: '#2a1408',
     cursor: 'pointer',
-    marginTop: 'auto',
     flexShrink: 0,
   },
   achatFloat: {
@@ -478,9 +482,9 @@ export default function BoutiquePage() {
                   src={ITEM_IMAGES[id][item.nom]}
                   alt={item.nom}
                   style={{
-                    height: 64,
+                    height: 56,
                     width: 'auto',
-                    maxWidth: '80%',
+                    maxWidth: '90%',
                     objectFit: 'contain',
                     imageRendering: 'pixelated',
                     filter: 'drop-shadow(2px 3px 3px rgba(0,0,0,0.5))',
