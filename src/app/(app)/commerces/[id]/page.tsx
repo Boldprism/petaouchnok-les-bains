@@ -243,11 +243,10 @@ const S: Record<string, CSSProperties> = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     gap: 4,
     position: 'relative',
     cursor: 'pointer',
-    aspectRatio: '1/1',
     overflow: 'hidden',
   },
   specialBadge: {
@@ -263,8 +262,7 @@ const S: Record<string, CSSProperties> = {
   },
   illustZone: {
     width: '100%',
-    flex: 1,
-    minHeight: 0,
+    aspectRatio: '1/1',
     background: `
       repeating-linear-gradient(
         90deg,
@@ -338,6 +336,10 @@ const KEYFRAMES = `
 .item-grid { grid-template-columns: repeat(3, 1fr); }
 @media (max-width: 768px) {
   .item-grid { grid-template-columns: repeat(2, 1fr); }
+  .boutique-bg { max-height: 35vh !important; }
+  .npc-zone { padding: 8px 10px !important; }
+  .npc-citation { font-size: 10px !important; }
+  .npc-zone img { height: 48px !important; }
 }
 `;
 
@@ -406,7 +408,7 @@ export default function BoutiquePage() {
       </div>
 
       {/* Illustration boutique placeholder */}
-      <div style={{
+      <div className="boutique-bg" style={{
         position: 'relative',
         width: '100%',
         height: 'clamp(180px, 30vh, 300px)',
@@ -435,7 +437,7 @@ export default function BoutiquePage() {
       </div>
 
       {/* Zone NPC */}
-      <div style={S.npcZone}>
+      <div className="npc-zone" style={S.npcZone}>
         <img
           src={NPC_SPRITES[id] ?? ''}
           alt={commerce.perso}
@@ -449,7 +451,7 @@ export default function BoutiquePage() {
         />
         <div style={{ flex: 1 }}>
           <div style={S.npcNom}>{commerce.perso}</div>
-          <div style={S.npcCitation}>«&nbsp;{commerce.citation}&nbsp;»</div>
+          <div className="npc-citation" style={S.npcCitation}>«&nbsp;{commerce.citation}&nbsp;»</div>
         </div>
       </div>
 
