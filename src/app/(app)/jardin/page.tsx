@@ -316,11 +316,8 @@ function ParcelleCell({
   const isReady = parcelle.etat === 'ready';
   const isLocked = parcelle.etat === 'locked';
 
-  const shape = PARCELLE_SHAPES[(parcelle.id - 1) % PARCELLE_SHAPES.length];
-
   const cellStyle: CSSProperties = {
     ...S.parcelle,
-    borderRadius: shape,
     ...(isReady ? S.parcelleReady : {}),
     ...(isLocked ? S.parcelleLocked : {}),
     ...(justHarvested
@@ -344,6 +341,22 @@ function ParcelleCell({
           zIndex: 0,
           pointerEvents: 'none',
           borderRadius: 'inherit',
+        }}
+      />
+      {/* Frame organique herbe/terre */}
+      <img
+        src="/assets/garden/parcelle-frame.png"
+        alt=""
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          imageRendering: 'pixelated',
+          pointerEvents: 'none',
+          zIndex: 10,
+          mixBlendMode: 'multiply',
         }}
       />
       {/* Numéro (gland) */}
@@ -647,7 +660,7 @@ const S: Record<string, CSSProperties> = {
   /* Parcelle */
   parcelle: {
     background: '#5a3010',
-    borderRadius: '12px 8px 14px 6px / 8px 14px 6px 12px',
+    borderRadius: 6,
     borderWidth: 3,
     borderStyle: 'solid',
     borderColor: '#2a1408',
