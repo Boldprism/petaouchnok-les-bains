@@ -409,10 +409,36 @@ function ParcelleCell({
         )}
       </div>
 
-      {/* Badge bas */}
-      {parcelle.etat === 'growing' && (
-        <span style={S.timerBadge}>{formatTimer(getSecondesRestantes(parcelle))}</span>
-      )}
+      {/* Badge bas + barre de progression */}
+      {parcelle.etat === 'growing' && culture && (() => {
+        const totalMs = culture.temps * 3600 * 1000;
+        const elapsedMs = parcelle.planteeLe ? Date.now() - parcelle.planteeLe.getTime() : 0;
+        const pct = Math.min(elapsedMs / totalMs * 100, 100);
+        return (
+          <>
+            <span style={S.timerBadge}>{formatTimer(getSecondesRestantes(parcelle))}</span>
+            <div style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              width: '100%',
+              height: 6,
+              background: '#2a1408',
+              borderRadius: '0 0 3px 3px',
+              overflow: 'hidden',
+              zIndex: 3,
+            }}>
+              <div style={{
+                width: `${pct}%`,
+                height: '100%',
+                background: 'linear-gradient(90deg, #d4a017, #f0c040)',
+                borderRadius: '0 0 3px 3px',
+                transition: 'width 1s linear',
+              }} />
+            </div>
+          </>
+        );
+      })()}
       {isReady && <span style={S.readyBadge}>PRÊTE !</span>}
     </div>
   );
@@ -543,8 +569,8 @@ const KEYFRAMES = `
   100% { opacity: 0; transform: translate(-50%, -32px); }
 }
 @keyframes ready-pulse {
-  0%, 100% { box-shadow: 0 0 0 1px #6b3d1e, inset 0 1px 0 rgba(180,120,60,0.3), 0 0 8px rgba(212,160,23,0.5), 0 0 20px rgba(212,160,23,0.25); }
-  50%      { box-shadow: 0 0 0 1px #6b3d1e, inset 0 1px 0 rgba(180,120,60,0.3), 0 0 16px rgba(212,160,23,0.9), 0 0 36px rgba(212,160,23,0.5); }
+  0%, 100% { box-shadow: 0 0 0 2px #3d1e08, 0 0 0 4px #5a2e10, 2px 3px 0 4px #2a1408, -1px 2px 0 4px #2a1408, inset 0 1px 0 rgba(180,120,60,0.3), 0 0 8px rgba(212,160,23,0.5), 0 0 20px rgba(212,160,23,0.25); }
+  50%      { box-shadow: 0 0 0 2px #3d1e08, 0 0 0 4px #5a2e10, 2px 3px 0 4px #2a1408, -1px 2px 0 4px #2a1408, inset 0 1px 0 rgba(180,120,60,0.3), 0 0 16px rgba(212,160,23,0.9), 0 0 36px rgba(212,160,23,0.5); }
 }
 `;
 
@@ -605,12 +631,12 @@ const S: Record<string, CSSProperties> = {
   /* Parcelle */
   parcelle: {
     background: '#5a3010',
-    borderRadius: 10,
+    borderRadius: '12px 8px 14px 6px / 8px 14px 6px 12px',
     borderWidth: 3,
     borderStyle: 'solid',
     borderColor: '#2a1408',
     boxShadow:
-      '0 0 0 1px #6b3d1e, inset 0 1px 0 rgba(180,120,60,0.3), inset 0 -2px 4px rgba(0,0,0,0.4)',
+      '0 0 0 2px #3d1e08, 0 0 0 4px #5a2e10, 2px 3px 0 4px #2a1408, -1px 2px 0 4px #2a1408, inset 0 1px 0 rgba(180,120,60,0.3), inset 0 -2px 4px rgba(0,0,0,0.4)',
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
@@ -672,7 +698,7 @@ const S: Record<string, CSSProperties> = {
 
   timerBadge: {
     position: 'absolute',
-    bottom: 4,
+    bottom: 10,
     background: 'rgba(0,0,0,0.7)',
     border: '1px solid #c8933a',
     borderRadius: 3,
