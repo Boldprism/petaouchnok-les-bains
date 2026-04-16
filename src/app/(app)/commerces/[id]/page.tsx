@@ -262,7 +262,7 @@ const S: Record<string, CSSProperties> = {
   },
   illustZone: {
     width: '100%',
-    aspectRatio: '1/1',
+    height: 80,
     background: `
       repeating-linear-gradient(
         90deg,
@@ -478,8 +478,9 @@ export default function BoutiquePage() {
                   src={ITEM_IMAGES[id][item.nom]}
                   alt={item.nom}
                   style={{
-                    width: '70%',
-                    height: '70%',
+                    height: 64,
+                    width: 'auto',
+                    maxWidth: '80%',
                     objectFit: 'contain',
                     imageRendering: 'pixelated',
                     filter: 'drop-shadow(2px 3px 3px rgba(0,0,0,0.5))',
