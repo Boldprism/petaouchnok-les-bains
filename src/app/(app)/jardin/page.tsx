@@ -355,8 +355,7 @@ function ParcelleCell({
           objectFit: 'cover',
           imageRendering: 'pixelated',
           pointerEvents: 'none',
-          zIndex: 10,
-          mixBlendMode: 'multiply',
+          zIndex: 5,
         }}
       />
       {/* Numéro (gland) */}
@@ -404,7 +403,7 @@ function ParcelleCell({
                 animation: 'sparkle 1.5s ease-in-out infinite',
                 animationDelay: pos.delay,
                 pointerEvents: 'none',
-                zIndex: 1,
+                zIndex: 6,
               }}
             />
           ))}
@@ -696,7 +695,7 @@ const S: Record<string, CSSProperties> = {
     display: 'flex',
     alignItems: 'center',
     gap: 1,
-    zIndex: 2,
+    zIndex: 6,
   },
 
   parcelleContent: {
@@ -707,7 +706,7 @@ const S: Record<string, CSSProperties> = {
     justifyContent: 'center',
     pointerEvents: 'none',
     position: 'relative',
-    zIndex: 1,
+    zIndex: 6,
   },
 
   emptyPlus: {
@@ -737,7 +736,7 @@ const S: Record<string, CSSProperties> = {
     color: '#f0c040',
     letterSpacing: 0.5,
     whiteSpace: 'nowrap',
-    zIndex: 2,
+    zIndex: 6,
   },
   readyBadge: {
     position: 'absolute',
@@ -751,7 +750,7 @@ const S: Record<string, CSSProperties> = {
     color: '#e8ffd0',
     letterSpacing: 0.5,
     textShadow: '0 1px 0 rgba(0,0,0,0.5)',
-    zIndex: 2,
+    zIndex: 6,
   },
 
   spark: {
@@ -776,7 +775,7 @@ const S: Record<string, CSSProperties> = {
     textShadow: '0 1px 0 #2a1408, 0 0 6px rgba(240,192,64,0.8)',
     animation: 'float-up 1.2s ease-out forwards',
     pointerEvents: 'none',
-    zIndex: 5,
+    zIndex: 8,
     whiteSpace: 'nowrap',
   },
 
