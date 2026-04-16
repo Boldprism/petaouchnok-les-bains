@@ -630,18 +630,18 @@ const S: Record<string, CSSProperties> = {
   gridWrapper: {
     flex: 1,
     minHeight: 0,
-    padding: '20px 28px',
+    overflowY: 'auto',
     background: '#5a3010',
     position: 'relative',
-    overflow: 'hidden',
+    boxSizing: 'border-box',
   },
   grid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
-    gridTemplateRows: 'repeat(3, 1fr)',
-    gap: 24,
-    height: '100%',
+    gap: 16,
+    padding: 16,
     width: '100%',
+    boxSizing: 'border-box',
   },
 
   /* Parcelle */
@@ -653,6 +653,8 @@ const S: Record<string, CSSProperties> = {
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
+    width: '100%',
+    aspectRatio: '1 / 1',
     outline: 'none',
     WebkitTapHighlightColor: 'transparent',
     userSelect: 'none',
