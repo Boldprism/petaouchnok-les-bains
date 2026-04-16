@@ -321,8 +321,8 @@ function ParcelleCell({
     ...(isReady ? S.parcelleReady : {}),
     ...(isLocked ? S.parcelleLocked : {}),
     ...(justHarvested
-      ? { borderColor: '#d4a017', transition: 'border-color 800ms ease-out' }
-      : { transition: 'border-color 800ms ease-out' }),
+      ? { boxShadow: '0 0 16px 4px rgba(212,160,23,0.7)', transition: 'box-shadow 800ms ease-out' }
+      : { transition: 'box-shadow 800ms ease-out' }),
     cursor: parcelle.etat === 'empty' || isReady ? 'pointer' : 'default',
   };
 
@@ -358,21 +358,9 @@ function ParcelleCell({
           zIndex: 5,
         }}
       />
-      {/* Numéro (gland) */}
+      {/* Numéro (badge gland doré) */}
       <div style={S.parcelleNum}>
-        <img
-          src="/assets/garden/gland.png"
-          alt=""
-          draggable={false}
-          style={{
-            width: '20%',
-            height: 'auto',
-            imageRendering: 'pixelated',
-            pointerEvents: 'none',
-            WebkitUserDrag: 'none',
-          } as CSSProperties}
-        />
-        <span style={{ fontSize: 5, color: 'rgba(240,200,100,0.9)', fontFamily: fontPixel }}>
+        <span style={{ fontSize: 9, color: '#2a1408', fontFamily: fontPixel, fontWeight: 'bold', lineHeight: 1 }}>
           {parcelle.id}
         </span>
       </div>
@@ -597,8 +585,8 @@ const KEYFRAMES = `
   100% { opacity: 0; transform: translate(-50%, -32px); }
 }
 @keyframes ready-pulse {
-  0%, 100% { box-shadow: 0 0 0 2px #3d1e08, 0 0 0 4px #5a2e10, 2px 3px 0 4px #2a1408, -1px 2px 0 4px #2a1408, inset 0 1px 0 rgba(180,120,60,0.3), 0 0 8px rgba(212,160,23,0.5), 0 0 20px rgba(212,160,23,0.25); }
-  50%      { box-shadow: 0 0 0 2px #3d1e08, 0 0 0 4px #5a2e10, 2px 3px 0 4px #2a1408, -1px 2px 0 4px #2a1408, inset 0 1px 0 rgba(180,120,60,0.3), 0 0 16px rgba(212,160,23,0.9), 0 0 36px rgba(212,160,23,0.5); }
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(212,160,23,0.4), 0 0 20px rgba(212,160,23,0.2); }
+  50%      { box-shadow: 0 0 18px 5px rgba(212,160,23,0.8), 0 0 36px rgba(212,160,23,0.5); }
 }
 `;
 
@@ -651,7 +639,7 @@ const S: Record<string, CSSProperties> = {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
     gridTemplateRows: 'repeat(3, 1fr)',
-    gap: 22,
+    gap: 24,
     height: '100%',
     width: '100%',
   },
@@ -659,28 +647,21 @@ const S: Record<string, CSSProperties> = {
   /* Parcelle */
   parcelle: {
     background: '#5a3010',
-    borderRadius: 6,
-    borderWidth: 3,
-    borderStyle: 'solid',
-    borderColor: '#2a1408',
-    boxShadow:
-      '0 0 0 2px #3d1e08, 0 0 0 4px #5a2e10, 2px 3px 0 4px #2a1408, -1px 2px 0 4px #2a1408, inset 0 1px 0 rgba(180,120,60,0.3), inset 0 -2px 4px rgba(0,0,0,0.4)',
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
-    minHeight: 0,
     outline: 'none',
     WebkitTapHighlightColor: 'transparent',
     userSelect: 'none',
     WebkitUserSelect: 'none',
     WebkitTouchCallout: 'none',
-    transition: 'border-color 800ms ease-out, box-shadow 300ms ease-out',
+    transition: 'box-shadow 300ms ease-out',
   },
   parcelleReady: {
-    borderColor: '#d4a017',
+    boxShadow: '0 0 12px 3px rgba(212,160,23,0.5)',
   },
   parcelleLocked: {
     background:
@@ -690,12 +671,18 @@ const S: Record<string, CSSProperties> = {
 
   parcelleNum: {
     position: 'absolute',
-    top: 2,
-    left: 2,
+    top: -10,
+    left: -10,
+    width: 36,
+    height: 36,
+    background: '#d4a017',
+    border: '2px solid #9a7010',
+    borderRadius: '50%',
     display: 'flex',
     alignItems: 'center',
-    gap: 1,
-    zIndex: 6,
+    justifyContent: 'center',
+    zIndex: 20,
+    boxShadow: '0 2px 4px rgba(0,0,0,0.5)',
   },
 
   parcelleContent: {
