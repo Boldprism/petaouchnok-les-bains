@@ -245,7 +245,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               {/* Emoji with active capsule */}
               <span
                 style={{
-                  fontSize: isActive ? 25 : 22,
+                  fontSize: isActive ? 28 : 24,
                   lineHeight: 1,
                   transition: 'font-size 150ms',
                   ...(isActive
@@ -255,7 +255,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                         borderRadius: 4,
                         padding: '3px 6px',
                       }
-                    : { padding: '3px 6px', opacity: 0.6 }),
+                    : { padding: '3px 6px', opacity: 0.75 }),
                 }}
               >
                 {tab.emoji}
@@ -264,10 +264,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <span
                 style={{
                   fontFamily: 'var(--font-pixel)',
-                  fontSize: 6,
-                  color: isActive ? 'var(--nav-active)' : 'var(--nav-inactive)',
-                  opacity: isActive ? 1 : 0.6,
+                  fontSize: 9,
+                  color: isActive ? '#f0c040' : '#e8d8b0',
+                  opacity: isActive ? 1 : 0.85,
                   letterSpacing: 0.5,
+                  textShadow: isActive
+                    ? '1px 1px 0 #000, -1px -1px 0 #000, 0 0 6px rgba(240,192,64,0.6)'
+                    : '1px 1px 0 #000, -1px -1px 0 #000',
                 }}
               >
                 [{tab.label}]
