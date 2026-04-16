@@ -409,34 +409,34 @@ function ParcelleCell({
         )}
       </div>
 
-      {/* Badge bas + barre de progression */}
+      {/* Badge timer avec barre de progression intégrée */}
       {parcelle.etat === 'growing' && culture && (() => {
         const totalMs = culture.temps * 3600 * 1000;
         const elapsedMs = parcelle.planteeLe ? Date.now() - parcelle.planteeLe.getTime() : 0;
         const pct = Math.min(elapsedMs / totalMs * 100, 100);
         return (
-          <>
-            <span style={S.timerBadge}>{formatTimer(getSecondesRestantes(parcelle))}</span>
+          <div style={{
+            ...S.timerBadge,
+            position: 'absolute',
+            bottom: 4,
+            overflow: 'hidden',
+          }}>
+            {/* Fond de progression doré */}
             <div style={{
               position: 'absolute',
-              bottom: 0,
               left: 0,
-              width: '100%',
-              height: 6,
-              background: '#2a1408',
-              borderRadius: '0 0 3px 3px',
-              overflow: 'hidden',
-              zIndex: 3,
-            }}>
-              <div style={{
-                width: `${pct}%`,
-                height: '100%',
-                background: 'linear-gradient(90deg, #d4a017, #f0c040)',
-                borderRadius: '0 0 3px 3px',
-                transition: 'width 1s linear',
-              }} />
-            </div>
-          </>
+              top: 0,
+              height: '100%',
+              width: `${pct}%`,
+              background: '#d4a017',
+              zIndex: 0,
+              transition: 'width 1s linear',
+            }} />
+            {/* Texte par-dessus */}
+            <span style={{ position: 'relative', zIndex: 1 }}>
+              {formatTimer(getSecondesRestantes(parcelle))}
+            </span>
+          </div>
         );
       })()}
       {isReady && <span style={S.readyBadge}>PRÊTE !</span>}
@@ -698,7 +698,7 @@ const S: Record<string, CSSProperties> = {
 
   timerBadge: {
     position: 'absolute',
-    bottom: 10,
+    bottom: 4,
     background: 'rgba(0,0,0,0.7)',
     border: '1px solid #c8933a',
     borderRadius: 3,
