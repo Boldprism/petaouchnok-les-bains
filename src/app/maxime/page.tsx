@@ -695,8 +695,8 @@ function HousesAll({ positions, asc }: { positions: FullPos[]; asc: number }) {
 export default function MaximePage() {
   const [tab, setTab] = useState("wheel");
 
-  // 25 septembre 1989 · 12h35 CEST = 10h35 UT · Orange 44°08'N 4°48'E
-  const JD = julianDay(1989, 9, 25, 10.5833);
+  // 25 septembre 1989 · 12h55 CEST = 10h55 UT · Orange 44°08'N 4°48'E
+  const JD = julianDay(1989, 9, 25, 10.9167);
   const LAT = 44.1383, LON = 4.8083;
   const { asc, mc } = calcAscMC(JD, LAT, LON);
 
@@ -745,7 +745,7 @@ export default function MaximePage() {
           <div style={{ fontSize: "9px", letterSpacing: "5px", color: "#5a4a20", marginBottom: "8px" }}>CARTA NATALIS</div>
           <h1 style={{ margin: 0, fontSize: "22px", letterSpacing: "3px", fontWeight: "normal" }}>✦ CARTE NATALE ✦</h1>
           <p style={{ margin: "8px 0 0 0", color: "#7a6a40", fontSize: "11px", letterSpacing: "2px" }}>
-            25 SEPTEMBRE 1989 · 12h35 CEST · ORANGE · JD {JD.toFixed(2)}
+            25 SEPTEMBRE 1989 · 12h55 CEST · ORANGE · JD {JD.toFixed(2)}
           </p>
         </div>
 
